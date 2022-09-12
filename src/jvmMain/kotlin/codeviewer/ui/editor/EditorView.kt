@@ -67,7 +67,7 @@ fun EditorView(model: Editor, settings: Settings) = key(model) {
 }
 
 @Composable
-private fun Lines(lines: Editor.Lines, settings: Settings) = with(LocalDensity.current) {
+private fun Lines(lines: EditorLines, settings: Settings) = with(LocalDensity.current) {
     val maxNum = remember(lines.lineNumberDigitCount) {
         (1..lines.lineNumberDigitCount).joinToString(separator = "") { "9" }
     }
@@ -94,7 +94,7 @@ private fun Lines(lines: Editor.Lines, settings: Settings) = with(LocalDensity.c
 }
 
 @Composable
-private fun Line(modifier: Modifier, maxNum: String, line: Editor.Line, settings: Settings) {
+private fun Line(modifier: Modifier, maxNum: String, line: EditorLine, settings: Settings) {
     Row(modifier = modifier) {
         DisableSelection {
             Box {
@@ -123,7 +123,7 @@ private fun LineNumber(number: String, modifier: Modifier, settings: Settings) =
 )
 
 @Composable
-private fun LineContent(content: Editor.Content, modifier: Modifier, settings: Settings) = Text(
+private fun LineContent(content: EditorContent, modifier: Modifier, settings: Settings) = Text(
     text = if (content.isCode) {
         codeString(content.value.value)
     } else {

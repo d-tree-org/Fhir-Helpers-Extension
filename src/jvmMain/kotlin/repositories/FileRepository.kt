@@ -10,15 +10,22 @@ import codeviewer.ui.editor.Editors
 import codeviewer.ui.filetree.FileTree
 
 class FileRepository {
-    val settings by mutableStateOf(Settings())
+    private val settings by mutableStateOf(Settings())
     private val editors = Editors()
+
     val codeViewer by mutableStateOf(CodeViewer(
         editors = editors,
         fileTree = FileTree(HomeFolder, editors),
-        settings = Settings()
+        settings = settings
     ))
 
     fun open(file: File) {
         editors.open(file)
+    }
+
+    fun compile() {
+        editors.active?.let { editor ->
+
+        }
     }
 }

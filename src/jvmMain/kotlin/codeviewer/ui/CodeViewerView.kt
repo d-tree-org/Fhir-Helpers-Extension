@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.unit.dp
+import codeviewer.ui.debugger.LoggerView
 import codeviewer.ui.editor.EditorEmptyView
 import codeviewer.ui.editor.EditorTabsView
 import codeviewer.ui.editor.EditorView
@@ -24,6 +25,7 @@ import org.jetbrains.compose.splitpane.ExperimentalSplitPaneApi
 import org.jetbrains.compose.splitpane.HorizontalSplitPane
 import org.jetbrains.compose.splitpane.VerticalSplitPane
 import org.jetbrains.compose.splitpane.rememberSplitPaneState
+import repositories.LoggerRepository
 import java.awt.Cursor
 
 private fun Modifier.cursorForHorizontalResize(): Modifier =
@@ -34,6 +36,7 @@ private fun Modifier.cursorForHorizontalResize(): Modifier =
 @Composable
 fun CodeViewerView(
     model: CodeViewer,
+    loggerRepository: LoggerRepository,
     openFile: () -> Unit,
     openSideFile: (codeviewer.platform.File) -> Unit,
     compile: () -> Unit
@@ -68,7 +71,7 @@ fun CodeViewerView(
                     }
                 }
                 second(20.dp) {
-                    Box(Modifier.background(Color.Blue).fillMaxSize())
+                    LoggerView(loggerRepository)
                 }
             }
         }

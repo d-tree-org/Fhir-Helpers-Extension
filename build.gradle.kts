@@ -27,15 +27,15 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+
                 implementation("org.jetbrains.compose.material:material-icons-extended:1.2.0-alpha01-dev620")
                 implementation("org.jetbrains.compose.components:components-splitpane-desktop:1.2.0-alpha01-dev774")
                 implementation("com.google.fhir:r4:0.6.1")
-//                implementation("com.google.code.gson:gson:2.9.1")
                 implementation("ca.uhn.hapi.fhir:hapi-fhir-structures-r4:5.3.0")
-//                implementation("org.slf4j:slf4j-simple:2.0.0")
+
                 implementation("org.opencds.cqf:cql-engine-fhir:1.3.14-SNAPSHOT")
                 implementation("org.opencds.cqf:cql-engine:1.3.14-SNAPSHOT")
-//                implementation("org.apache.commons:commons-compress:1.21")
             }
         }
         val jvmTest by getting
@@ -49,6 +49,7 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "FhirDebug"
             packageVersion = "1.0.0"
+            includeAllModules = true
         }
     }
 }

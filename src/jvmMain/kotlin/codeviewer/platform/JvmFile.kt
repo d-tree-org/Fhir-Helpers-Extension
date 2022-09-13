@@ -39,7 +39,7 @@ fun java.io.File.toProjectFile(): File = object : File {
 
         var size by mutableStateOf(0)
 
-        val refreshJob = scope.launch {
+        val refreshJob = scope.launch(Dispatchers.IO) {
             delay(100)
             size = lineStartPositions.size
             while (true) {

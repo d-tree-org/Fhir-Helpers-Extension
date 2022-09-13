@@ -24,7 +24,9 @@ fun EditorTabsView(model: Editors, compile: () -> Unit) {
     Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.Bottom) {
         LazyRow(modifier = Modifier.weight(1f)) {
             items(model.editors) { editor ->
-                EditorTabView(editor)
+                EditorTabView(editor) {
+                    model.close(editor)
+                }
             }
         }
         EditorBuildTools(activeTab, compile)
@@ -58,7 +60,7 @@ fun EditorBuildTools(activeEditor: Editor?, compile: () -> Unit) {
 }
 
 @Composable
-fun EditorTabView(model: Editor) = Surface(
+fun EditorTabView(model: Editor, close: () -> Unit ) = Surface(
     color = if (model.isActive) {
         AppTheme.colors.backgroundDark
     } else {
@@ -79,8 +81,6 @@ fun EditorTabView(model: Editor) = Surface(
             fontSize = 12.sp,
             modifier = Modifier.padding(horizontal = 4.dp)
         )
-
-        val close = model.close
 
         if (close != null) {
             Icon(

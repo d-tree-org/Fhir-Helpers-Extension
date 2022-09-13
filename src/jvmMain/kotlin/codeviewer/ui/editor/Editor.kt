@@ -7,9 +7,11 @@ import kotlinx.coroutines.CoroutineScope
 import codeviewer.platform.File
 import codeviewer.util.EmptyTextLines
 import codeviewer.util.SingleSelection
+import java.util.UUID
 
 data class Editor(
     val file: File,
+    val id: String = UUID.randomUUID().toString(),
     private var _fileName: String = "",
     val compileState: CompileState = CompileState(),
 ) {
@@ -17,8 +19,7 @@ data class Editor(
         _fileName = file.name
     }
 
-    var close: (() -> Unit)? = null
-    lateinit var selection: SingleSelection
+    var selection: SingleSelection = SingleSelection()
 
     val isActive: Boolean
         get() = selection.selected === this

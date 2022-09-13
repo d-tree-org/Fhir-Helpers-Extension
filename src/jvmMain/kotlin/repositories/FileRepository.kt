@@ -53,6 +53,8 @@ class FileRepository {
                 val mapString = iParser.encodeResourceToString(map)
 
                 System.out.println(mapString)
+                val newEditor = editor.copy(compileState = editor.compileState.copy(output = mapString, error = "", hasError = false))
+                editors.change(newEditor)
             } catch (e: Exception) {
                 e.printStackTrace()
             }

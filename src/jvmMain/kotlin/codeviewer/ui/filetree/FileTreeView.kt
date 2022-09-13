@@ -78,9 +78,9 @@ private fun FileTreeItemView(
         modifier = Modifier
             .wrapContentHeight()
             .clickable {
-                when (model.type) {
+//                when (model.type) {
 //                    is FileTree.ItemType.Folder -> model.toggleExpanded()
-                }
+//                }
             }
             .padding(start = 24.dp * model.level)
             .height(height)

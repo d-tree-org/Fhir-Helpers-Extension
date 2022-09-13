@@ -1,108 +1,96 @@
 package codeviewer.ui
 
-import androidx.compose.animation.core.Spring.StiffnessLow
-import androidx.compose.animation.core.SpringSpec
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.LocalContentColor
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.input.pointer.PointerIcon
+import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.unit.dp
 import codeviewer.ui.editor.EditorEmptyView
 import codeviewer.ui.editor.EditorTabsView
 import codeviewer.ui.editor.EditorView
-import codeviewer.ui.filetree.FileTree
 import codeviewer.ui.filetree.FileTreeView
 import codeviewer.ui.filetree.FileTreeViewTabView
 import codeviewer.ui.statusbar.StatusBar
-import codeviewer.util.SplitterState
-import codeviewer.util.VerticalSplittable
+import org.jetbrains.compose.splitpane.ExperimentalSplitPaneApi
+import org.jetbrains.compose.splitpane.HorizontalSplitPane
+import org.jetbrains.compose.splitpane.VerticalSplitPane
+import org.jetbrains.compose.splitpane.rememberSplitPaneState
+import java.awt.Cursor
 
+private fun Modifier.cursorForHorizontalResize(): Modifier =
+    pointerHoverIcon(PointerIcon(Cursor(Cursor.E_RESIZE_CURSOR)))
+
+@ExperimentalFoundationApi
+@ExperimentalSplitPaneApi
 @Composable
-fun CodeViewerView(model: CodeViewer, openFile: () -> Unit, openSideFile: (codeviewer.platform.File) -> Unit, compile: () -> Unit) {
-    val panelState = remember { PanelState() }
+fun CodeViewerView(
+    model: CodeViewer,
+    openFile: () -> Unit,
+    openSideFile: (codeviewer.platform.File) -> Unit,
+    compile: () -> Unit
+) {
 
-    val animatedSize = if (panelState.splitter.isResizing) {
-        if (panelState.isExpanded) panelState.expandedSize else panelState.collapsedSize
-    } else {
-        animateDpAsState(
-            if (panelState.isExpanded) panelState.expandedSize else panelState.collapsedSize,
-            SpringSpec(stiffness = StiffnessLow)
-        ).value
-    }
-
-    VerticalSplittable(
-        Modifier.fillMaxSize(),
-        panelState.splitter,
-        onResize = {
-            panelState.expandedSize =
-                (panelState.expandedSize + it).coerceAtLeast(panelState.expandedSizeMin)
-        }
+    val splitterState = rememberSplitPaneState(initialPositionPercentage = 0.2f)
+    val hSplitterState = rememberSplitPaneState(initialPositionPercentage = 0.9f)
+    HorizontalSplitPane(
+        splitPaneState = splitterState
     ) {
-        ResizablePanel(Modifier.width(animatedSize).fillMaxHeight(), panelState) {
+        first(20.dp) {
             Column {
                 FileTreeViewTabView()
                 FileTreeView(model.fileTree, openSideFile)
             }
         }
-
-        Box {
-            if (model.editors.active != null) {
-                Column(Modifier.fillMaxSize()) {
-                    EditorTabsView(model.editors, compile)
-                    Box(Modifier.weight(1f)) {
-                        EditorView(model.editors.active!!, model.settings)
+        second(50.dp) {
+            VerticalSplitPane(splitPaneState = hSplitterState) {
+                first(50.dp) {
+                    Box() {
+                        if (model.editors.active != null) {
+                            Column(Modifier) {
+                                EditorTabsView(model.editors, compile)
+                                Box(Modifier.weight(1f)) {
+                                    EditorView(model.editors.active!!, model.settings)
+                                }
+                                StatusBar(model.settings)
+                            }
+                        } else {
+                            EditorEmptyView(openFile)
+                        }
                     }
-                    StatusBar(model.settings)
                 }
-            } else {
-                EditorEmptyView(openFile)
+                second(20.dp) {
+                    Box(Modifier.background(Color.Blue).fillMaxSize())
+                }
             }
         }
-    }
-}
-
-private class PanelState {
-    val collapsedSize = 24.dp
-    var expandedSize by mutableStateOf(300.dp)
-    val expandedSizeMin = 90.dp
-    var isExpanded by mutableStateOf(true)
-    val splitter = SplitterState()
-}
-
-@Composable
-private fun ResizablePanel(
-    modifier: Modifier,
-    state: PanelState,
-    content: @Composable () -> Unit,
-) {
-    val alpha by animateFloatAsState(if (state.isExpanded) 1f else 0f, SpringSpec(stiffness = StiffnessLow))
-
-    Box(modifier) {
-        Box(Modifier.fillMaxSize().graphicsLayer(alpha = alpha)) {
-            content()
+        splitter {
+            visiblePart {
+                Box(
+                    Modifier
+                        .width(1.dp)
+                        .fillMaxHeight()
+                        .background(MaterialTheme.colors.background)
+                )
+            }
+            handle {
+                Box(
+                    Modifier
+                        .markAsHandle()
+                        .cursorForHorizontalResize()
+                        .background(SolidColor(Color.Gray), alpha = 0.50f)
+                        .width(9.dp)
+                        .fillMaxHeight()
+                )
+            }
         }
-
-        Icon(
-            if (state.isExpanded) Icons.Default.ArrowBack else Icons.Default.ArrowForward,
-            contentDescription = if (state.isExpanded) "Collapse" else "Expand",
-            tint = LocalContentColor.current,
-            modifier = Modifier
-                .padding(top = 4.dp)
-                .width(24.dp)
-                .clickable {
-                    state.isExpanded = !state.isExpanded
-                }
-                .padding(4.dp)
-                .align(Alignment.TopEnd)
-        )
     }
 }

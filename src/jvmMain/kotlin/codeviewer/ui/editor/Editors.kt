@@ -15,18 +15,26 @@ class Editors {
     fun open(file: File) {
         val editor = Editor(file)
         editor.selection = selection
-        editor.close = {
-            close(editor)
-        }
         editors.add(editor)
         editor.activate()
     }
 
-    private fun close(editor: Editor) {
+    fun close(editor: Editor) {
         val index = editors.indexOf(editor)
         editors.remove(editor)
         if (editor.isActive) {
             selection.selected = editors.getOrNull(index.coerceAtMost(editors.lastIndex))
+        }
+    }
+
+    fun change(editor: Editor) {
+        val old = editors.find { x -> x.id == editor.id }
+
+        if (old != null) {
+            val index = editors.indexOf(old)
+            editors.remove(old)
+            editors.add(editor)
+            selection.selected = editor
         }
     }
 }

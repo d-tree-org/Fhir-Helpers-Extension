@@ -1,5 +1,6 @@
 package codeviewer.ui.editor
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
@@ -27,39 +29,63 @@ import codeviewer.platform.VerticalScrollbar
 import codeviewer.ui.common.AppTheme
 import codeviewer.ui.common.Fonts
 import codeviewer.ui.common.Settings
+import codeviewer.ui.debugger.BuildOutView
 import codeviewer.util.loadableScoped
 import codeviewer.util.withoutWidthConstraints
+import org.jetbrains.compose.splitpane.ExperimentalSplitPaneApi
+import org.jetbrains.compose.splitpane.HorizontalSplitPane
+import org.jetbrains.compose.splitpane.rememberSplitPaneState
 import kotlin.text.Regex.Companion.fromLiteral
 
+@ExperimentalFoundationApi
+@ExperimentalSplitPaneApi
 @Composable
-fun EditorView(model: Editor, settings: Settings) = key(model) {
-    with (LocalDensity.current) {
-        SelectionContainer {
-            Surface(
-                Modifier.fillMaxSize(),
-                color = AppTheme.colors.backgroundDark,
-            ) {
-                val lines by loadableScoped(model.lines)
+fun EditorView(model: Editor, settings: Settings) {
+    val splitterState = rememberSplitPaneState(initialPositionPercentage = 0.9f)
 
-                if (lines != null) {
-                    Box {
-                        Lines(lines!!, settings)
-                        Box(
-                            Modifier
-                                .offset(
-                                    x = settings.fontSize.toDp() * 0.5f * settings.maxLineSymbols
-                                )
-                                .width(1.dp)
-                                .fillMaxHeight()
-                                .background(AppTheme.colors.backgroundLight)
+    HorizontalSplitPane(
+        splitPaneState = splitterState
+    ) {
+        first {
+            EditorContainerHolder(model, settings)
+        }
+        second {
+            BuildOutView(model.compileState)
+        }
+    }
+}
+
+@Composable
+fun EditorContainerHolder(model: Editor, settings: Settings) {
+    key(model) {
+        with (LocalDensity.current) {
+            SelectionContainer {
+                Surface(
+                    Modifier.fillMaxSize(),
+                    color = AppTheme.colors.backgroundDark,
+                ) {
+                    val lines by loadableScoped(model.lines)
+
+                    if (lines != null) {
+                        Box {
+                            Lines(lines!!, settings)
+                            Box(
+                                Modifier
+                                    .offset(
+                                        x = settings.fontSize.toDp() * 0.5f * settings.maxLineSymbols
+                                    )
+                                    .width(1.dp)
+                                    .fillMaxHeight()
+                                    .background(AppTheme.colors.backgroundLight)
+                            )
+                        }
+                    } else {
+                        CircularProgressIndicator(
+                            modifier = Modifier
+                                .size(36.dp)
+                                .padding(4.dp)
                         )
                     }
-                } else {
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .size(36.dp)
-                            .padding(4.dp)
-                    )
                 }
             }
         }

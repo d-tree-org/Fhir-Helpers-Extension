@@ -27,7 +27,8 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
-                implementation("org.jetbrains.compose.material:material-icons-extended:1.1.0")
+                implementation("org.jetbrains.compose.material:material-icons-extended:1.2.0-alpha01-dev620")
+                implementation("org.jetbrains.compose.components:components-splitpane-desktop:1.2.0-alpha01-dev774")
                 implementation("com.google.fhir:r4:0.6.1")
 //                implementation("com.google.code.gson:gson:2.9.1")
                 implementation("ca.uhn.hapi.fhir:hapi-fhir-structures-r4:5.3.0")

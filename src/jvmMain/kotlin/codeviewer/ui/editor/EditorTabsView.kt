@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.sp
 import codeviewer.ui.common.AppTheme
 
 @Composable
-fun EditorTabsView(model: Editors) {
+fun EditorTabsView(model: Editors, compile: () -> Unit) {
     val activeTab = model.active
 
     Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.Bottom) {
@@ -27,12 +27,12 @@ fun EditorTabsView(model: Editors) {
                 EditorTabView(editor)
             }
         }
-        EditorBuildTools(activeTab)
+        EditorBuildTools(activeTab, compile)
     }
 }
 
 @Composable
-fun EditorBuildTools(activeEditor: Editor?) {
+fun EditorBuildTools(activeEditor: Editor?, compile: () -> Unit) {
     var canBuild by remember {
         mutableStateOf(false)
     }
@@ -44,7 +44,7 @@ fun EditorBuildTools(activeEditor: Editor?) {
     Row {
         Surface(color = AppTheme.colors.backgroundMedium) {
             IconButton(
-                {},
+                compile,
                 enabled = canBuild
             ) {
                 Icon(

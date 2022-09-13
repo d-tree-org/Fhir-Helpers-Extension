@@ -69,6 +69,19 @@ fun java.io.File.toProjectFile(): File = object : File {
             }
         }
     }
+
+    override fun reedFile(scope: CoroutineScope): String {
+        var byteBufferSize: Int
+        val byteBuffer = RandomAccessFile(this@toProjectFile, "r").use { file ->
+            byteBufferSize = file.length().toInt()
+            file.channel
+                .map(FileChannel.MapMode.READ_ONLY, 0, file.length())
+        }
+        FileInputStream(this@toProjectFile).use {
+            it.read()
+        }
+        return  ""
+    }
 }
 
 private fun java.io.File.readLinePositions(

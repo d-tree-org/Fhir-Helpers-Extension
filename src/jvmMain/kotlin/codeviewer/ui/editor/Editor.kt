@@ -8,16 +8,23 @@ import codeviewer.platform.File
 import codeviewer.util.EmptyTextLines
 import codeviewer.util.SingleSelection
 
-class Editor(
-    file: File
+data class Editor(
+    val file: File,
+    private var _fileName: String = "",
+    val compileState: CompileState = CompileState(),
 ) {
-    val fileName: String = file.name
-    val compileState: CompileState? = null
+    init {
+        _fileName = file.name
+    }
+
     var close: (() -> Unit)? = null
     lateinit var selection: SingleSelection
 
     val isActive: Boolean
         get() = selection.selected === this
+
+    val fileName: String
+        get() = _fileName
 
     val lines: (backgroundScope: CoroutineScope) -> EditorLines = { backgroundScope ->
         val textLines = try {

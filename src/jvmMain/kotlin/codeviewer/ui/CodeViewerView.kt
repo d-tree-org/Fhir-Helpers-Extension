@@ -27,7 +27,7 @@ import codeviewer.util.SplitterState
 import codeviewer.util.VerticalSplittable
 
 @Composable
-fun CodeViewerView(model: CodeViewer, openFile: () -> Unit, openSideFile: (codeviewer.platform.File) -> Unit) {
+fun CodeViewerView(model: CodeViewer, openFile: () -> Unit, openSideFile: (codeviewer.platform.File) -> Unit, compile: () -> Unit) {
     val panelState = remember { PanelState() }
 
     val animatedSize = if (panelState.splitter.isResizing) {
@@ -57,7 +57,7 @@ fun CodeViewerView(model: CodeViewer, openFile: () -> Unit, openSideFile: (codev
         Box {
             if (model.editors.active != null) {
                 Column(Modifier.fillMaxSize()) {
-                    EditorTabsView(model.editors)
+                    EditorTabsView(model.editors, compile)
                     Box(Modifier.weight(1f)) {
                         EditorView(model.editors.active!!, model.settings)
                     }

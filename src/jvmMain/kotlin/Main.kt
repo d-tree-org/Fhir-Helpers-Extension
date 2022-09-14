@@ -49,8 +49,8 @@ fun main() = application {
     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
     val loggerRepository = LoggerRepository()
     val stream = PrintStream(LoggingOutputStream(loggerRepository.channel, GlobalScope))
-    System.setOut(stream)
-    System.setErr(stream)
+    // System.setOut(stream)
+    // System.setErr(stream)
     Window(onCloseRequest = ::exitApplication) {
         App(fileRepository = FileRepository(), loggerRepository = loggerRepository)
     }

@@ -4,9 +4,11 @@ This is a collection of useful features for working with some of the resources i
 
 ## Functionality
 
-[ x ] Compile Structure maps
+- Compile Structure maps
 
-[  ] Questionare Debugging
+## TODO
+
+- Questionare Debugging
 
 ## Structure
 

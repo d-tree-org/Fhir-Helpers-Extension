@@ -10,7 +10,9 @@
 	},
 	"publisher": "Skybox",
 	"categories": [
-		"Other"
+		"Other",
+		"Formatters",
+		"Programming Languages"
 	],
 	"keywords": [
 		"multi-root ready"
@@ -20,7 +22,8 @@
 	},
 	"activationEvents": [
 		"onLanguage:plaintext",
-		"onCommand:map.previewToSide"
+		"onCommand:map.previewToSide",
+		"onCommand:map.beautify"
 	],
 	"main": "./client/out/extension",
 	"contributes": {
@@ -61,6 +64,11 @@
 			{
 				"command": "map.previewToSide",
 				"title": "Open Compile Map to the side",
+				"category": "Structure Map"
+			},
+			{
+				"command": "map.beautify",
+				"title": "Beautify",
 				"category": "Structure Map"
 			}
 		]

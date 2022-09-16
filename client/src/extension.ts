@@ -8,6 +8,7 @@ import {
   TransportKind,
 } from "vscode-languageclient/node";
 import { Feature } from "./feature.type";
+import { Formatter } from "./features/formatter";
 import Preview from "./features/preview";
 
 let client: LanguageClient;
@@ -17,7 +18,10 @@ let extensionFeatures: Feature[] = [];
 export function activate(context: ExtensionContext) {
   this.context = context;
 
-  extensionFeatures = [new Preview(context)];
+  extensionFeatures = [
+    new Preview(context),
+    new Formatter(context.subscriptions),
+  ];
 }
 
 function lsp(context: ExtensionContext) {

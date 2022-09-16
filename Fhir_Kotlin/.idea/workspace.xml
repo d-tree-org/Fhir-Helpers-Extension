@@ -5,14 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="49be9e7b-868b-4511-b7bf-21fddbfeeba9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/Utils.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/kotlin/MainTests.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/sample_questionnaire.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.vscodeignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.vscodeignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/features/compile.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/features/compile.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/extension.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/extension.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

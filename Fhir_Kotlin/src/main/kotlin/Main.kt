@@ -1,10 +1,9 @@
 import ca.uhn.fhir.context.FhirContext
 import ca.uhn.fhir.context.FhirVersionEnum
 import ca.uhn.fhir.parser.IParser
-import com.google.gson.Gson
-import org.apache.commons.io.FileUtils
 import org.hl7.fhir.r4.context.SimpleWorkerContext
 import org.hl7.fhir.r4.model.Questionnaire
+import org.hl7.fhir.r4.model.StructureMap
 import org.hl7.fhir.utilities.npm.FilesystemPackageCacheManager
 import org.hl7.fhir.utilities.npm.ToolsVersion
 
@@ -13,12 +12,21 @@ fun main(args: Array<String>) {
         when (args[0]) {
             "str_compile" -> {
                 val path = args[1]
-                compileStructureMap(path)
+                val srcName = args[2]
+
+                compileStructureMap(path, srcName)
             }
 
             "qst_verify" -> {
                 val path = args[1]
                 verifyQuestionnaire(path)
+            }
+
+            "fmt_str" -> {
+                val path = args[1]
+                val srcName = args[2]
+
+                formatStructureMap(path, srcName)
             }
 
             else -> {
@@ -31,7 +39,24 @@ fun main(args: Array<String>) {
     }
 }
 
-fun compileStructureMap(path: String) {
+fun compileStructureMap(path: String, srcName: String) {
+    val map = createStructureMapFromFile(path, srcName)
+    val iParser: IParser = FhirContext.forCached(FhirVersionEnum.R4).newJsonParser()
+    val mapString = iParser.encodeResourceToString(map)
+
+    println("\n\nMAP_OUTPUT_STARTS_HERE\n\n")
+    println(mapString)
+}
+
+
+fun formatStructureMap(path: String, srcName: String) {
+    val map = createStructureMapFromFile(path, srcName)
+
+    println("\n\nMAP_OUTPUT_STARTS_HERE\n\n")
+    println(org.hl7.fhir.r4.utils.StructureMapUtilities.render(map))
+}
+
+private fun createStructureMapFromFile(path: String, srcName: String): StructureMap? {
     val fileData = path.readFile()
     val pcm = FilesystemPackageCacheManager(true, ToolsVersion.TOOLS_VERSION)
     // Package name manually checked from
@@ -40,12 +65,7 @@ fun compileStructureMap(path: String) {
     contextR4.isCanRunWithoutTerminology = true
 
     val scu = org.hl7.fhir.r4.utils.StructureMapUtilities(contextR4)
-    val map = scu.parse(fileData, "PatientRegistration")
-
-    val iParser: IParser = FhirContext.forCached(FhirVersionEnum.R4).newJsonParser()
-    val mapString = iParser.encodeResourceToString(map)
-    println("\n\nMAP_OUTPUT_STARTS_HERE\n\n")
-    println(mapString)
+    return scu.parse(fileData, srcName)
 }
 
 fun verifyQuestionnaire(path: String) {

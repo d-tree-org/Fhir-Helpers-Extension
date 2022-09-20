@@ -6,6 +6,7 @@ import org.hl7.fhir.r4.model.Questionnaire
 import org.hl7.fhir.r4.model.StructureMap
 import org.hl7.fhir.utilities.npm.FilesystemPackageCacheManager
 import org.hl7.fhir.utilities.npm.ToolsVersion
+import structure_maps.createStructureMapFromFile
 
 fun main(args: Array<String>) {
     if (args.isNotEmpty()) {
@@ -28,7 +29,9 @@ fun main(args: Array<String>) {
 
                 formatStructureMap(path, srcName)
             }
-
+            "tests" -> {
+                ImportTests()
+            }
             else -> {
                 throw Exception("Please use a valid mode")
             }
@@ -56,17 +59,7 @@ fun formatStructureMap(path: String, srcName: String) {
     println(org.hl7.fhir.r4.utils.StructureMapUtilities.render(map))
 }
 
-private fun createStructureMapFromFile(path: String, srcName: String): StructureMap? {
-    val fileData = path.readFile()
-    val pcm = FilesystemPackageCacheManager(true, ToolsVersion.TOOLS_VERSION)
-    // Package name manually checked from
-    // https://simplifier.net/packages?Text=hl7.fhir.core&fhirVersion=All+FHIR+Versions
-    val contextR4 = SimpleWorkerContext.fromPackage(pcm.loadPackage("hl7.fhir.r4.core", "4.0.1"))
-    contextR4.isCanRunWithoutTerminology = true
 
-    val scu = org.hl7.fhir.r4.utils.StructureMapUtilities(contextR4)
-    return scu.parse(fileData, srcName)
-}
 
 fun verifyQuestionnaire(path: String) {
     val content = path.readFile()

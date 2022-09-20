@@ -1,0 +1,9 @@
+map "https://fhir-dev.d-tree.org/fhir/StructureMap/exposed-infant-milestone-hiv-test" = 'Exposed Infant Milestone HIV Test'
+
+uses "http://hl7.org/fhir/StructureDefinition/QuestionnaireReponse" as source
+uses "http://hl7.org/fhir/StructureDefinition/Bundle" as target
+uses "http://hl7.org/fhir/StructureDefinition/Observation" as target
+uses "http://hl7.org/fhir/StructureDefinition/Encounter" as target
+
+group ExtractTask(source src: QuestionnaireResponse, source carePlan: CarePlan, target bundle: Bundle, target taskId: string, target taskDescription: string, target taskQuestionnaireId: string, target order: string) {
+}

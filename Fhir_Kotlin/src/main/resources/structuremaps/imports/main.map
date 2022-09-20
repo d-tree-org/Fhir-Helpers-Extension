@@ -1,0 +1,11 @@
+map "https://fhir-dev.d-tree.org/fhir/StructureMap/exposed-infant-milestone-hiv-test" = 'Exposed Infant Milestone HIV Test'
+
+uses "http://hl7.org/fhir/StructureDefinition/QuestionnaireReponse" as source
+uses "http://hl7.org/fhir/StructureDefinition/Bundle" as target
+uses "http://hl7.org/fhir/StructureDefinition/Observation" as target
+uses "http://hl7.org/fhir/StructureDefinition/Encounter" as target
+
+imports "structuremaps/imports/imported.map";
+
+group Main(source src: QuestionnaireResponse, target bundle: Bundle) {
+}

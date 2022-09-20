@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="49be9e7b-868b-4511-b7bf-21fddbfeeba9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ImportTests.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/structure_maps/StructureMaps.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/structuremaps/imports/imported.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/structuremaps/imports/main.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/extension.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/extension.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/features/lsp.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/features/lsp.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/server.ts" afterDir="false" />
-    </list>
+    <list default="true" id="49be9e7b-868b-4511-b7bf-21fddbfeeba9" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -79,6 +69,13 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/kotlin/ImportTests.kt" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/kotlin/Main.kt" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/kotlin/structure_maps/StructureMaps.kt" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/resources/structuremaps/imports/imported.map" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/resources/structuremaps/imports/main.map" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -88,15 +85,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/dev/personal/dev/random/fhir-lsp/Fhir_Kotlin&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "C:/dev/personal/repos/kotlin-language-server",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Kotlin.MainKt">
     <configuration name="FHIRCompiler [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>

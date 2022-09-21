@@ -1,8 +1,10 @@
+package com.sevenreup.fhir.compiler
+
 import ca.uhn.fhir.context.FhirContext
 import ca.uhn.fhir.context.FhirVersionEnum
 import ca.uhn.fhir.parser.IParser
 import org.hl7.fhir.r4.model.StructureMap
-import structure_maps.createStructureMapFromFile
+import com.sevenreup.fhir.compiler.structure_maps.createStructureMapFromFile
 
 private data class StructureHash(val mode: StructureMap.StructureMapModelMode, val url: String)
 

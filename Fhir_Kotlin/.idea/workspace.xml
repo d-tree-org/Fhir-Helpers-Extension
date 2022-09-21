@@ -3,8 +3,34 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
+  <component name="AutomaticModuleUnloader">
+    <loaded-modules>
+      <module name="FHIRCompiler" />
+      <module name="FHIRCompiler.test" />
+      <module name="FHIRCompiler.main" />
+    </loaded-modules>
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="49be9e7b-868b-4511-b7bf-21fddbfeeba9" name="Changes" comment="" />
+    <list default="true" id="49be9e7b-868b-4511-b7bf-21fddbfeeba9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/Logger.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/FhirLanguageServer.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/Main.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/utils/ExitingInputStream.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/utils/TcpSockets.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ImportTests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/ImportTests.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/Main.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Utils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/Utils.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/structure_maps/StructureMaps.kt" beforeDir="false" afterPath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/structure_maps/StructureMaps.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/structuremaps/imports/imported.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/structuremaps/imports/main.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/MainTests.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/sample_questionnaire.json" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -70,11 +96,9 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/src/main/kotlin/ImportTests.kt" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/kotlin/Main.kt" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/kotlin/structure_maps/StructureMaps.kt" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/resources/structuremaps/imports/imported.map" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/resources/structuremaps/imports/main.map" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/ImportTests.kt" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/Main.kt" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/structure_maps/StructureMaps.kt" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -90,32 +114,23 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "C:/dev/personal/repos/kotlin-language-server",
+    "jdk.selected.JAVA_MODULE": "temurin-16",
+    "last_opened_file_path": "C:/dev/personal/dev/random/fhir-lsp/Fhir_Kotlin/server/src/main/java/com/sevenreup/fhir/server/utils",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.46896553",
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
-  <component name="RunManager" selected="Kotlin.MainKt">
-    <configuration name="FHIRCompiler [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="build" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\dev\personal\dev\random\fhir-lsp\Fhir_Kotlin\server\src\main\java\com\sevenreup\fhir\server\utils" />
+    </key>
+    <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="com.sevenreup.fhir.server.utils" />
+    </key>
+  </component>
+  <component name="RunManager">
     <configuration name="MainTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -185,40 +200,11 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="Compile MAP" type="JetRunConfigurationType">
-      <option name="MAIN_CLASS_NAME" value="MainKt" />
-      <module name="FHIRCompiler.main" />
-      <option name="PROGRAM_PARAMETERS" value="str_compile c:\dev\personal\repos\vscode-mock-debug\sampleWorkspace\sss.map" />
-      <shortenClasspath name="NONE" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MainKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="MainKt" />
-      <module name="FHIRCompiler.main" />
-      <option name="PROGRAM_PARAMETERS" value="tests" />
-      <shortenClasspath name="NONE" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Quest Verify" type="JetRunConfigurationType">
-      <option name="MAIN_CLASS_NAME" value="MainKt" />
-      <module name="FHIRCompiler.main" />
-      <option name="PROGRAM_PARAMETERS" value="qst_verify &quot;C:\dev\work\fhir-resources\mwcore\questionnaire\visit\exposed_infant\Milestone HIV Test\exposed_infant_milestone_hiv_test.json&quot;" />
-      <shortenClasspath name="NONE" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Kotlin.MainKt" />
         <item itemvalue="Gradle.MainTests.verifyWorkingQuestionnaire" />
         <item itemvalue="Gradle.MainTests.verify working questionnaire" />
         <item itemvalue="Gradle.MainTests" />
-        <item itemvalue="Gradle.FHIRCompiler [build]" />
       </list>
     </recent_temporary>
   </component>

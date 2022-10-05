@@ -1,63 +1,145 @@
 import * as path from "path";
-import { workspace, ExtensionContext } from "vscode";
+import * as child_process from "child_process";
+import * as net from "net";
+import { workspace, window, OutputChannel } from "vscode";
+import * as fs from "fs";
 
 import {
   LanguageClient,
   LanguageClientOptions,
+  RevealOutputChannelOn,
   ServerOptions,
-  TransportKind,
+  StreamInfo,
 } from "vscode-languageclient/node";
-import { Feature } from "../feature.type";
+import { Feature, ServerSetupParams } from "../feature.type";
+import { LOG } from "../utils/logger";
 
 export class LanguageServer implements Feature {
+  params: ServerSetupParams;
   client: LanguageClient;
 
-  constructor(context: ExtensionContext) {
-    this.lsp(context);
+  constructor(params: ServerSetupParams) {
+    this.lsp(params);
   }
+
   dispose(): void {
-    this.client.stop();
+    this.client?.stop();
   }
 
-  lsp(context: ExtensionContext) {
-    // The server is implemented in node
-    const serverModule = context.asAbsolutePath(
-      path.join("server", "out", "server.js")
+  async lsp({ context, config }: ServerSetupParams) {
+    const langServerInstallDir = path.join(
+      context.globalStorageUri.fsPath,
+      "langServerInstall"
     );
-    // The debug options for the server
-    // --inspect=6009: runs the server in Node's Inspector mode so VS Code can attach to the server for debugging
-    const debugOptions = { execArgv: ["--nolazy", "--inspect=6009"] };
+    const outputChannel = window.createOutputChannel("Kotlin");
+    const transportLayer = config.get("languageServer.transport");
+    let tcpPort: number = null;
+    const env: any = { ...process.env };
 
-    // If the extension is launched in debug mode then the debug server options are used
-    // Otherwise the run options are used
-    const serverOptions: ServerOptions = {
-      run: { module: serverModule, transport: TransportKind.ipc },
-      debug: {
-        module: serverModule,
-        transport: TransportKind.ipc,
-        options: debugOptions,
-      },
+    if (transportLayer == "tcp") {
+      tcpPort = config.get("languageServer.port");
+
+      LOG.info(`Connecting via TCP, port: ${tcpPort}`);
+    } else if (transportLayer == "stdio") {
+      LOG.info("Connecting via Stdio.");
+    } else {
+      LOG.info(`Unknown transport layer: ${transportLayer}`);
+    }
+
+    const startScriptPath = context.extensionPath;
+
+    const options = {
+      outputChannel,
+      startScriptPath,
+      tcpPort,
+      env,
+      storagePath: workspace.workspaceFolders?.[0]?.uri?.fsPath,
     };
+    this.client = this.createLanguageClient(options);
+    this.client.start();
+  }
 
-    // Options to control the language client
+  private createLanguageClient(options: {
+    outputChannel: OutputChannel;
+    startScriptPath: string;
+    storagePath: string;
+    tcpPort?: number;
+    env?: any;
+  }): LanguageClient {
     const clientOptions: LanguageClientOptions = {
-      // Register the server for plain text documents
-      documentSelector: [{ scheme: "file", language: "map" }],
+      // Register the server for Kotlin documents
+      documentSelector: [{ language: "map", scheme: "file" }],
       synchronize: {
-        // Notify the server about file changes to '.clientrc files contained in the workspace
-        fileEvents: workspace.createFileSystemWatcher("**/.clientrc"),
+        configurationSection: "fml",
+        fileEvents: [workspace.createFileSystemWatcher("**/*.map")],
       },
+      progressOnInitialization: true,
+      outputChannel: options.outputChannel,
+      revealOutputChannelOn: RevealOutputChannelOn.Never,
     };
 
-    // Create the language client and start the client.
-    this.client = new LanguageClient(
-      "languageServerExample",
-      "Language Server Example",
+    let serverOptions: ServerOptions;
+
+    if (options.tcpPort) {
+      serverOptions = () => spawnLanguageServerProcessAndConnectViaTcp(options);
+    } else {
+      serverOptions = {
+        command: "java -jar " + options.startScriptPath,
+        args: [],
+        options: {
+          cwd: workspace.workspaceFolders?.[0]?.uri?.fsPath,
+          env: options.env,
+        },
+      };
+      LOG.info("Creating client at {}", options.startScriptPath);
+    }
+
+    return new LanguageClient(
+      "FmlSever",
+      "Fhir Mapping Language Server",
       serverOptions,
       clientOptions
     );
-
-    // Start the client. This will also launch the server
-    this.client.start();
   }
+}
+
+function spawnLanguageServerProcessAndConnectViaTcp(options: {
+  outputChannel: OutputChannel;
+  storagePath: string;
+  startScriptPath: string;
+  tcpPort?: number;
+}): Promise<StreamInfo> {
+  return new Promise((resolve, reject) => {
+    LOG.info("Creating server.");
+    const server = net.createServer((socket) => {
+      // LOG.info("Closing server since client has connected.");
+      // server.close();
+      // resolve({ reader: socket, writer: socket });
+    });
+    // Wait for the first client to connect
+    server.listen(options.tcpPort, () => {
+      const tcpPort = (server.address() as net.AddressInfo).port.toString();
+      const command = path.resolve(options.startScriptPath, "bin", "server", "server-1.0-SNAPSHOT-all.jar");
+      const proc = child_process.spawn(
+        "java",
+        ["-jar", command, "--tcpClientPort", tcpPort],
+        {
+          cwd: workspace.rootPath,
+        }
+      );
+      LOG.info(
+        "Creating client at {} via TCP port {} {}",
+        command,
+        tcpPort,
+        proc.spawnargs
+      );
+      const logFile =
+        options.storagePath + "/vscode-languageserver-java-example.log";
+      const logStream = fs.createWriteStream(logFile, { flags: "w" });
+      proc.stdout.pipe(logStream);
+      proc.stderr.pipe(logStream);
+      console.log(`Storing log in '${logFile}'`);
+    });
+    server.on("error", (e) => reject(e));
+  });
 }

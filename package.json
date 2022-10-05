@@ -31,29 +31,26 @@
 			"type": "object",
 			"title": "Example configuration",
 			"properties": {
-				"languageServerExample.maxNumberOfProblems": {
-					"scope": "resource",
-					"type": "number",
-					"default": 100,
-					"description": "Controls the maximum number of problems produced by the server."
-				},
-				"languageServerExample.trace.server": {
-					"scope": "window",
+				"fml.languageServer.transport": {
 					"type": "string",
 					"enum": [
-						"off",
-						"messages",
-						"verbose"
+						"stdio",
+						"tcp"
 					],
-					"default": "off",
-					"description": "Traces the communication between VS Code and the language server."
+					"description": "The transport layer beneath the language server protocol. Note that the extension will launch the server even if a TCP socket is used.",
+					"default": "tcp"
 				},
-				"map.previewBackgroundColor": {
+				"fml.languageServer.port": {
+					"type": "integer",
+					"description": "The port to which the client will attempt to connect to. A random port is used if zero. Only used if the transport layer is TCP.",
+					"default": 9090
+				},
+				"fml.preview.previewBackgroundColor": {
 					"default": "",
 					"description": "Preview background color.",
 					"type": "string"
 				},
-				"map.autoClosePreview": {
+				"fml.preview.autoClosePreview": {
 					"default": true,
 					"description": "Automatically close preview when all open MJML documents have been closed.",
 					"type": "boolean"

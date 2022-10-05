@@ -30,11 +30,15 @@ tasks.getByName<Test>("test") {
     useJUnitPlatform()
 }
 
+application {
+    mainClass.set("com.sevenreup.fhir.server.MainKt")
+}
+
 tasks {
     withType<ShadowJar>() {
         isZip64 = true
         manifest {
-            attributes["Main-Class"] = "MainKt"
+            attributes["Main-Class"] = "com.sevenreup.fhir.server.MainKt"
         }
     }
 }

@@ -12,24 +12,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="49be9e7b-868b-4511-b7bf-21fddbfeeba9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/Logger.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/FhirLanguageServer.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/Main.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/utils/ExitingInputStream.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/utils/TcpSockets.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/Helpers.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/TestQuestionnaire.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/utilities/TransformSupportServices.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/FMLTextDocumentService.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/FMLWorkspaceService.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/utils/AsyncExecutor.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ImportTests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/ImportTests.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Utils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/Utils.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/structure_maps/StructureMaps.kt" beforeDir="false" afterPath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/structure_maps/StructureMaps.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/structuremaps/imports/imported.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/structuremaps/imports/main.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/kotlin/MainTests.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/sample_questionnaire.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/Main.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/server/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/FhirLanguageServer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/FhirLanguageServer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/Main.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/extension.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/extension.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/feature.type.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/feature.type.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/features/lsp.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/features/lsp.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,6 +42,9 @@
     <system id="GRADLE">
       <state>
         <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <task path="$PROJECT_DIR$/server">
           <activation />
         </task>
         <projects_view>
@@ -76,6 +76,24 @@
                 <item name="FHIRCompiler" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="shadow" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="FHIRCompiler" type="f1a62948:ProjectNode" />
+                <item name="server" type="2d1252cf:ModuleNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="FHIRCompiler" type="f1a62948:ProjectNode" />
+                <item name="server" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="FHIRCompiler" type="f1a62948:ProjectNode" />
+                <item name="server" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -115,7 +133,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "jdk.selected.JAVA_MODULE": "temurin-16",
-    "last_opened_file_path": "C:/dev/personal/dev/random/fhir-lsp/Fhir_Kotlin/server/src/main/java/com/sevenreup/fhir/server/utils",
+    "last_opened_file_path": "C:/dev/personal/dev/random/fhir-lsp/Fhir_Kotlin/compiler/src/main/java/com/sevenreup/fhir/compiler",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.46896553",
@@ -124,32 +142,32 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\dev\personal\dev\random\fhir-lsp\Fhir_Kotlin\compiler\src\main\java\com\sevenreup\fhir\compiler" />
+      <recent name="C:\dev\personal\dev\random\fhir-lsp\Fhir_Kotlin\server\src\main\java\com\sevenreup\fhir\server" />
       <recent name="C:\dev\personal\dev\random\fhir-lsp\Fhir_Kotlin\server\src\main\java\com\sevenreup\fhir\server\utils" />
     </key>
     <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
       <recent name="com.sevenreup.fhir.server.utils" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration name="MainTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+  <component name="RunManager" selected="Kotlin.MainKt">
+    <configuration name="Fhir_Kotlin:server [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/server" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
+        <option name="scriptParameters" />
         <option name="taskDescriptions">
           <list />
         </option>
         <option name="taskNames">
           <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;MainTests&quot;" />
+            <option value="build" />
           </list>
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
@@ -200,11 +218,36 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
+    <configuration name="MainKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.sevenreup.fhir.server.MainKt" />
+      <module name="FHIRCompiler.server.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Quest Res" type="JetRunConfigurationType" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.sevenreup.fhir.compiler.MainKt" />
+      <module name="FHIRCompiler.compiler.main" />
+      <option name="PROGRAM_PARAMETERS" value="quest_test C:\dev\work\fhir-resources\mwcore\structure_map\visit\art_client\index_case_testing\art-client-index-case-testing.map C:\dev\work\fhir-resources\mwcore\structure_map\visit\art_client\index_case_testing\sc.json" />
+      <shortenClasspath name="NONE" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Gradle.Fhir_Kotlin:server [build]" />
+      <item itemvalue="Gradle.MainTests.verify working questionnaire" />
+      <item itemvalue="Gradle.MainTests.verifyWorkingQuestionnaire" />
+      <item itemvalue="Kotlin.MainKt" />
+      <item itemvalue="Kotlin.Quest Res" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Kotlin.MainKt" />
+        <item itemvalue="Kotlin.Quest Res" />
+        <item itemvalue="Gradle.Fhir_Kotlin:server [build]" />
         <item itemvalue="Gradle.MainTests.verifyWorkingQuestionnaire" />
         <item itemvalue="Gradle.MainTests.verify working questionnaire" />
-        <item itemvalue="Gradle.MainTests" />
       </list>
     </recent_temporary>
   </component>
@@ -234,6 +277,16 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.RuntimeException" package="java.lang" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/FHIRCompiler$MainTests.ic" NAME="MainTests Coverage Results" MODIFIED="1663247081301" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

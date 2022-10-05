@@ -1,4 +1,4 @@
-import { ExtensionContext } from "vscode";
+import { ExtensionContext, workspace } from "vscode";
 
 import { Feature } from "./feature.type";
 import { Formatter } from "./features/formatter";
@@ -14,7 +14,7 @@ export function activate(context: ExtensionContext) {
   extensionFeatures = [
     new Preview(context),
     new Formatter(context.subscriptions),
-    new LanguageServer(context),
+    new LanguageServer({ context, config: workspace.getConfiguration("fml") }),
   ];
 }
 

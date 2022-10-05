@@ -34,4 +34,8 @@ class FMLTextDocumentService: TextDocumentService, Closeable {
     fun connect(client: LanguageClient) {
         this.client = client
     }
+
+    fun lintAll() {
+        TODO("Not yet implemented")
+    }
 }

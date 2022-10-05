@@ -7,6 +7,7 @@ import org.eclipse.lsp4j.services.LanguageClientAware
 import org.eclipse.lsp4j.services.WorkspaceService
 
 class FMLWorkspaceService: WorkspaceService, LanguageClientAware {
+    private var languageClient: LanguageClient? = null
     override fun didChangeConfiguration(params: DidChangeConfigurationParams?) {
         TODO("Not yet implemented")
     }
@@ -16,6 +17,6 @@ class FMLWorkspaceService: WorkspaceService, LanguageClientAware {
     }
 
     override fun connect(client: LanguageClient?) {
-        TODO("Not yet implemented")
+        languageClient = client
     }
 }

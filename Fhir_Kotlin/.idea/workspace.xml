@@ -11,22 +11,17 @@
     </loaded-modules>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="49be9e7b-868b-4511-b7bf-21fddbfeeba9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/Helpers.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/TestQuestionnaire.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/utilities/TransformSupportServices.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/FMLTextDocumentService.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/FMLWorkspaceService.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/utils/AsyncExecutor.kt" afterDir="false" />
+    <list default="true" id="49be9e7b-868b-4511-b7bf-21fddbfeeba9" name="Changes" comment="changes">
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/semantictokens/Semantictokens.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/utils/Commands.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/utils/Configuration.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/utils/LanguageClientProgress.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/utils/Progress.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/server/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/FMLTextDocumentService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/FMLTextDocumentService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/FMLWorkspaceService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/FMLWorkspaceService.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/FhirLanguageServer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/FhirLanguageServer.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/extension.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/extension.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/feature.type.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/feature.type.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/features/lsp.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/features/lsp.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,6 +90,13 @@
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="build" type="c8890929:TasksNode$1" />
               </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="FHIRCompiler" type="f1a62948:ProjectNode" />
+                <item name="server" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="shadow" type="c8890929:TasksNode$1" />
+              </path>
             </expand>
             <select />
           </tree_state>
@@ -151,6 +153,27 @@
     </key>
   </component>
   <component name="RunManager" selected="Kotlin.MainKt">
+    <configuration name="Fhir_Kotlin [jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="jar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
     <configuration name="Fhir_Kotlin:server [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -172,48 +195,23 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="MainTests.verify working questionnaire" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="Fhir_Kotlin:server [shadowJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/server" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
+        <option name="scriptParameters" />
         <option name="taskDescriptions">
           <list />
         </option>
         <option name="taskNames">
           <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;MainTests.verify working questionnaire&quot;" />
+            <option value="shadowJar" />
           </list>
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
-    <configuration name="MainTests.verifyWorkingQuestionnaire" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;MainTests.verifyWorkingQuestionnaire&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
@@ -235,19 +233,19 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Gradle.Fhir_Kotlin [jar]" />
+      <item itemvalue="Gradle.Fhir_Kotlin:server [shadowJar]" />
       <item itemvalue="Gradle.Fhir_Kotlin:server [build]" />
-      <item itemvalue="Gradle.MainTests.verify working questionnaire" />
-      <item itemvalue="Gradle.MainTests.verifyWorkingQuestionnaire" />
       <item itemvalue="Kotlin.MainKt" />
       <item itemvalue="Kotlin.Quest Res" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Kotlin.MainKt" />
+        <item itemvalue="Gradle.Fhir_Kotlin:server [shadowJar]" />
+        <item itemvalue="Gradle.Fhir_Kotlin [jar]" />
         <item itemvalue="Kotlin.Quest Res" />
         <item itemvalue="Gradle.Fhir_Kotlin:server [build]" />
-        <item itemvalue="Gradle.MainTests.verifyWorkingQuestionnaire" />
-        <item itemvalue="Gradle.MainTests.verify working questionnaire" />
       </list>
     </recent_temporary>
   </component>
@@ -260,6 +258,14 @@
       <option name="presentableId" value="Default" />
       <updated>1663162196719</updated>
     </task>
+    <task id="LOCAL-00001" summary="changes">
+      <created>1664998872604</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1664998872605</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -277,6 +283,8 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
+    <MESSAGE value="changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="changes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -285,6 +293,46 @@
           <properties class="java.lang.RuntimeException" package="java.lang" />
           <option name="timeStamp" value="1" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/FhirLanguageServer.kt</url>
+          <line>32</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/FMLTextDocumentService.kt</url>
+          <line>30</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/FMLTextDocumentService.kt</url>
+          <line>14</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/FMLTextDocumentService.kt</url>
+          <line>18</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/FMLTextDocumentService.kt</url>
+          <line>22</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/FhirNotebookDocumentService.kt</url>
+          <line>10</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/FhirNotebookDocumentService.kt</url>
+          <line>14</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/FhirNotebookDocumentService.kt</url>
+          <line>18</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

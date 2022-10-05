@@ -119,10 +119,16 @@ function spawnLanguageServerProcessAndConnectViaTcp(options: {
     // Wait for the first client to connect
     server.listen(options.tcpPort, () => {
       const tcpPort = (server.address() as net.AddressInfo).port.toString();
-      const command = path.resolve(options.startScriptPath, "bin", "server", "server-1.0-SNAPSHOT-all.jar");
+      const command = path.resolve(
+        options.startScriptPath,
+        "Fhir_Kotlin",
+        "build",
+        "libs",
+        "FHIRCompiler-1.0-SNAPSHOT-all.jar"
+      );
       const proc = child_process.spawn(
-        "java",
-        ["-jar", command, "--tcpClientPort", tcpPort],
+        "java -jar " + command,
+        [],
         {
           cwd: workspace.rootPath,
         }

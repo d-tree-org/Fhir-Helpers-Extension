@@ -116,7 +116,7 @@ function getDocumentSettings(resource: string): Thenable<ExampleSettings> {
 	if (!result) {
 		result = connection.workspace.getConfiguration({
 			scopeUri: resource,
-			section: 'languageServerExample'
+			section: 'fml'
 		});
 		documentSettings.set(resource, result);
 	}
@@ -195,14 +195,19 @@ connection.onCompletion(
 		
 		return [
 			{
-				label: 'TypeScript',
+				label: 'group',
 				kind: CompletionItemKind.Text,
 				data: 1
 			},
 			{
-				label: 'JavaScript',
+				label: 'source',
 				kind: CompletionItemKind.Text,
 				data: 2
+			},
+			{
+				label: 'target',
+				kind: CompletionItemKind.Text,
+				data: 3
 			}
 		];
 	}

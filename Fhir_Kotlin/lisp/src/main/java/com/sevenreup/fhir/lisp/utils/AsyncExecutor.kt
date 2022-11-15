@@ -1,7 +1,6 @@
-package com.sevenreup.fhir.server.utils
+package com.sevenreup.fhir.lisp.utils
 
 import com.sevenreup.fhir.compiler.LOG
-import java.time.Duration
 import java.util.function.Supplier
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executors

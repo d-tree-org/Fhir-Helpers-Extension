@@ -1,4 +1,5 @@
 rootProject.name = "FHIRCompiler"
 
-include("server")
+include("lisp")
 include("compiler")
+include("server")

@@ -1,4 +1,4 @@
-package com.sevenreup.fhir.server.utils
+package com.sevenreup.fhir.lisp.utils
 
 public data class SnippetsConfiguration(
     /** Whether code completion should return VSCode-style snippets. */

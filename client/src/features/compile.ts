@@ -14,7 +14,7 @@ export async function compileMap(
 ): Promise<string> {
   try {
     const compilerPath = context.asAbsolutePath(
-      path.join("bin", "compile.jar")
+      path.join("bin", "compile", "compile.jar")
     );
 
     const process = await execShell(`java -jar ${compilerPath} ${filePath}`);

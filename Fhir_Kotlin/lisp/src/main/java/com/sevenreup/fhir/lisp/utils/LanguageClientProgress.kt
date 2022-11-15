@@ -1,6 +1,5 @@
-package com.sevenreup.fhir.server.utils
+package com.sevenreup.fhir.lisp.utils
 
-import com.sevenreup.fhir.server.utils.Progress
 import org.eclipse.lsp4j.services.LanguageClient
 import org.eclipse.lsp4j.jsonrpc.messages.Either
 import org.eclipse.lsp4j.ProgressParams

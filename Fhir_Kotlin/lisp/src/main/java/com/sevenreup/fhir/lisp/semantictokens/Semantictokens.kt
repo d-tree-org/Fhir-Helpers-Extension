@@ -1,4 +1,4 @@
-package com.sevenreup.fhir.server.semantictokens
+package com.sevenreup.fhir.lisp.semantictokens
 
 import org.eclipse.lsp4j.SemanticTokenModifiers
 import org.eclipse.lsp4j.SemanticTokenTypes

@@ -1,4 +1,4 @@
-package com.sevenreup.fhir.server
+package com.sevenreup.fhir.lisp
 
 import org.eclipse.lsp4j.DidChangeConfigurationParams
 import org.eclipse.lsp4j.DidChangeWatchedFilesParams

@@ -16,6 +16,12 @@ repositories {
 }
 
 dependencies {
+    implementation(project(":compiler"))
+
+    implementation("org.eclipse.lsp4j:org.eclipse.lsp4j:0.15.0")
+    implementation("org.eclipse.lsp4j:org.eclipse.lsp4j.jsonrpc:0.15.0")
+    implementation("com.beust:jcommander:1.82")
+
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.0")
 }
@@ -25,14 +31,14 @@ tasks.getByName<Test>("test") {
 }
 
 application {
-    mainClass.set("com.sevenreup.fhir.server.MainKt")
+    mainClass.set("com.sevenreup.fhir.lisp.MainKt")
 }
 
 tasks {
     withType<ShadowJar>() {
         isZip64 = true
         manifest {
-            attributes["Main-Class"] = "com.sevenreup.fhir.server.MainKt"
+            attributes["Main-Class"] = "com.sevenreup.fhir.lisp.MainKt"
         }
     }
 }

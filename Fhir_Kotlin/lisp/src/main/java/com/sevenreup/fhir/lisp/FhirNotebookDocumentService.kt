@@ -1,4 +1,4 @@
-package com.sevenreup.fhir.server
+package com.sevenreup.fhir.lisp
 
 import org.eclipse.lsp4j.DidChangeNotebookDocumentParams
 import org.eclipse.lsp4j.DidCloseNotebookDocumentParams

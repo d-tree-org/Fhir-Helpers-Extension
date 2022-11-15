@@ -1,15 +1,14 @@
-package com.sevenreup.fhir.server
+package com.sevenreup.fhir.lisp
 
 import com.sevenreup.fhir.compiler.LOG
 import com.sevenreup.fhir.compiler.LogLevel
 import com.sevenreup.fhir.compiler.LogMessage
-import com.sevenreup.fhir.server.semantictokens.semanticTokensLegend
-import com.sevenreup.fhir.server.utils.*
+import com.sevenreup.fhir.lisp.semantictokens.semanticTokensLegend
+import com.sevenreup.fhir.lisp.utils.*
 import org.eclipse.lsp4j.*
 import org.eclipse.lsp4j.jsonrpc.messages.Either
 import org.eclipse.lsp4j.services.*
 import java.io.Closeable
-import java.nio.file.Paths
 import java.util.concurrent.CompletableFuture
 
 class FhirLanguageServer : LanguageServer, LanguageClientAware, Closeable {

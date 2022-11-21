@@ -21,7 +21,9 @@ object ParseJsonCommands {
         val config = gson.fromJson(rawJson, JsonConfig::class.java)
         val list = parseBundle(path.getParentPath(), config.map, config.response)
         list.forEach {
+            println("\n--------Start {${FilenameUtils.getName(it.file)}}--------\n")
             println(it.data)
+            println("\n------End----------\n")
         }
     }
 
@@ -33,6 +35,7 @@ object ParseJsonCommands {
         contextR4.isCanRunWithoutTerminology = true
         val data = mutableListOf<ParseResponse>()
         for (path in resList) {
+            println("\n----Start {${FilenameUtils.getName(path)}}-----")
             val questionnaireData = path.getAbsolutePath(configPath).readFile()
 
             val targetResource = Bundle()
@@ -47,6 +50,7 @@ object ParseJsonCommands {
                     data = iParser.encodeResourceToString(targetResource)
                 )
             )
+            println("\n------End----------\n")
         }
         return data.toList()
     }

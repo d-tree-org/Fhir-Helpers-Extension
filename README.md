@@ -7,9 +7,9 @@ This is a collection of useful features for working with some of the resources i
 - Vs Code Extension
 
 ## CLI
-The documentation for the CLI can be found [here](Fhir_Kotlin\README.md)
+The documentation for the CLI can be found [here](Fhir_Kotlin/README.md)
 ## Vs Code
-The documentantion for the extension can be found here [here](vscode_extension\README.md)
+The documentantion for the extension can be found here [here](vscode_extension/README.md)
 ## Structure map Transform
 To run a structure map test you need to create a config file that
 | Element  | Description  |

@@ -9,6 +9,7 @@ import org.eclipse.lsp4j.services.LanguageClient
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
+import java.net.ServerSocket
 import java.net.Socket
 
 
@@ -48,6 +49,8 @@ fun main(argv: Array<String>) {
 
     try {
         val socket = Socket("localhost", args.tcpServerPort ?: 9090)
+        val serverSocket = ServerSocket()
+       val launcher = SocketLauncher()
         val socketIn: InputStream = socket.getInputStream()
         val socketOut: OutputStream = socket.getOutputStream()
         val server = FhirLanguageServer()

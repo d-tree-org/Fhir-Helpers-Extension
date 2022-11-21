@@ -11,9 +11,8 @@ import org.hl7.fhir.r4.model.QuestionnaireResponse
 import org.hl7.fhir.r4.utils.StructureMapUtilities
 import org.hl7.fhir.utilities.npm.FilesystemPackageCacheManager
 import org.hl7.fhir.utilities.npm.ToolsVersion
-import readFile
 
-fun TestQuestionnaire(structureMap: String, questionnaireResponsePath: String) {
+fun parseBundle(structureMap: String, questionnaireResponsePath: String) {
     val questionnaireData = questionnaireResponsePath.readFile()
 
     val iParser: IParser = FhirContext.forCached(FhirVersionEnum.R4).newJsonParser()

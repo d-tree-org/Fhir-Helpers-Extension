@@ -1,12 +1,5 @@
 package com.sevenreup.fhir.compiler
 
-import ca.uhn.fhir.context.FhirContext
-import ca.uhn.fhir.context.FhirVersionEnum
-import ca.uhn.fhir.parser.IParser
-import org.hl7.fhir.r4.model.Questionnaire
-import com.sevenreup.fhir.compiler.structure_maps.createStructureMapFromFile
-import readFile
-
 fun main(args: Array<String>) {
     if (args.isNotEmpty()) {
         when (args[0]) {
@@ -37,7 +30,12 @@ fun main(args: Array<String>) {
                 val path = args[1]
                 val srcName = args[2]
 
-                TestQuestionnaire(path, srcName)
+                parseBundle(path, srcName)
+            }
+
+            "quest_json" -> {
+                val path = args[1]
+                ParseJsonCommands.parse(path)
             }
 
             else -> {

@@ -1,5 +1,10 @@
 package com.sevenreup.fhir.server
 
+import com.github.arteam.simplejsonrpc.server.JsonRpcServer
+
+
 fun main(args: Array<String>) {
-    println("Hello world!")
+    val service = FhirService()
+    val server = JsonRpcServer()
+    server.
 }

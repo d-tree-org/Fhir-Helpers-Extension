@@ -5,7 +5,6 @@ import ca.uhn.fhir.context.FhirVersionEnum
 import ca.uhn.fhir.parser.IParser
 import com.sevenreup.fhir.compiler.structure_maps.createStructureMapFromFile
 import org.hl7.fhir.r4.model.Questionnaire
-import readFile
 
 fun compileStructureMap(path: String, srcName: String) {
     val map = createStructureMapFromFile(path, srcName)

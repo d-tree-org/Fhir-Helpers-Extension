@@ -4,7 +4,7 @@ import org.hl7.fhir.r4.context.SimpleWorkerContext
 import org.hl7.fhir.r4.model.StructureMap
 import org.hl7.fhir.utilities.npm.FilesystemPackageCacheManager
 import org.hl7.fhir.utilities.npm.ToolsVersion
-import readFile
+import com.sevenreup.fhir.compiler.readFile
 
 fun createStructureMapFromString(data: String, srcName: String): StructureMap? {
     val pcm = FilesystemPackageCacheManager(true, ToolsVersion.TOOLS_VERSION)

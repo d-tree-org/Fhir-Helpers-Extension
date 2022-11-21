@@ -7,7 +7,7 @@ plugins {
     application
 }
 
-group = "com.sevenreup.fhir"
+group = "com.sevenreup.fhir.compiler"
 version = "0.0.1-SNAPSHOT"
 
 repositories {
@@ -25,7 +25,7 @@ dependencies {
 }
 
 application {
-    mainClass.set("MainKt")
+    mainClass.set("com.sevenreup.fhir.compiler.MainKt")
 }
 
 tasks.test {
@@ -40,7 +40,7 @@ tasks {
     withType<ShadowJar>() {
         isZip64 = true
         manifest {
-            attributes["Main-Class"] = "MainKt"
+            attributes["Main-Class"] = "com.sevenreup.fhir.compiler.MainKt"
         }
     }
 }

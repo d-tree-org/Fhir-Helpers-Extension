@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9496cb84-4906-4f5c-abfe-1e588ed1faf3" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/Helpers.kt" beforeDir="false" afterPath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/Helpers.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,12 +53,16 @@
     <configuration name="quest" type="JetRunConfigurationType">
       <option name="MAIN_CLASS_NAME" value="com.sevenreup.fhir.compiler.MainKt" />
       <module name="FHIRCompiler.compiler.main" />
-      <option name="PROGRAM_PARAMETERS" value="quest_json C:\dev\work\fhir-resources\mwcore\structure_map\test_results\art_client_viral_load_test_results\test.tmap.json" />
+      <option name="PROGRAM_PARAMETERS" value="transform_batch C:\dev\work\fhir-resources\mwcore\structure_map\test_results\art_client_viral_load_test_results\test.tmap.json" />
       <shortenClasspath name="NONE" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Kotlin.quest" />
+      <item itemvalue="Kotlin.MainKt" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Kotlin.MainKt" />

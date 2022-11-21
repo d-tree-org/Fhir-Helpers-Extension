@@ -3,11 +3,10 @@ package com.sevenreup.fhir.compiler
 fun main(args: Array<String>) {
     if (args.isNotEmpty()) {
         when (args[0]) {
-            "str_compile" -> {
+            "compile" -> {
                 val path = args[1]
-                val srcName = args[2]
 
-                compileStructureMap(path, srcName)
+                compileStructureMap(path, null)
             }
 
             "qst_verify" -> {
@@ -26,14 +25,14 @@ fun main(args: Array<String>) {
                 ImportTests()
             }
 
-            "quest_test" -> {
+            "transform" -> {
                 val path = args[1]
                 val srcName = args[2]
 
                 parseBundle(path, srcName)
             }
 
-            "quest_json" -> {
+            "transform_batch" -> {
                 val path = args[1]
                 ParseJsonCommands.parse(path)
             }

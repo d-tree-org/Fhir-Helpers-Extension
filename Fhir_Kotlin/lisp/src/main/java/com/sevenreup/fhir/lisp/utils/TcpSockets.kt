@@ -1,6 +1,6 @@
 package com.sevenreup.fhir.lisp.utils
 
-import com.sevenreup.fhir.compiler.LOG
+import com.sevenreup.fhir.compiler.utils.LOG
 import java.io.InputStream
 import java.io.OutputStream
 import java.net.Socket

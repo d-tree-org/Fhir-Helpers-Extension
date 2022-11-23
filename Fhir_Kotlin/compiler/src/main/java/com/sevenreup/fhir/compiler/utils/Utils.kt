@@ -1,4 +1,4 @@
-package com.sevenreup.fhir.compiler
+package com.sevenreup.fhir.compiler.utils
 
 import org.apache.commons.io.FileUtils
 import kotlin.io.path.Path

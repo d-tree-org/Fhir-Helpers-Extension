@@ -1,4 +1,4 @@
-package com.sevenreup.fhir.compiler
+package com.sevenreup.fhir.compiler.utils
 
 import ca.uhn.fhir.context.FhirContext
 import ca.uhn.fhir.context.FhirVersionEnum

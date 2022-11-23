@@ -81,7 +81,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Gradle.Fhir_Kotlin:compiler [build]">
+  <component name="RunManager" selected="Kotlin.quest">
     <configuration name="Fhir_Kotlin:compiler [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />

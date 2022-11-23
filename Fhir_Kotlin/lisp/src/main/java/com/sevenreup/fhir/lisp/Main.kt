@@ -2,7 +2,7 @@ package com.sevenreup.fhir.lisp
 
 import com.beust.jcommander.JCommander
 import com.beust.jcommander.Parameter
-import com.sevenreup.fhir.compiler.LOG
+import com.sevenreup.fhir.compiler.utils.LOG
 import org.eclipse.lsp4j.jsonrpc.Launcher
 import org.eclipse.lsp4j.launch.LSPLauncher
 import org.eclipse.lsp4j.services.LanguageClient

@@ -1,4 +1,4 @@
-package com.sevenreup.fhir.compiler
+package com.sevenreup.fhir.compiler.utils
 
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream

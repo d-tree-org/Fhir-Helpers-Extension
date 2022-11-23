@@ -1,8 +1,8 @@
 package com.sevenreup.fhir.lisp
 
-import com.sevenreup.fhir.compiler.LOG
-import com.sevenreup.fhir.compiler.LogLevel
-import com.sevenreup.fhir.compiler.LogMessage
+import com.sevenreup.fhir.compiler.utils.LOG
+import com.sevenreup.fhir.compiler.utils.LogLevel
+import com.sevenreup.fhir.compiler.utils.LogMessage
 import com.sevenreup.fhir.lisp.semantictokens.semanticTokensLegend
 import com.sevenreup.fhir.lisp.utils.*
 import org.eclipse.lsp4j.*

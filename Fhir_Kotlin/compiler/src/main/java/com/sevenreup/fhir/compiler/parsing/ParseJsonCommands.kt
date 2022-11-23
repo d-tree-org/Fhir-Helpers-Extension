@@ -1,9 +1,13 @@
-package com.sevenreup.fhir.compiler
+package com.sevenreup.fhir.compiler.parsing
 
 import ca.uhn.fhir.context.FhirContext
 import ca.uhn.fhir.context.FhirVersionEnum
 import ca.uhn.fhir.parser.IParser
 import com.google.gson.Gson
+import com.sevenreup.fhir.compiler.utils.getAbsolutePath
+import com.sevenreup.fhir.compiler.utils.getParentPath
+import com.sevenreup.fhir.compiler.models.MapConfig
+import com.sevenreup.fhir.compiler.utils.readFile
 import com.sevenreup.fhir.compiler.utilities.TransformSupportServices
 import org.apache.commons.io.FilenameUtils
 import org.hl7.fhir.r4.context.SimpleWorkerContext
@@ -60,11 +64,6 @@ data class JsonConfig(
     val type: String,
     val map: MapConfig,
     val response: List<String>
-)
-
-data class MapConfig(
-    val path: String,
-    val name: String?
 )
 
 data class ParseResponse(

@@ -3,6 +3,7 @@ package com.sevenreup.fhir.compiler
 import com.sevenreup.fhir.compiler.parsing.ParseJsonCommands
 import com.sevenreup.fhir.compiler.utils.compileStructureMap
 import com.sevenreup.fhir.compiler.utils.formatStructureMap
+import com.sevenreup.fhir.compiler.utils.strJsonToMap
 import com.sevenreup.fhir.compiler.utils.verifyQuestionnaire
 
 fun main(args: Array<String>) {
@@ -24,6 +25,11 @@ fun main(args: Array<String>) {
                 val srcName = args[2]
 
                 formatStructureMap(path, srcName)
+            }
+            "to_map" -> {
+                val path = args[1]
+
+                strJsonToMap(path)
             }
 
             "tests" -> {

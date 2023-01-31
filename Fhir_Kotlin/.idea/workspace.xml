@@ -5,11 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c3237d43-2c58-4473-81bb-2ff6a2b9b529" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/sockets/Connection.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/sockets/SocketTransport.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cli/src/main/kotlin/com/sevenreup/fhir/cli/Main.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/ImportTests.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/TestQuestionnaire.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/lexel/ExpressionNode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/lexel/FHIRException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/lexel/FHIRLexer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/lexel/SourceLocation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/lexel/Utilities.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/models/MapConfig.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/parsing/ParseJsonCommands.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/structure_maps/StructureMaps.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/StructureMapTests.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/utilities/TransformSupportServices.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/utils/Helpers.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/utils/Logger.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/utils/Utils.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/server/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/Main.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,13 +59,16 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "jdk.selected.JAVA_MODULE": "19",
-    "last_opened_file_path": "D:/Work/dev/fhir-lsp/Fhir_Kotlin",
+    "last_opened_file_path": "D:/Work/dev/fhir-lsp/Fhir_Kotlin/core/src/main/kotlin/com/sevenreup/fhir/core",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0"
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Work\dev\fhir-lsp\Fhir_Kotlin\core\src\main\kotlin\com\sevenreup\fhir\core" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Work\dev\fhir-lsp\Fhir_Kotlin\server\src\main\java\com\sevenreup\fhir\server" />
       <recent name="D:\Work\dev\fhir-lsp\Fhir_Kotlin" />
@@ -62,10 +79,19 @@
       <recent name="com.sevenreup.fhir.server" />
     </key>
   </component>
-  <component name="RunManager" selected="Kotlin.MainKt (1)">
+  <component name="RunManager" selected="Kotlin.MainKt (2)">
     <configuration name="MainKt (1)" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.sevenreup.fhir.server.MainKt" />
       <module name="FHIRCompiler.server.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MainKt (2)" type="JetRunConfigurationType" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.sevenreup.fhir.cli.MainKt" />
+      <module name="FHIRCompiler.cli.main" />
+      <option name="PROGRAM_PARAMETERS" value="import_tests sample.map" />
+      <shortenClasspath name="NONE" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -80,6 +106,7 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Kotlin.MainKt (2)" />
       <item itemvalue="Kotlin.MainKt" />
       <item itemvalue="Kotlin.MainKt (1)" />
     </list>

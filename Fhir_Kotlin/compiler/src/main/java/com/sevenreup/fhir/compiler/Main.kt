@@ -34,7 +34,6 @@ fun main(args: Array<String>) {
             }
 
             "import_tests" -> {
-                val path = args[1]
                 importTests("./samples/import/sample.map")
             }
 

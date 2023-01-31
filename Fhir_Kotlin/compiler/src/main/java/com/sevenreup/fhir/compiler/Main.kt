@@ -1,6 +1,7 @@
 package com.sevenreup.fhir.compiler
 
 import com.sevenreup.fhir.compiler.parsing.ParseJsonCommands
+import com.sevenreup.fhir.compiler.tests.StructureMapTests
 import com.sevenreup.fhir.compiler.utils.compileStructureMap
 import com.sevenreup.fhir.compiler.utils.formatStructureMap
 import com.sevenreup.fhir.compiler.utils.strJsonToMap
@@ -46,6 +47,11 @@ fun main(args: Array<String>) {
             "transform_batch" -> {
                 val path = args[1]
                 ParseJsonCommands.parse(path)
+            }
+
+            "test" -> {
+                val path = args[1]
+                StructureMapTests.test(path)
             }
 
             else -> {

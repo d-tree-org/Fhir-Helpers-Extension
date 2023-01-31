@@ -19,6 +19,7 @@ repositories {
 dependencies {
     testImplementation(kotlin("test"))
     implementation("com.jayway.jsonpath:json-path:2.7.0")
+    implementation("org.hamcrest:hamcrest-core:2.2")
     implementation("com.google.fhir:r4:0.6.1")
     implementation("ca.uhn.hapi.fhir:hapi-fhir-structures-r4:5.3.0")
     implementation("org.opencds.cqf:cql-engine-fhir:1.3.14-SNAPSHOT")

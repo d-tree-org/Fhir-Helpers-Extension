@@ -21,7 +21,8 @@ dependencies {
     implementation("org.eclipse.lsp4j:org.eclipse.lsp4j:0.15.0")
     implementation("org.eclipse.lsp4j:org.eclipse.lsp4j.jsonrpc:0.15.0")
     implementation("com.beust:jcommander:1.82")
-
+    implementation("net.javacrumbs.json-unit:json-unit-json-path:2.36.0")
+    implementation("net.javacrumbs.json-unit:json-unit-assertj:2.36.0")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.0")
 }

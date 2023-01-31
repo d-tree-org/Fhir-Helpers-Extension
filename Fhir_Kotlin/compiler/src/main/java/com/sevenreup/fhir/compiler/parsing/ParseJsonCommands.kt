@@ -23,44 +23,48 @@ object ParseJsonCommands {
         val rawJson = path.readFile()
         val gson = Gson()
         val config = gson.fromJson(rawJson, JsonConfig::class.java)
-        val list = parseBundle(path.getParentPath(), config.map, config.response)
-        list.forEach {
-            println("\n--------Start {${FilenameUtils.getName(it.file)}}--------\n")
-            println(it.data)
-            println("\n------End----------\n")
-        }
-    }
 
-    private fun parseBundle(configPath: String, map: MapConfig, resList: List<String>): List<ParseResponse> {
         val iParser: IParser = FhirContext.forCached(FhirVersionEnum.R4).newJsonParser()
         val pcm = FilesystemPackageCacheManager(true, ToolsVersion.TOOLS_VERSION)
         val contextR4 = SimpleWorkerContext.fromPackage(pcm.loadPackage("hl7.fhir.r4.core", "4.0.1"))
         contextR4.setExpansionProfile(Parameters())
         contextR4.isCanRunWithoutTerminology = true
-        val data = mutableListOf<ParseResponse>()
-        for (path in resList) {
-            println("\n----Start {${FilenameUtils.getName(path)}}-----")
-            val questionnaireData = path.getAbsolutePath(configPath).readFile()
+        val scu = StructureMapUtilities(contextR4, TransformSupportServices(contextR4))
 
-            val targetResource = Bundle()
-            val scu = StructureMapUtilities(contextR4, TransformSupportServices(contextR4))
-            val baseElement =
-                iParser.parseResource(QuestionnaireResponse::class.java, questionnaireData)
-            val strMap = scu.parse(map.path.getAbsolutePath(configPath).readFile(), map.name ?: "Main")
-            scu.transform(contextR4, baseElement, strMap, targetResource)
-            data.add(
-                ParseResponse(
-                    file = FilenameUtils.getName(path),
-                    data = iParser.encodeResourceToString(targetResource)
-                )
-            )
+        config.response.forEach { res ->
+            val bundle = parseBundle(iParser, contextR4, scu, path.getParentPath(), config.map, res)
+            println("\n--------Start {${FilenameUtils.getName(bundle.file)}}--------\n")
+            println(iParser.encodeResourceToString(bundle.data))
             println("\n------End----------\n")
+
         }
-        return data.toList()
+    }
+
+    fun parseBundle(
+        iParser: IParser,
+        contextR4: SimpleWorkerContext,
+        scu: StructureMapUtilities,
+        configPath: String,
+        map: MapConfig,
+        path: String
+    ): ParseResponse {
+        println("\n----Start {${FilenameUtils.getName(path)}}-----")
+        val questionnaireData = path.getAbsolutePath(configPath).readFile()
+        val targetResource = Bundle()
+        val baseElement =
+            iParser.parseResource(QuestionnaireResponse::class.java, questionnaireData)
+        val strMap = scu.parse(map.path.getAbsolutePath(configPath).readFile(), map.name ?: "Main")
+        scu.transform(contextR4, baseElement, strMap, targetResource)
+        println("\n------End----------\n")
+
+        return ParseResponse(
+            file = FilenameUtils.getName(path),
+            data = targetResource
+        )
     }
 }
 
-data class JsonConfig(
+private data class JsonConfig(
     val type: String,
     val map: MapConfig,
     val response: List<String>
@@ -68,5 +72,5 @@ data class JsonConfig(
 
 data class ParseResponse(
     val file: String,
-    val data: String
+    val data: Bundle
 )

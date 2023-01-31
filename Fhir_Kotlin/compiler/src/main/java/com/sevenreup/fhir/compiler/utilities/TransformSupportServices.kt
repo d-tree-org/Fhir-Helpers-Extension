@@ -7,7 +7,7 @@ import org.hl7.fhir.r4.terminologies.ConceptMapEngine
 import org.hl7.fhir.r4.utils.StructureMapUtilities
 
 
-class TransformSupportServices  constructor(val simpleWorkerContext: SimpleWorkerContext) :
+class TransformSupportServices constructor(val simpleWorkerContext: SimpleWorkerContext) :
     StructureMapUtilities.ITransformerServices {
 
     val outputs: MutableList<Base> = mutableListOf()
@@ -31,6 +31,7 @@ class TransformSupportServices  constructor(val simpleWorkerContext: SimpleWorke
             "Timing_Repeat" -> Timing.TimingRepeatComponent()
             "PlanDefinition_Action" -> PlanDefinition.PlanDefinitionActionComponent()
             "Group_Characteristic" -> Group.GroupCharacteristicComponent()
+            "Appointment_Participant" -> Appointment.AppointmentParticipantComponent()
             else -> ResourceFactory.createResourceOrType(name)
         }
     }

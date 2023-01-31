@@ -33,8 +33,9 @@ fun main(args: Array<String>) {
                 strJsonToMap(path)
             }
 
-            "tests" -> {
-                ImportTests()
+            "import_tests" -> {
+                val path = args[1]
+                importTests("./samples/import/sample.map")
             }
 
             "transform" -> {

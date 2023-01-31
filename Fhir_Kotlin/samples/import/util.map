@@ -1,0 +1,13 @@
+map "https://fhir-dev.d-tree.org/fhir/StructureMap/utils" = "Utils"
+
+group ExtractDiscussionOutcome(source src: QuestionnaireResponse, source pageGroup: QuestionnaireResponseItem, target bundle: Bundle, target encounter: Encounter) {
+     src->bundle.entry as entry,
+            entry.resource = create("Observation") as obs then {
+                src->obs.id = uuid(),
+                    obs.code = cc("https://d-tree.org", "phone-tracing-outcome-tracing-outcome"),
+                    obs.category = cc("http://terminology.hl7.org/CodeSystem/observation-category", "vital-signs"),
+                    obs.encounter = reference(encounter),
+                    obs.effective = evaluate(src, now()) "r_obs_data_dbs_viral_load_results";
+            }
+            "r_obs_dbs_viral_load_results";
+}

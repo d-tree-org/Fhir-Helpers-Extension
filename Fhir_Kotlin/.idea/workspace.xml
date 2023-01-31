@@ -5,12 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c3237d43-2c58-4473-81bb-2ff6a2b9b529" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/samples/import/sample.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/samples/import/util.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compiler/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/compiler/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/ImportTests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/ImportTests.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/parsing/ParseJsonCommands.kt" beforeDir="false" afterPath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/parsing/ParseJsonCommands.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/tests/StructureMapTests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/tests/StructureMapTests.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lisp/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/lisp/build.gradle.kts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,11 +43,16 @@
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Work\dev\fhir-lsp\Fhir_Kotlin\samples" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="MainKt" type="JetRunConfigurationType" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.sevenreup.fhir.compiler.MainKt" />
       <module name="FHIRCompiler.compiler.main" />
-      <option name="PROGRAM_PARAMETERS" value="transform_batch D:\Work\dev\fhir-resources\mwcore\structure_map\tracing\phone_tracing\test.json" />
+      <option name="PROGRAM_PARAMETERS" value="import_tests sample.map" />
       <shortenClasspath name="NONE" />
       <method v="2">
         <option name="Make" enabled="true" />

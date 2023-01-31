@@ -5,11 +5,15 @@ import ca.uhn.fhir.context.FhirVersionEnum
 import ca.uhn.fhir.parser.IParser
 import org.hl7.fhir.r4.model.StructureMap
 import com.sevenreup.fhir.compiler.structure_maps.createStructureMapFromFile
+import com.sevenreup.fhir.compiler.utils.getAbsolutePath
+import com.sevenreup.fhir.compiler.utils.getParentPath
+import com.sevenreup.fhir.compiler.utils.readFile
 
 private data class StructureHash(val mode: StructureMap.StructureMapModelMode, val url: String)
 
-fun ImportTests() {
-    val main = createStructureMapFromFile("structuremaps/imports/main.map".asResource(), "Main")
+fun importTests(path: String) {
+    val parentPath = path.getParentPath()
+    val main = createStructureMapFromFile(path, "Main")
 
     main?.let { structureMap ->
         val iParser: IParser = FhirContext.forCached(FhirVersionEnum.R4).newJsonParser()
@@ -18,7 +22,7 @@ fun ImportTests() {
         println("-------------")
         structureMap.import?.let { imports ->
             imports.forEach { import ->
-                val importedMap = handleImports(import.value)
+                val importedMap = handleImports(parentPath,import.value)
                 if (importedMap != null) {
                     main.structure = combineUses(main, importedMap)
                     main.group = combineGroups(main, importedMap)
@@ -63,10 +67,7 @@ fun combineUses(main: StructureMap, include: StructureMap): List<StructureMap.St
     return mainStructures.values.toList()
 }
 
-fun handleImports(path: String): StructureMap? {
-    return createStructureMapFromFile(path.asResource(), "Main")
-}
-
-fun String.asResource(): String {
-    return "src/main/resources/$this"
+fun handleImports(parentPath: String,path: String): StructureMap? {
+    val actualPath = path.getAbsolutePath(parentPath)
+    return createStructureMapFromFile(actualPath, "Child")
 }

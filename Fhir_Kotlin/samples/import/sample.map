@@ -1,0 +1,20 @@
+map "https://fhir-dev.d-tree.org/fhir/StructureMap/phone-tracing-outcome" = "Phone Tracing Outcome"
+
+uses "http://hl7.org/fhir/StructureDefinition/QuestionnaireResponse" as source
+uses "http://hl7.org/fhir/StructureDefinition/Bundle" as target
+uses "http://hl7.org/fhir/StructureDefinition/Encounter" as target
+uses "http://hl7.org/fhir/StructureDefinition/Observation" as target
+
+
+imports "util.map"
+
+group Main(source src: QuestionnaireResponse, target bundle: Bundle) {
+    src->bundle.id = uuid(),
+    bundle.type = "collection" then  {
+        src->bundle.entry as entry,
+        entry.resource = create("Encounter") as encounter,
+        encounter.id = uuid() then {
+        src then ExtractDiscussionOutcome(src, bundle, encounter) "stuff_her";
+        } "r_enc_id";
+    } "r_bundle_data";
+}

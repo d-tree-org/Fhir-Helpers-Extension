@@ -1,4 +1,4 @@
-package com.sevenreup.fhir.server.sockets
+package server.sockets
 import io.ktor.websocket.*
 import java.util.concurrent.atomic.*
 

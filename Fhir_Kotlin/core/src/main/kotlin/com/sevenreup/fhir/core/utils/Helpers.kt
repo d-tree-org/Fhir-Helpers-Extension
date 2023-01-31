@@ -9,16 +9,6 @@ import org.hl7.fhir.r4.model.Questionnaire
 import org.hl7.fhir.utilities.npm.FilesystemPackageCacheManager
 import org.hl7.fhir.utilities.npm.ToolsVersion
 
-fun compileStructureMap(path: String, srcName: String?) {
-    val map = createStructureMapFromFile(path, srcName ?: "Name")
-    val iParser: IParser = FhirContext.forCached(FhirVersionEnum.R4).newJsonParser()
-    val mapString = iParser.encodeResourceToString(map)
-
-    println("\n\nMAP_OUTPUT_STARTS_HERE\n\n")
-    println(mapString)
-}
-
-
 fun formatStructureMap(path: String, srcName: String) {
     val map = createStructureMapFromFile(path, srcName)
 

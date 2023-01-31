@@ -1,4 +1,4 @@
-package com.sevenreup.fhir.server.sockets
+package server.sockets
 
 import io.ktor.server.websocket.*
 import io.ktor.websocket.*

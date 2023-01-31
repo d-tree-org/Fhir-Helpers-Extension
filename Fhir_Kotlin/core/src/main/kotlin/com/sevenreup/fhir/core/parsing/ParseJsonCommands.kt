@@ -9,6 +9,7 @@ import com.sevenreup.fhir.core.utils.getParentPath
 import com.sevenreup.fhir.core.models.MapConfig
 import com.sevenreup.fhir.core.utils.readFile
 import com.sevenreup.fhir.core.utilities.TransformSupportServices
+import com.sevenreup.fhir.core.utils.CoreResponse
 import org.apache.commons.io.FilenameUtils
 import org.hl7.fhir.r4.context.SimpleWorkerContext
 import org.hl7.fhir.r4.model.Bundle
@@ -19,25 +20,22 @@ import org.hl7.fhir.utilities.npm.FilesystemPackageCacheManager
 import org.hl7.fhir.utilities.npm.ToolsVersion
 
 object ParseJsonCommands {
-    fun parse(path: String) {
+    fun parse(
+        path: String,
+        iParser: IParser,
+        scu: StructureMapUtilities,
+        contextR4: SimpleWorkerContext
+    ): CoreResponse<Map<String, String>> {
         val rawJson = path.readFile()
         val gson = Gson()
         val config = gson.fromJson(rawJson, JsonConfig::class.java)
 
-        val iParser: IParser = FhirContext.forCached(FhirVersionEnum.R4).newJsonParser()
-        val pcm = FilesystemPackageCacheManager(true, ToolsVersion.TOOLS_VERSION)
-        val contextR4 = SimpleWorkerContext.fromPackage(pcm.loadPackage("hl7.fhir.r4.core", "4.0.1"))
-        contextR4.setExpansionProfile(Parameters())
-        contextR4.isCanRunWithoutTerminology = true
-        val scu = StructureMapUtilities(contextR4, TransformSupportServices(contextR4))
-
-        config.response.forEach { res ->
+        val data = config.response.toHashSet().map { res ->
             val bundle = parseBundle(iParser, contextR4, scu, path.getParentPath(), config.map, res)
-            println("\n--------Start {${FilenameUtils.getName(bundle.file)}}--------\n")
-            println(iParser.encodeResourceToString(bundle.data))
-            println("\n------End----------\n")
+            FilenameUtils.getName(bundle.file) to iParser.encodeResourceToString(bundle.data)
+        }.toMap()
 
-        }
+        return CoreResponse(data = data)
     }
 
     fun parseBundle(

@@ -1,8 +1,8 @@
-package com.sevenreup.fhir.server
+package server
 
 import com.github.arteam.simplejsonrpc.server.JsonRpcServer
-import com.sevenreup.fhir.server.sockets.Connection
-import com.sevenreup.fhir.server.sockets.SocketTransport
+import server.sockets.Connection
+import server.sockets.SocketTransport
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*

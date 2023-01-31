@@ -22,6 +22,7 @@ dependencies {
     implementation("io.ktor:ktor-server-core:2.2.2")
     implementation("io.ktor:ktor-server-netty:2.2.2")
     implementation("io.ktor:ktor-server-websockets:2.2.2")
+    implementation(project(mapOf("path" to ":core")))
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.0")

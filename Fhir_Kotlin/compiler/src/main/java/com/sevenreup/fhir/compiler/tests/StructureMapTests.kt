@@ -6,7 +6,6 @@ import ca.uhn.fhir.parser.IParser
 import com.google.gson.Gson
 import com.jayway.jsonpath.Configuration
 import com.jayway.jsonpath.JsonPath
-import com.jayway.jsonpath.spi.json.GsonJsonProvider
 import com.sevenreup.fhir.compiler.models.MapConfig
 import com.sevenreup.fhir.compiler.parsing.ParseJsonCommands
 import com.sevenreup.fhir.compiler.utilities.TransformSupportServices

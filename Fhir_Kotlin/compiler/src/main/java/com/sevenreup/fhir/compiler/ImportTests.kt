@@ -7,7 +7,6 @@ import org.hl7.fhir.r4.model.StructureMap
 import com.sevenreup.fhir.compiler.structure_maps.createStructureMapFromFile
 import com.sevenreup.fhir.compiler.utils.getAbsolutePath
 import com.sevenreup.fhir.compiler.utils.getParentPath
-import com.sevenreup.fhir.compiler.utils.readFile
 
 private data class StructureHash(val mode: StructureMap.StructureMapModelMode, val url: String)
 

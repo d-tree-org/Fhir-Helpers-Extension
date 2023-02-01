@@ -17,7 +17,7 @@ export async function compileMap(
       path.join("bin", "compile", "compile.jar")
     );
 
-    const process = await execShell(`java -jar ${compilerPath} ${filePath}`);
+    const process = await execShell(`java -jar ${compilerPath} compile ${filePath}`);
     console.log(process);
 
     return getJsonOutput(process);

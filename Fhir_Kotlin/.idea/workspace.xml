@@ -5,17 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c3237d43-2c58-4473-81bb-2ff6a2b9b529" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/compiler/resource_parser.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/utils/Response.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cli/src/main/kotlin/com/sevenreup/fhir/cli/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/cli/src/main/kotlin/com/sevenreup/fhir/cli/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/parsing/ParseJsonCommands.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/parsing/ParseJsonCommands.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/utils/Helpers.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/utils/Helpers.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/server/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/FhirService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/kotlin/server/FhirService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/kotlin/server/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/sockets/Connection.kt" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/kotlin/server/sockets/Connection.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/sevenreup/fhir/server/sockets/SocketTransport.kt" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/kotlin/server/sockets/SocketTransport.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/pnpm-lock.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/src/extension.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/src/extension.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/src/features/lsp.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/src/features/preview.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vscode_extension/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vscode_extension/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vscode_extension/server/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vscode_extension/server/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vscode_extension/server/src/server.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vscode_extension/server/tsconfig.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +29,58 @@
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$/cli">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="FHIRCompiler" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="FHIRCompiler" type="f1a62948:ProjectNode" />
+                <item name="cli" type="2d1252cf:ModuleNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="FHIRCompiler" type="f1a62948:ProjectNode" />
+                <item name="cli" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="FHIRCompiler" type="f1a62948:ProjectNode" />
+                <item name="cli" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="FHIRCompiler" type="f1a62948:ProjectNode" />
+                <item name="cli" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="shadow" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="FHIRCompiler" type="f1a62948:ProjectNode" />
+                <item name="cli" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="verification" type="c8890929:TasksNode$1" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -54,7 +109,8 @@
     &quot;last_opened_file_path&quot;: &quot;D:/Work/dev/fhir-lsp/Fhir_Kotlin/core/src/main/kotlin/com/sevenreup/fhir/core&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -71,11 +127,32 @@
       <recent name="com.sevenreup.fhir.server" />
     </key>
   </component>
-  <component name="RunManager" selected="Kotlin.Server">
+  <component name="RunManager" selected="Gradle.Fhir_Kotlin:cli [shadowJar]">
+    <configuration name="Fhir_Kotlin:cli [shadowJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/cli" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="shadowJar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
     <configuration name="Cli" type="JetRunConfigurationType">
       <option name="MAIN_CLASS_NAME" value="com.sevenreup.fhir.cli.MainKt" />
       <module name="FHIRCompiler.cli.main" />
-      <option name="PROGRAM_PARAMETERS" value="transform_batch D:\Work\dev\fhir-resources\mwcore\structure_map\tracing\phone_tracing\test.json" />
+      <option name="PROGRAM_PARAMETERS" value="compile D:\Work\dev\fhir-resources\mwcore\structure_map\tracing\phone_tracing\phone_tracing_outcomes.map" />
       <shortenClasspath name="NONE" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -90,11 +167,13 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Gradle.Fhir_Kotlin:cli [shadowJar]" />
       <item itemvalue="Kotlin.Cli" />
       <item itemvalue="Kotlin.Server" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.Fhir_Kotlin:cli [shadowJar]" />
         <item itemvalue="Kotlin.Server" />
       </list>
     </recent_temporary>
@@ -138,5 +217,9 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

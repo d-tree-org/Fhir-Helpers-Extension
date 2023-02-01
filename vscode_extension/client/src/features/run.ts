@@ -15,9 +15,10 @@ import {
 } from "vscode";
 import { Feature } from "../feature.type";
 import { isMapFile } from "../utils";
+import { AvailableCommands } from '../utils/constants';
 import { compileMap } from "./compile";
 
-export default class Preview implements Feature {
+export default class RunCode implements Feature {
   private openedDocuments: string[] = [];
   private previewOpen = false;
   private subscriptions: Disposable[];
@@ -28,7 +29,7 @@ export default class Preview implements Feature {
     this.context = context;
     this.subscriptions = context.subscriptions;
     this.subscriptions.push(
-      commands.registerCommand("map.previewToSide", () => {
+      commands.registerCommand(AvailableCommands.compile, () => {
         window.showInformationMessage("Structure Map Compilation Started");
         getOutputChannel().clear();
         if (window.activeTextEditor) {

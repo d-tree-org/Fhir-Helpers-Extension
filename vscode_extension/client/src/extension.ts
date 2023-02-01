@@ -2,8 +2,7 @@ import { ExtensionContext, workspace } from "vscode";
 
 import { Feature } from "./feature.type";
 import { Formatter } from "./features/formatter";
-import { LanguageServer } from "./features/lsp";
-import Preview from "./features/preview";
+import RunCode from "./features/run";
 
 let context: ExtensionContext;
 let extensionFeatures: Feature[] = [];
@@ -12,9 +11,8 @@ export function activate(context: ExtensionContext) {
   this.context = context;
 
   extensionFeatures = [
-    new Preview(context),
+    new RunCode(context),
     new Formatter(context.subscriptions),
-    new LanguageServer({ context, config: workspace.getConfiguration("fml") }),
   ];
 }
 

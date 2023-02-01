@@ -3,19 +3,19 @@ package com.sevenreup.fhir.cli
 import com.sevenreup.fhir.core.compiler.ResourceParser
 import com.sevenreup.fhir.core.importTests
 import com.sevenreup.fhir.core.parseBundle
-import com.sevenreup.fhir.core.parsing.ParseJsonCommands
 import com.sevenreup.fhir.core.tests.StructureMapTests
 import com.sevenreup.fhir.core.utils.formatStructureMap
 import com.sevenreup.fhir.core.utils.strJsonToMap
 import com.sevenreup.fhir.core.utils.verifyQuestionnaire
 
 fun main(args: Array<String>) {
+    val parser = ResourceParser()
     if (args.isNotEmpty()) {
         when (args[0]) {
             "compile" -> {
                 val path = args[1]
 
-                val resString = ResourceParser().parseStructureMapFromMap(path)
+                val resString = parser.parseStructureMapFromMap(path)
 
                 println("\n\nMAP_OUTPUT_STARTS_HERE\n\n")
                 println(resString.data)
@@ -51,7 +51,7 @@ fun main(args: Array<String>) {
 
             "transform_batch" -> {
                 val path = args[1]
-                ParseJsonCommands.parse(path)
+                parser.parseTransformFromJson(path)
             }
 
             "test" -> {

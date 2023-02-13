@@ -3,6 +3,7 @@ import { ExtensionContext, workspace } from "vscode";
 import { Feature } from "./feature.type";
 import { Formatter } from "./features/formatter";
 import RunCode from "./features/run";
+import { Server } from './features/server';
 
 let context: ExtensionContext;
 let extensionFeatures: Feature[] = [];
@@ -13,6 +14,7 @@ export function activate(context: ExtensionContext) {
   extensionFeatures = [
     new RunCode(context),
     new Formatter(context.subscriptions),
+    new Server(context)
   ];
 }
 

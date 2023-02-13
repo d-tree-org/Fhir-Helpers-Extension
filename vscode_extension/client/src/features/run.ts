@@ -15,7 +15,7 @@ import {
 } from "vscode";
 import { Feature } from "../feature.type";
 import { isMapFile } from "../utils";
-import { AvailableCommands } from '../utils/constants';
+import { AvailableCommands } from "../utils/constants";
 import { compileMap } from "./compile";
 
 export default class RunCode implements Feature {
@@ -50,6 +50,9 @@ export default class RunCode implements Feature {
             "Active editor doesn't show a MJML document."
           );
         }
+      }),
+      commands.registerCommand(AvailableCommands.runFile, () => {
+        console.log("here");
       }),
 
       workspace.onDidOpenTextDocument((document?: TextDocument) => {

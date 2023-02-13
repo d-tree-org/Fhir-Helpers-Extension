@@ -21,9 +21,7 @@
     "vscode": "^1.63.0"
   },
   "activationEvents": [
-    "onLanguage:plaintext",
-    "onCommand:fhir-map.previewToSide",
-    "onCommand:fhir-map.beautify"
+    "*"
   ],
   "main": "./client/out/extension",
   "contributes": {
@@ -83,6 +81,12 @@
         "icon": "$(play)"
       },
       {
+        "command": "fhir-map.runConfigFile",
+        "title": "Build Structuremap config",
+        "category": "Structure Map",
+        "icon": "$(play)"
+      },
+      {
         "command": "fhir-map.beautify",
         "title": "Beautify",
         "category": "Structure Map"
@@ -94,6 +98,11 @@
           "when": "resourceExtname == .map && config.fhir-map.showRunCommandInEditorContextMenu",
           "command": "fhir-map.previewToSide",
           "group": "navigation"
+        },
+        {
+          "when": "resourceFilename =~ /.*map.test.json$/ && config.fhir-map.showRunCommandInEditorContextMenu",
+          "command": "fhir-map.runConfigFile",
+          "group": "navigation"
         }
       ],
       "editor/title/run": [
@@ -101,12 +110,22 @@
           "when": "resourceExtname == .map && config.fhir-map.showRunIconInEditorTitleMenu",
           "command": "fhir-map.previewToSide",
           "group": "navigation"
+        },
+        {
+          "when": "resourceFilename =~ /.*map.test.json$/ && config.fhir-map.showRunCommandInEditorContextMenu",
+          "command": "fhir-map.runConfigFile",
+          "group": "navigation"
         }
       ],
       "explorer/context": [
         {
           "when": "!explorerResourceIsFolder && resourceExtname == .map && config.fhir-map.showRunCommandInExplorerContextMenu",
           "command": "fhir-map.previewToSide",
+          "group": "navigation"
+        },
+        {
+          "when": "resourceFilename =~ /.*map.test.json$/ && config.fhir-map.showRunCommandInEditorContextMenu",
+          "command": "fhir-map.runConfigFile",
           "group": "navigation"
         }
       ]

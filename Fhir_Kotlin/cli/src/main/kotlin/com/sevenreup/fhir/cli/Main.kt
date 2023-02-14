@@ -51,7 +51,11 @@ fun main(args: Array<String>) {
 
             "transform_batch" -> {
                 val path = args[1]
-                parser.parseTransformFromJson(path)
+                val data = parser.parseTransformFromJson(path)
+                data.data?.entries?.forEach {
+                    println("-----" + it.key + "----")
+                    println(it.value)
+                }
             }
 
             "test" -> {

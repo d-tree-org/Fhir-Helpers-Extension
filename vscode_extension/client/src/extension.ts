@@ -1,20 +1,25 @@
-import { ExtensionContext, workspace } from "vscode";
+import { ExtensionContext } from "vscode";
 
 import { Feature } from "./feature.type";
 import { Formatter } from "./features/formatter";
+import CompileStrMap from "./features/compile";
+import { Server } from "./features/server";
 import RunCode from "./features/run";
-import { Server } from './features/server';
+import { ServerManager } from "./core/server";
 
 let context: ExtensionContext;
 let extensionFeatures: Feature[] = [];
+let serverManager: ServerManager;
 
 export function activate(context: ExtensionContext) {
   this.context = context;
+  serverManager = new ServerManager(context);
 
   extensionFeatures = [
-    new RunCode(context),
+    new CompileStrMap(context),
+    new RunCode(serverManager),
     new Formatter(context.subscriptions),
-    new Server(context)
+    new Server(serverManager),
   ];
 }
 

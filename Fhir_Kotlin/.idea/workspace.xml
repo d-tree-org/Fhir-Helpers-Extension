@@ -6,12 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="c3237d43-2c58-4473-81bb-2ff6a2b9b529" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cli/src/main/kotlin/com/sevenreup/fhir/cli/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/cli/src/main/kotlin/com/sevenreup/fhir/cli/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/kotlin/server/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/kotlin/server/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/src/extension.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/src/extension.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/src/features/compile.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/src/features/compile.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../vscode_extension/client/src/features/run.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/src/features/run.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/src/utils/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/src/utils/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/src/test/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/src/test/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/tsconfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -6,11 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="c3237d43-2c58-4473-81bb-2ff6a2b9b529" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/StructureMapTests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/StructureMapTests.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../vscode_extension/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../vscode_extension/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/src/core/util/temp.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/src/core/util/temp.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../vscode_extension/client/src/features/run.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/src/features/run.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/src/test/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/src/test/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/tsconfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +119,7 @@
       <recent name="com.sevenreup.fhir.server" />
     </key>
   </component>
-  <component name="RunManager" selected="Kotlin.Server">
+  <component name="RunManager" selected="Kotlin.Cli">
     <configuration name="Fhir_Kotlin:cli [shadowJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -144,13 +144,13 @@
     <configuration name="Cli" type="JetRunConfigurationType">
       <option name="MAIN_CLASS_NAME" value="com.sevenreup.fhir.cli.MainKt" />
       <module name="FHIRCompiler.cli.main" />
-      <option name="PROGRAM_PARAMETERS" value="transform_batch D:\Work\dev\fhir-resources\mwcore\structure_map\visit\art_client\viral_load_collection\test.map.test.json" />
+      <option name="PROGRAM_PARAMETERS" value="transform_batch D:\Work\dev\fhir-resources\mwcore\structure_map\tracing\home_tracing\test.map.test.json" />
       <shortenClasspath name="NONE" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Server" type="JetRunConfigurationType" temporary="true">
+    <configuration name="Server" type="JetRunConfigurationType">
       <option name="MAIN_CLASS_NAME" value="server.MainKt" />
       <module name="FHIRCompiler.server.main" />
       <shortenClasspath name="MANIFEST" />
@@ -165,7 +165,6 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Kotlin.Server" />
         <item itemvalue="Gradle.Fhir_Kotlin:cli [shadowJar]" />
       </list>
     </recent_temporary>
@@ -231,15 +230,9 @@
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <condition expression="ruleId == &quot;r_get_appointment_id&quot;" language="JAVA" />
-          <url>jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/ca.uhn.hapi.fhir/org.hl7.fhir.r4/5.3.0/7e1b8059d167bc1c57aa3d2d557b7b06717e5603/org.hl7.fhir.r4-5.3.0-sources.jar!/org/hl7/fhir/r4/utils/StructureMapUtilities.java</url>
-          <line>1883</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/ca.uhn.hapi.fhir/org.hl7.fhir.r4/5.3.0/7e1b8059d167bc1c57aa3d2d557b7b06717e5603/org.hl7.fhir.r4-5.3.0-sources.jar!/org/hl7/fhir/r4/utils/StructureMapUtilities.java</url>
-          <line>1882</line>
-          <option name="timeStamp" value="13" />
+          <url>jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/ca.uhn.hapi.fhir/hapi-fhir-base/5.3.0/43fef9cb0c905636fbb8ec265fb32f4c037b9a86/hapi-fhir-base-5.3.0-sources.jar!/ca/uhn/fhir/parser/BaseParser.java</url>
+          <line>512</line>
+          <option name="timeStamp" value="14" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

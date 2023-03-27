@@ -2,6 +2,8 @@ import {
   commands,
   EventEmitter,
   ProviderResult,
+  Tab,
+  TabInputText,
   TextDocumentContentProvider,
   Uri,
   ViewColumn,
@@ -13,11 +15,16 @@ import { isTestMapFile } from "../utils";
 import { AvailableCommands } from "../utils/constants";
 import { runConfMap } from "../core/run";
 import { IServerManager } from "../core/server";
-import { temporaryWrite } from "../core/util/temp";
+import { format } from "prettier";
+import { temporaryDirectory, temporaryWrite } from "../core/util/temp";
+import { createHash } from "node:crypto";
+import path from "node:path";
+import fs from "node:fs";
 
 export default class RunCode implements Feature {
   conf: IServerManager;
   data?: any = "";
+  currentDir = "";
 
   constructor(serverConf: IServerManager) {
     this.conf = serverConf;
@@ -35,12 +42,13 @@ export default class RunCode implements Feature {
       const server = this.conf.server;
       if (server != null) {
         const data = await runConfMap(doc, server);
-        this.openDoc(data);
+        this.openDoc(data, doc.fileName);
       }
     }
   }
   private init(subscriptions) {
     const myScheme = "cowsay";
+    this.currentDir = temporaryDirectory();
     const myProvider = new (class implements TextDocumentContentProvider {
       onDidChangeEmitter = new EventEmitter<Uri>();
       onDidChange = this.onDidChangeEmitter.event;
@@ -63,31 +71,57 @@ export default class RunCode implements Feature {
       workspace.registerTextDocumentContentProvider(myScheme, myProvider)
     );
   }
-  private async openDoc(data: any) {
+  private async openDoc(data: any, fileName: string) {
     this.data = data;
-    const path = await temporaryWrite(
-      JSON.stringify(cleanData(data), null, 0),
-      "temp.json"
+
+    const text = JSON.stringify(cleanData(data));
+    const filePath = await temporaryWrite(
+      format(text, { parser: "json" }),
+      getFileName(fileName),
+      {
+        dir: this.currentDir,
+      }
     );
-    const uri = Uri.parse(`cowsay:${path}`);
-    const doc = await workspace.openTextDocument(uri);
-    await window.showTextDocument(doc, {
+    const doc = await workspace.openTextDocument(filePath);
+    const editor = await window.showTextDocument(doc, {
       preview: false,
       viewColumn: ViewColumn.Two,
     });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  dispose(): void {}
+  dispose(): void {
+    if (this.currentDir !== "") {
+      closeFileIfOpen(this.currentDir);
+      fs.rmSync(this.currentDir, { recursive: true, force: true });
+    }
+  }
+}
+
+function getFileName(file: string) {
+  const has = createHash("MD5", {});
+  has.update(file);
+  return `${path.basename(path.dirname(file))}-${has.digest("hex")}.json`;
 }
 
 function cleanData(data: any) {
+  const cleaned = {};
   for (const key in data) {
     if (Object.prototype.hasOwnProperty.call(data, key)) {
       const element = data[key];
       const obj = JSON.parse(element);
-      data[key] = obj;
+      cleaned[key] = [obj];
     }
   }
-  return data;
+  return cleaned;
+}
+
+async function closeFileIfOpen(dir: string): Promise<void> {
+  const tabs: Tab[] = window.tabGroups.all.map((tg) => tg.tabs).flat();
+  const index = tabs.findIndex(
+    (tab) =>
+      tab.input instanceof TabInputText && tab.input.uri.fsPath.includes(dir)
+  );
+  if (index !== -1) {
+    await window.tabGroups.close(tabs[index]);
+  }
 }

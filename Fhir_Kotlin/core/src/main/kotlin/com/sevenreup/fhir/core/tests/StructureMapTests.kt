@@ -44,14 +44,15 @@ object StructureMapTests {
                     val result: String = JsonPath.read(document, verify.path)
                     when(verify.type) {
                         "equals" -> {
-                            println("${result == verify.value}, $result")
+                            val passed = result == verify.value
+                            println("${if(passed) "✅ Passed" else "❌ Failed"}, $result")
                         }
                         else -> {
 
                         }
                     }
                 } catch (e: Exception) {
-
+                    print(e)
                 }
             }
         }

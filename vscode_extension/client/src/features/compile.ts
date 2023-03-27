@@ -1,10 +1,11 @@
-import { basename } from "path";
 import {
   commands,
   Disposable,
   ExtensionContext,
   OutputChannel,
+  Position,
   ProgressLocation,
+  Range,
   TextDocument,
   TextDocumentChangeEvent,
   TextEditor,
@@ -46,9 +47,7 @@ export default class CompileStrMap implements Feature {
             }
           );
         } else {
-          window.showErrorMessage(
-            "Active editor doesn't show a Map document."
-          );
+          window.showErrorMessage("Active editor doesn't show a Map document.");
         }
       }),
 
@@ -120,38 +119,20 @@ export default class CompileStrMap implements Feature {
     }
     try {
       const content = await this.getContent(document);
-      const label = `Map Preview - ${basename(
-        activeTextEditor.document.fileName
-      )}`;
-      if (!this.webview) {
-        this.webview = window.createWebviewPanel(
-          "map-preview",
-          label,
-          ViewColumn.Two,
-          {
-            retainContextWhenHidden: true,
-          }
-        );
 
-        this.webview.webview.html = content;
+      const textDocument = await workspace.openTextDocument({
+        language: "json",
+        content: content,
+      });
 
-        this.webview.onDidDispose(
-          () => {
-            this.webview = undefined;
-            this.previewOpen = false;
-          },
-          null,
-          this.subscriptions
-        );
+      const textEditor = await window.showTextDocument(textDocument, {
+        preview: false,
+        preserveFocus: false,
+        viewColumn: ViewColumn.Two,
+        selection: new Range(new Position(0, 0), new Position(0, 0)),
+      });
 
-        if (workspace.getConfiguration("map").preserveFocus) {
-          // Preserve focus of Text Editor after preview open
-          window.showTextDocument(activeTextEditor.document, ViewColumn.One);
-        }
-      } else {
-        this.webview.title = label;
-        this.webview.webview.html = content;
-      }
+      commands.executeCommand("editor.action.formatDocument");
     } catch (e) {
       getOutputChannel().appendLine(e);
       getOutputChannel().show(true);

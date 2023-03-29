@@ -11,6 +11,7 @@ import com.sevenreup.fhir.core.parsing.ParseJsonCommands
 import com.sevenreup.fhir.core.utilities.TransformSupportServices
 import com.sevenreup.fhir.core.utils.getParentPath
 import com.sevenreup.fhir.core.utils.readFile
+import net.minidev.json.JSONArray
 import org.hl7.fhir.r4.context.SimpleWorkerContext
 import org.hl7.fhir.r4.model.Parameters
 import org.hl7.fhir.r4.utils.StructureMapUtilities
@@ -30,7 +31,7 @@ object StructureMapTests {
         contextR4.setExpansionProfile(Parameters())
         contextR4.isCanRunWithoutTerminology = true
         val scu = StructureMapUtilities(contextR4, TransformSupportServices(contextR4))
-        var fileTestResults = mutableListOf<FileTestResult>()
+        val fileTestResults = mutableListOf<FileTestResult>()
 
         var passedFiles = 0
         var failedFiles = 0
@@ -45,30 +46,55 @@ object StructureMapTests {
                 Configuration.defaultConfiguration().jsonProvider().parse(jsonString)
             val status = mutableListOf<TestStatus>()
 
-            var hasFailed = false
             var passedTests = 0
             var failedTests = 0
 
             for (verify in test.verify) {
-                try {
-                    val result: String = JsonPath.read(document, verify.path)
-                    when (verify.type) {
-                        "equals" -> {
-                            val passed = result == verify.value
+                var passed = false
+                var error: Exception? = null
+                var result: String? = null
 
-                            if (passed) {
-                                passedTests++
-                            } else {
-                                hasFailed = true
-                                failedTests++
+                try {
+                    val resultRaw: Any = JsonPath.read(document, verify.path)
+                    result = if (resultRaw is JSONArray) {
+                        resultRaw.firstOrNull()?.toString() ?: ""
+                    } else {
+                        resultRaw.toString()
+                    }
+                    when (verify.type) {
+                        "eq" -> {
+                            passed = result == verify.value
+                            if (!passed) {
+                                error = Exception("Expected: ${verify.value} but got $result instead")
                             }
-                            status.add(
-                                TestStatus(
-                                    passed = passed,
-                                    value = result,
-                                    expected = verify.value
-                                )
-                            )
+                        }
+
+                        "gt", "gte" -> {
+                            val expected = verify.value.toBigDecimalOrNull()
+                            val value = result.toBigDecimalOrNull()
+
+                            if (expected == null || value == null) {
+                                passed = false
+                                error = Exception("Expected number got {value: $value, expected: $expected")
+                            } else {
+                                passed = if (verify.type == "gt") value > expected else value >= expected
+                                if (!passed)
+                                    error = Exception("Expected: $value ${testTypeNameMap[verify.type]} $expected")
+                            }
+                        }
+
+                        "lt", "lte" -> {
+                            val expected = verify.value.toBigDecimalOrNull()
+                            val value = result.toBigDecimalOrNull()
+
+                            if (expected == null || value == null) {
+                                passed = false
+                                error = Exception("Expected number got {value: $value, expected: $expected")
+                            } else {
+                                passed = if (verify.type == "lt") value < expected else value <= expected
+                                if (!passed)
+                                    error = Exception("Expected: $value ${testTypeNameMap[verify.type]} $expected")
+                            }
                         }
 
                         else -> {
@@ -79,24 +105,34 @@ object StructureMapTests {
                     if (e is ClassCastException) {
                         val failedToCastToString = e.message?.contains("Array")
                         println(failedToCastToString)
+                        // TODO: Work on array
                     }
-                    println(e)
-                    hasFailed = true
-                    failedTests++
-                    status.add(
-                        TestStatus(
-                            passed = false,
-                            value = e.message,
-                            expected = verify.value,
-                            exception = e
-                        )
-                    )
+                    passed = false
+                    error = e
                 }
+                if (passed)
+                    passedTests++ else failedTests++
+                status.add(
+                    TestStatus(
+                        passed = passed, value = result, expected = verify.value, exception = error
+                    )
+                )
             }
 
-            if (hasFailed) failedFiles++ else passedFiles++
-
-            fileTestResults.add(FileTestResult(file = test.response, tests = test.verify.size,passed = passedTests, failed = failedTests, testResults = status))
+            if (failedTests > 0) {
+                failedFiles++
+            } else {
+                passedFiles++
+            }
+            fileTestResults.add(
+                FileTestResult(
+                    file = test.response,
+                    tests = test.verify.size,
+                    passed = passedTests,
+                    failed = failedTests,
+                    testResults = status
+                )
+            )
         }
 
         return TestResult(
@@ -108,13 +144,24 @@ object StructureMapTests {
     }
 }
 
-data class FileTestResult(val file: String, val tests: Int, val passed: Int, val failed: Int, val testResults: List<TestStatus>)
+data class FileTestResult(
+    val file: String,
+    val tests: Int,
+    val passed: Int,
+    val failed: Int,
+    val testResults: List<TestStatus>
+)
+
 data class TestStatus(
     val passed: Boolean,
-    val value: String? = null,
+    val value: Any? = null,
     val expected: String? = null,
     val exception: Exception? = null
-)
+) {
+    fun createException(message: String) {
+
+    }
+}
 
 data class TestResult(
     val fileResults: List<FileTestResult>,

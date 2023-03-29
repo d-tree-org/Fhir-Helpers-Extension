@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c3237d43-2c58-4473-81bb-2ff6a2b9b529" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/cli/src/main/kotlin/com/sevenreup/fhir/cli/commands/tests.kt" afterDir="false" />
+    <list default="true" id="c3237d43-2c58-4473-81bb-2ff6a2b9b529" name="Changes" comment="move all test printing code to cli">
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/Utils.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cli/src/main/kotlin/com/sevenreup/fhir/cli/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/cli/src/main/kotlin/com/sevenreup/fhir/cli/Main.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cli/src/main/kotlin/com/sevenreup/fhir/cli/commands/tests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/cli/src/main/kotlin/com/sevenreup/fhir/cli/commands/tests.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/StructureMapTests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/StructureMapTests.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -76,6 +76,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Kotlin Class" />
+        <option value="Kotlin File" />
       </list>
     </option>
   </component>
@@ -176,6 +177,14 @@
       <option name="presentableId" value="Default" />
       <updated>1675148082012</updated>
     </task>
+    <task id="LOCAL-00001" summary="move all test printing code to cli">
+      <created>1680081402915</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1680081402915</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -188,6 +197,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="move all test printing code to cli" />
+    <option name="LAST_COMMIT_MESSAGE" value="move all test printing code to cli" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -209,6 +222,16 @@
           <url>file://$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/ImportTests.kt</url>
           <line>15</line>
           <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/cli/src/main/kotlin/com/sevenreup/fhir/cli/commands/tests.kt</url>
+          <line>30</line>
+          <option name="timeStamp" value="24" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/StructureMapTests.kt</url>
+          <line>86</line>
+          <option name="timeStamp" value="30" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <condition expression="rule.getName() == &quot;r_appointment_id&quot;" language="JAVA" />

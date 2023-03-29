@@ -1,5 +1,6 @@
 package com.sevenreup.fhir.cli
 
+import com.sevenreup.fhir.cli.commands.runTests
 import com.sevenreup.fhir.core.compiler.ResourceParser
 import com.sevenreup.fhir.core.importTests
 import com.sevenreup.fhir.core.parseBundle
@@ -60,7 +61,7 @@ fun main(args: Array<String>) {
 
             "test" -> {
                 val path = args[1]
-                StructureMapTests.test(path)
+                runTests(path)
             }
 
             else -> {

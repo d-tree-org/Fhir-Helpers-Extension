@@ -16,9 +16,10 @@ import org.hl7.fhir.r4.model.Parameters
 import org.hl7.fhir.r4.utils.StructureMapUtilities
 import org.hl7.fhir.utilities.npm.FilesystemPackageCacheManager
 import org.hl7.fhir.utilities.npm.ToolsVersion
+import java.lang.ClassCastException
 
 object StructureMapTests {
-    fun test(path: String) {
+    fun test(path: String): TestResult {
         val rawJson = path.readFile()
         val gson = Gson()
         val config = gson.fromJson(rawJson, JsonConfig::class.java)
@@ -29,6 +30,10 @@ object StructureMapTests {
         contextR4.setExpansionProfile(Parameters())
         contextR4.isCanRunWithoutTerminology = true
         val scu = StructureMapUtilities(contextR4, TransformSupportServices(contextR4))
+        var fileTestResults = mutableListOf<FileTestResult>()
+
+        var passedFiles = 0
+        var failedFiles = 0
 
         for (test in config.tests) {
             val bundle =
@@ -38,26 +43,85 @@ object StructureMapTests {
 
             val document =
                 Configuration.defaultConfiguration().jsonProvider().parse(jsonString)
+            val status = mutableListOf<TestStatus>()
+
+            var hasFailed = false
+            var passedTests = 0
+            var failedTests = 0
+
             for (verify in test.verify) {
                 try {
-
                     val result: String = JsonPath.read(document, verify.path)
-                    when(verify.type) {
+                    when (verify.type) {
                         "equals" -> {
                             val passed = result == verify.value
-                            println("${if(passed) "✅ Passed" else "❌ Failed"}, $result")
+
+                            if (passed) {
+                                passedTests++
+                            } else {
+                                hasFailed = true
+                                failedTests++
+                            }
+                            status.add(
+                                TestStatus(
+                                    passed = passed,
+                                    value = result,
+                                    expected = verify.value
+                                )
+                            )
                         }
+
                         else -> {
 
                         }
                     }
                 } catch (e: Exception) {
-                    print(e)
+                    if (e is ClassCastException) {
+                        val failedToCastToString = e.message?.contains("Array")
+                        println(failedToCastToString)
+                    }
+                    println(e)
+                    hasFailed = true
+                    failedTests++
+                    status.add(
+                        TestStatus(
+                            passed = false,
+                            value = e.message,
+                            expected = verify.value,
+                            exception = e
+                        )
+                    )
                 }
             }
+
+            if (hasFailed) failedFiles++ else passedFiles++
+
+            fileTestResults.add(FileTestResult(file = test.response, tests = test.verify.size,passed = passedTests, failed = failedTests, testResults = status))
         }
+
+        return TestResult(
+            fileTestResults,
+            failed = failedFiles,
+            passed = passedFiles,
+            files = config.tests.size
+        )
     }
 }
+
+data class FileTestResult(val file: String, val tests: Int, val passed: Int, val failed: Int, val testResults: List<TestStatus>)
+data class TestStatus(
+    val passed: Boolean,
+    val value: String? = null,
+    val expected: String? = null,
+    val exception: Exception? = null
+)
+
+data class TestResult(
+    val fileResults: List<FileTestResult>,
+    val failed: Int,
+    val passed: Int,
+    val files: Int
+)
 
 data class JsonConfig(
     val type: String,

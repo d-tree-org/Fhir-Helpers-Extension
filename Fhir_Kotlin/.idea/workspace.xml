@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c3237d43-2c58-4473-81bb-2ff6a2b9b529" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/cli/src/main/kotlin/com/sevenreup/fhir/cli/commands/tests.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cli/src/main/kotlin/com/sevenreup/fhir/cli/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/cli/src/main/kotlin/com/sevenreup/fhir/cli/Main.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/StructureMapTests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/StructureMapTests.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/src/core/util/temp.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/src/core/util/temp.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/src/features/run.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/src/features/run.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,7 +142,7 @@
     <configuration name="Cli" type="JetRunConfigurationType">
       <option name="MAIN_CLASS_NAME" value="com.sevenreup.fhir.cli.MainKt" />
       <module name="FHIRCompiler.cli.main" />
-      <option name="PROGRAM_PARAMETERS" value="transform_batch D:\Work\dev\fhir-resources\mwcore\structure_map\tracing\home_tracing\test.map.test.json" />
+      <option name="PROGRAM_PARAMETERS" value="test D:\Work\dev\fhir-resources\mwcore\structure_map\test_results\exposed_infant_hiv_test_and_results\test.map.test_copy.json" />
       <shortenClasspath name="NONE" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -236,6 +234,11 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="java.util.LinkedHashMap$Entry" memberName="value" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

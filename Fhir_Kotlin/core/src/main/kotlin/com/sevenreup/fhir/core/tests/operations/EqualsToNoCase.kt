@@ -5,7 +5,7 @@ import com.sevenreup.fhir.core.tests.TestStatus
 import com.sevenreup.fhir.core.tests.TestTypes
 
 class EqualsToNoCase : Operation {
-    override fun execute(value: Any, expected: Any): TestStatus {
+    override fun execute(value: Any?, expected: Any?): TestStatus {
         return if (value is String) {
             val passed = value.equals(expected.toString(), ignoreCase = true)
             var error: Exception? = null

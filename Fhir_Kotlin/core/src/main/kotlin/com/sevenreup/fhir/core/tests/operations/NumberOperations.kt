@@ -15,7 +15,7 @@ open class NumberOperations : Operation {
         TODO("Implement this in the class that inherits")
     }
 
-    override fun execute(value: Any, expected: Any): TestStatus {
+    override fun execute(value: Any?, expected: Any?): TestStatus {
         return if (value is String && expected is String) {
             val expectedNumber = expected.toBigDecimalOrNull()
             val valueNumber = value.toBigDecimalOrNull()

@@ -13,13 +13,11 @@ import com.sevenreup.fhir.core.utilities.TransformSupportServices
 import com.sevenreup.fhir.core.utils.getParentPath
 import com.sevenreup.fhir.core.utils.readFile
 import net.minidev.json.JSONArray
-import net.sf.ehcache.search.expression.NotEqualTo
 import org.hl7.fhir.r4.context.SimpleWorkerContext
 import org.hl7.fhir.r4.model.Parameters
 import org.hl7.fhir.r4.utils.StructureMapUtilities
 import org.hl7.fhir.utilities.npm.FilesystemPackageCacheManager
 import org.hl7.fhir.utilities.npm.ToolsVersion
-import java.lang.ClassCastException
 
 object StructureMapTests {
     fun test(path: String): TestResult {
@@ -66,6 +64,7 @@ object StructureMapTests {
                     val operation = when (verify.type) {
                         TestTypes.Equals -> EqualsTo()
                         TestTypes.EqualsNoCase -> EqualsToNoCase()
+                        TestTypes.NotEquals -> NotEqualsTo()
                         TestTypes.LessThan -> LessThan()
                         TestTypes.LessThanOrEqual -> LessThanOrEqual()
                         TestTypes.GreaterThan -> GreaterThan()
@@ -74,6 +73,15 @@ object StructureMapTests {
                         TestTypes.NotContains -> NotContains()
                         TestTypes.ContainsNoCase -> ContainsNoCase()
                         TestTypes.NotContainsNoCase -> NotContainsNoCase()
+                        TestTypes.Null -> Null()
+                        TestTypes.NotNull -> NotNull()
+                        // TODO: Null
+                        // TODO: NotNull
+                        // TODO: Between
+                        TestTypes.StartsWith -> StartsWith()
+                        TestTypes.StartsWithNoCase -> StartsWithNoCase()
+                        TestTypes.EndsWith -> EndsWith()
+                        TestTypes.EndsWithNoCase -> EndsWithNoCase()
                         else -> null
                     }
 

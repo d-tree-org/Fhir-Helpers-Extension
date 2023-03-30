@@ -4,12 +4,12 @@ import com.sevenreup.fhir.core.tests.Operation
 import com.sevenreup.fhir.core.tests.TestStatus
 import com.sevenreup.fhir.core.tests.TestTypes
 
-class EqualsTo : Operation {
+class NotNull : Operation {
     override fun execute(value: Any?, expected: Any?): TestStatus {
-        val passed = expected == value
+        val passed = value != null
         var error: Exception? = null
         if (!passed) {
-            error = Exception("Expected: $expected but got $value instead")
+            error = Exception("Expected not null but found $value")
         }
 
         return TestStatus(
@@ -18,6 +18,6 @@ class EqualsTo : Operation {
     }
 
     companion object {
-        const val Name = TestTypes.Equals
+        const val Name = TestTypes.Null
     }
 }

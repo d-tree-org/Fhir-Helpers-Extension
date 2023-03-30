@@ -14,7 +14,7 @@ open class StringOperation : Operation {
         TODO("Implement this in the class that inherits")
     }
 
-    override fun execute(value: Any, expected: Any): TestStatus {
+    override fun execute(value: Any?, expected: Any?): TestStatus {
         return if (value is String && expected is String) {
             var error: Exception? = null
             val passed: Boolean = calculateValue(value, expected)

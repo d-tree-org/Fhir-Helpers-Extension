@@ -8,10 +8,12 @@ import com.jayway.jsonpath.Configuration
 import com.jayway.jsonpath.JsonPath
 import com.sevenreup.fhir.core.models.MapConfig
 import com.sevenreup.fhir.core.parsing.ParseJsonCommands
+import com.sevenreup.fhir.core.tests.operations.*
 import com.sevenreup.fhir.core.utilities.TransformSupportServices
 import com.sevenreup.fhir.core.utils.getParentPath
 import com.sevenreup.fhir.core.utils.readFile
 import net.minidev.json.JSONArray
+import net.sf.ehcache.search.expression.NotEqualTo
 import org.hl7.fhir.r4.context.SimpleWorkerContext
 import org.hl7.fhir.r4.model.Parameters
 import org.hl7.fhir.r4.utils.StructureMapUtilities
@@ -50,9 +52,8 @@ object StructureMapTests {
             var failedTests = 0
 
             for (verify in test.verify) {
-                var passed = false
-                var error: Exception? = null
                 var result: String? = null
+                var testResult: TestStatus
 
                 try {
                     val resultRaw: Any = JsonPath.read(document, verify.path)
@@ -61,77 +62,42 @@ object StructureMapTests {
                     } else {
                         resultRaw.toString()
                     }
-                    when (verify.type) {
-                        TestTypes.Equals -> {
-                            passed = result == verify.value
-                            if (!passed) {
-                                error = Exception("Expected: ${verify.value} but got $result instead")
-                            }
-                        }
 
-                        TestTypes.EqualsNoCase -> {
-                            passed = result.equals(verify.value, ignoreCase = true)
-                            if (!passed) {
-                                error = Exception("Expected: ${verify.value} but got $result instead")
-                            }
-                        }
-
-                        TestTypes.Contains, TestTypes.ContainsNoCase -> {
-                            passed = result.contains(verify.value, ignoreCase = verify.type == TestTypes.ContainsNoCase)
-
-                            if (!passed) {
-                                error = Exception("Expected: $result to contain ${verify.value} instead")
-                            }
-                        }
-
-                        TestTypes.GreaterThan, TestTypes.GreaterThanOrEqual -> {
-                            val expected = verify.value.toBigDecimalOrNull()
-                            val value = result.toBigDecimalOrNull()
-
-                            if (expected == null || value == null) {
-                                passed = false
-                                error = Exception("Expected number got {value: $value, expected: $expected")
-                            } else {
-                                passed = if (verify.type == "gt") value > expected else value >= expected
-                                if (!passed)
-                                    error = Exception("Expected: $value ${testTypeNameMap[verify.type]} $expected")
-                            }
-                        }
-
-                        TestTypes.LessThan, TestTypes.LessThanOrEqual -> {
-                            val expected = verify.value.toBigDecimalOrNull()
-                            val value = result.toBigDecimalOrNull()
-
-                            if (expected == null || value == null) {
-                                passed = false
-                                error = Exception("Expected number got {value: $value, expected: $expected")
-                            } else {
-                                passed = if (verify.type == "lt") value < expected else value <= expected
-                                if (!passed)
-                                    error = Exception("Expected: $value ${testTypeNameMap[verify.type]} $expected")
-                            }
-                        }
-
-                        else -> {
-                            passed = false
-                            error = Exception("Assertion not supported")
-                        }
+                    val operation = when (verify.type) {
+                        TestTypes.Equals -> EqualsTo()
+                        TestTypes.EqualsNoCase -> EqualsToNoCase()
+                        TestTypes.LessThan -> LessThan()
+                        TestTypes.LessThanOrEqual -> LessThanOrEqual()
+                        TestTypes.GreaterThan -> GreaterThan()
+                        TestTypes.GreaterThanOrEqual -> GreaterThanOrEqual()
+                        TestTypes.Contains -> Contains()
+                        TestTypes.NotContains -> NotContains()
+                        TestTypes.ContainsNoCase -> ContainsNoCase()
+                        TestTypes.NotContainsNoCase -> NotContainsNoCase()
+                        else -> null
                     }
+
+                    testResult = if (operation != null) {
+                        operation.execute(value = result, expected = verify.value)
+                    } else {
+                        val err = Exception("Assertion not supported")
+                        TestStatus(
+                            passed = false, value = result, expected = verify.value, exception = err
+                        )
+                    }
+
                 } catch (e: Exception) {
                     if (e is ClassCastException) {
                         val failedToCastToString = e.message?.contains("Array")
                         println(failedToCastToString)
                         // TODO: Work on array
                     }
-                    passed = false
-                    error = e
+                    testResult = TestStatus(false, value = result, expected = verify.value, exception = e)
                 }
-                if (passed)
+                if (testResult.passed)
                     passedTests++ else failedTests++
                 status.add(
-                    TestStatus(
-                        passed = passed, value = result, expected = verify.value, exception = error
-                    )
+                    testResult
                 )
             }
 
@@ -171,7 +137,7 @@ data class FileTestResult(
 data class TestStatus(
     val passed: Boolean,
     val value: Any? = null,
-    val expected: String? = null,
+    val expected: Any? = null,
     val exception: Exception? = null
 ) {
     fun createException(message: String) {

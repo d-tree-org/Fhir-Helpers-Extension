@@ -24,7 +24,7 @@ object TestTypes {
 }
 
 val testTypeNameMap = mapOf(
-    Pair(TestTypes.Equals, "	Equal"),
+    Pair(TestTypes.Equals, "Equal"),
     Pair(TestTypes.EqualsNoCase, "Equal (case-insensitive)"),
     Pair(TestTypes.NotEquals, "Not equal"),
     Pair(TestTypes.LessThan, "Less than"),

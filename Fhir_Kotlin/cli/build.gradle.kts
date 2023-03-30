@@ -18,7 +18,7 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
-
+    implementation("com.github.ajalt:mordant:1.2.1")
     implementation(project(":core"))
 }
 

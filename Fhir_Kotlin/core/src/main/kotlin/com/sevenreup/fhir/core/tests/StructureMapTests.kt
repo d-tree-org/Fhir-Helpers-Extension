@@ -86,11 +86,11 @@ object StructureMapTests {
                     }
 
                     testResult = if (operation != null) {
-                        operation.execute(value = result, expected = verify.value)
+                        operation.execute(value = result, expected = verify.value).copy(path = verify.path)
                     } else {
                         val err = Exception("Assertion not supported")
                         TestStatus(
-                            passed = false, value = result, expected = verify.value, exception = err
+                            passed = false, value = result, expected = verify.value, exception = err, path = verify.path
                         )
                     }
 
@@ -100,7 +100,8 @@ object StructureMapTests {
                         println(failedToCastToString)
                         // TODO: Work on array
                     }
-                    testResult = TestStatus(false, value = result, expected = verify.value, exception = e)
+                    testResult =
+                        TestStatus(false, value = result, expected = verify.value, exception = e, path = verify.path)
                 }
                 if (testResult.passed)
                     passedTests++ else failedTests++
@@ -142,16 +143,13 @@ data class FileTestResult(
     val testResults: List<TestStatus>
 )
 
-data class TestStatus(
+data class TestStatus @JvmOverloads constructor(
     val passed: Boolean,
     val value: Any? = null,
     val expected: Any? = null,
-    val exception: Exception? = null
-) {
-    fun createException(message: String) {
-
-    }
-}
+    val exception: Exception? = null,
+    val path: String? = null
+)
 
 data class TestResult(
     val fileResults: List<FileTestResult>,

@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c3237d43-2c58-4473-81bb-2ff6a2b9b529" name="Changes" comment="setup operations class">
-      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/operations/EndsWith.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/operations/EndsWithNoCase.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/operations/NotEqualsTo.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/operations/StartsWith.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/operations/StartsWithNoCase.kt" afterDir="false" />
+    <list default="true" id="c3237d43-2c58-4473-81bb-2ff6a2b9b529" name="Changes" comment="add nullable values">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cli/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/cli/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cli/src/main/kotlin/com/sevenreup/fhir/cli/commands/tests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/cli/src/main/kotlin/com/sevenreup/fhir/cli/commands/tests.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/StructureMapTests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/StructureMapTests.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -120,6 +118,9 @@
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
       <recent name="com.sevenreup.fhir.server" />
     </key>
+    <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="com.sevenreup.fhir.core.tests.operations" />
+    </key>
   </component>
   <component name="RunManager" selected="Kotlin.Cli">
     <configuration name="Fhir_Kotlin:cli [shadowJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -208,7 +209,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680164102158</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="add nullable values">
+      <created>1680165879613</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1680165879613</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -227,7 +235,8 @@
     <MESSAGE value="add gt, gte, lt, lte comparisons to tests" />
     <MESSAGE value="added extra tests" />
     <MESSAGE value="setup operations class" />
-    <option name="LAST_COMMIT_MESSAGE" value="setup operations class" />
+    <MESSAGE value="add nullable values" />
+    <option name="LAST_COMMIT_MESSAGE" value="add nullable values" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -1,24 +1,47 @@
 package com.sevenreup.fhir.core.tests
 
+object TestTypes {
+    const val Equals = "eq"
+    const val EqualsNoCase = "eqi"
+    const val NotEquals = "ne"
+    const val LessThan = "lt"
+    const val LessThanOrEqual = "lte"
+    const val GreaterThan = "gt"
+    const val GreaterThanOrEqual = "gte"
+    const val In = "in"
+    const val NotIn = "notIn"
+    const val Contains = "contains"
+    const val NotContains = "notContains"
+    const val ContainsNoCase = "containsi"
+    const val NotContainsNoCase = "notContainsi"
+    const val Null = "null"
+    const val NotNull = "notNull"
+    const val Between = "between"
+    const val StartsWith = "startsWith"
+    const val StartsWithNoCase = "startsWithi"
+    const val EndsWith = "endsWith"
+    const val EndsWithNoCase = "endsWithi"
+}
+
 val testTypeNameMap = mapOf(
-    Pair("eq","	Equal"),
-    Pair("eqi","Equal (case-insensitive)"),
-    Pair("ne","Not equal"),
-    Pair("lt","Less than"),
-    Pair("lte","Less than or equal to"),
-    Pair("gt","Greater than"),
-    Pair("gte","Greater than or equal to"),
-    Pair("in","Included in an array"),
-    Pair("notIn","Not included in an array"),
-    Pair("contains","Contains"),
-    Pair("notContains","Does not contain"),
-    Pair("containsi","Contains (case-insensitive)"),
-    Pair("notContainsi","Does not contain (case-insensitive)"),
-    Pair("null","Is null"),
-    Pair("notNull","Is not null"),
-    Pair("between","Is between"),
-    Pair("startsWith","Starts with"),
-    Pair("startsWithi","Starts with (case-insensitive)"),
-    Pair("endsWith","Ends with"),
-    Pair("endsWithi","Ends with (case-insensitive)"),
+    Pair(TestTypes.Equals, "	Equal"),
+    Pair(TestTypes.EqualsNoCase, "Equal (case-insensitive)"),
+    Pair(TestTypes.NotEquals, "Not equal"),
+    Pair(TestTypes.LessThan, "Less than"),
+    Pair(TestTypes.LessThanOrEqual, "Less than or equal to"),
+    Pair(TestTypes.GreaterThan, "Greater than"),
+    Pair(TestTypes.GreaterThanOrEqual, "Greater than or equal to"),
+    Pair(TestTypes.In, "Included in an array"),
+    Pair(TestTypes.NotIn, "Not included in an array"),
+    Pair(TestTypes.Contains, "Contains"),
+    Pair(TestTypes.NotContains, "Does not contain"),
+    Pair(TestTypes.ContainsNoCase, "Contains (case-insensitive)"),
+    Pair(TestTypes.NotContainsNoCase, "Does not contain (case-insensitive)"),
+    Pair(TestTypes.Null, "Is null"),
+    Pair(TestTypes.NotNull, "Is not null"),
+    Pair(TestTypes.Between, "Is between"),
+    Pair(TestTypes.StartsWith, "Starts with"),
+    Pair(TestTypes.StartsWithNoCase, "Starts with (case-insensitive)"),
+    Pair(TestTypes.EndsWith, "Ends with"),
+    Pair(TestTypes.EndsWithNoCase, "Ends with (case-insensitive)"),
 )

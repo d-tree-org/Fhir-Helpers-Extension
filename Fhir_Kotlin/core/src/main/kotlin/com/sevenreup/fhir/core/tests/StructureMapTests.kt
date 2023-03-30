@@ -62,14 +62,29 @@ object StructureMapTests {
                         resultRaw.toString()
                     }
                     when (verify.type) {
-                        "eq" -> {
+                        TestTypes.Equals -> {
                             passed = result == verify.value
                             if (!passed) {
                                 error = Exception("Expected: ${verify.value} but got $result instead")
                             }
                         }
 
-                        "gt", "gte" -> {
+                        TestTypes.EqualsNoCase -> {
+                            passed = result.equals(verify.value, ignoreCase = true)
+                            if (!passed) {
+                                error = Exception("Expected: ${verify.value} but got $result instead")
+                            }
+                        }
+
+                        TestTypes.Contains, TestTypes.ContainsNoCase -> {
+                            passed = result.contains(verify.value, ignoreCase = verify.type == TestTypes.ContainsNoCase)
+
+                            if (!passed) {
+                                error = Exception("Expected: $result to contain ${verify.value} instead")
+                            }
+                        }
+
+                        TestTypes.GreaterThan, TestTypes.GreaterThanOrEqual -> {
                             val expected = verify.value.toBigDecimalOrNull()
                             val value = result.toBigDecimalOrNull()
 
@@ -83,7 +98,7 @@ object StructureMapTests {
                             }
                         }
 
-                        "lt", "lte" -> {
+                        TestTypes.LessThan, TestTypes.LessThanOrEqual -> {
                             val expected = verify.value.toBigDecimalOrNull()
                             val value = result.toBigDecimalOrNull()
 
@@ -98,7 +113,8 @@ object StructureMapTests {
                         }
 
                         else -> {
-
+                            passed = false
+                            error = Exception("Assertion not supported")
                         }
                     }
                 } catch (e: Exception) {

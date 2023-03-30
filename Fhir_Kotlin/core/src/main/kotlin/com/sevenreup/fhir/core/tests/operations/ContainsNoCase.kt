@@ -1,6 +1,6 @@
 package com.sevenreup.fhir.core.tests.operations
 
-import com.sevenreup.fhir.core.tests.TestTypes
+import com.sevenreup.fhir.core.tests.inputs.TestTypes
 
 class ContainsNoCase : StringOperation() {
     override fun getName(): String {

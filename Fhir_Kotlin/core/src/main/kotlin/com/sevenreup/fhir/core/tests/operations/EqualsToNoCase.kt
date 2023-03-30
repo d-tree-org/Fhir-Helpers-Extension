@@ -2,7 +2,7 @@ package com.sevenreup.fhir.core.tests.operations
 
 import com.sevenreup.fhir.core.tests.Operation
 import com.sevenreup.fhir.core.tests.TestStatus
-import com.sevenreup.fhir.core.tests.TestTypes
+import com.sevenreup.fhir.core.tests.inputs.TestTypes
 
 class EqualsToNoCase : Operation {
     override fun execute(value: Any?, expected: Any?): TestStatus {

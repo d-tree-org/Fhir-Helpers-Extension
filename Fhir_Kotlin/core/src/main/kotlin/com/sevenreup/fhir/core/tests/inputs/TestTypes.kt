@@ -1,4 +1,4 @@
-package com.sevenreup.fhir.core.tests
+package com.sevenreup.fhir.core.tests.inputs
 
 object TestTypes {
     const val Equals = "eq"

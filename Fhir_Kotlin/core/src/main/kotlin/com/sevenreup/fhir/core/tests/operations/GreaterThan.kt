@@ -1,6 +1,6 @@
 package com.sevenreup.fhir.core.tests.operations
 
-import com.sevenreup.fhir.core.tests.TestTypes
+import com.sevenreup.fhir.core.tests.inputs.TestTypes
 import java.math.BigDecimal
 
 class GreaterThan : NumberOperations() {

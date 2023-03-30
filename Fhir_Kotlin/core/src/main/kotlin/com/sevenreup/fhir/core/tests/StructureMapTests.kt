@@ -8,6 +8,8 @@ import com.jayway.jsonpath.Configuration
 import com.jayway.jsonpath.JsonPath
 import com.sevenreup.fhir.core.models.MapConfig
 import com.sevenreup.fhir.core.parsing.ParseJsonCommands
+import com.sevenreup.fhir.core.tests.inputs.TestTypes
+import com.sevenreup.fhir.core.tests.inputs.ValueRange
 import com.sevenreup.fhir.core.tests.operations.*
 import com.sevenreup.fhir.core.utilities.TransformSupportServices
 import com.sevenreup.fhir.core.utils.getParentPath
@@ -50,10 +52,11 @@ object StructureMapTests {
             var failedTests = 0
 
             for (verify in test.verify) {
-                var result: String? = null
+                var result: Any? = null
                 var testResult: TestStatus
 
                 try {
+                    var useRange = false
                     val resultRaw: Any = JsonPath.read(document, verify.path)
                     result = if (resultRaw is JSONArray) {
                         resultRaw.firstOrNull()?.toString() ?: ""
@@ -75,7 +78,10 @@ object StructureMapTests {
                         TestTypes.NotContainsNoCase -> NotContainsNoCase()
                         TestTypes.Null -> Null()
                         TestTypes.NotNull -> NotNull()
-                        // TODO: Null
+                        TestTypes.Between -> {
+                            useRange = true
+                            Between()
+                        }
                         // TODO: NotNull
                         // TODO: Between
                         TestTypes.StartsWith -> StartsWith()
@@ -86,7 +92,7 @@ object StructureMapTests {
                     }
 
                     testResult = if (operation != null) {
-                        operation.execute(value = result, expected = verify.value).copy(path = verify.path)
+                        operation.execute(value = result, expected = if(useRange) verify.valueRange else verify.value).copy(path = verify.path)
                     } else {
                         val err = Exception("Assertion not supported")
                         TestStatus(
@@ -172,5 +178,6 @@ data class ResTest(
 data class TestVerify(
     val type: String,
     val path: String,
-    val value: String
+    val value: String?,
+    val valueRange: ValueRange?
 )

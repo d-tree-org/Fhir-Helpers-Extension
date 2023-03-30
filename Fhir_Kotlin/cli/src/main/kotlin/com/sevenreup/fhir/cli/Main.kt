@@ -4,7 +4,6 @@ import com.sevenreup.fhir.cli.commands.runTests
 import com.sevenreup.fhir.core.compiler.ResourceParser
 import com.sevenreup.fhir.core.importTests
 import com.sevenreup.fhir.core.parseBundle
-import com.sevenreup.fhir.core.tests.StructureMapTests
 import com.sevenreup.fhir.core.utils.formatStructureMap
 import com.sevenreup.fhir.core.utils.strJsonToMap
 import com.sevenreup.fhir.core.utils.verifyQuestionnaire

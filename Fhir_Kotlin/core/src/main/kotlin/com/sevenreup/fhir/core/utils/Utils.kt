@@ -1,25 +1,17 @@
 package com.sevenreup.fhir.core.utils
 
-import org.apache.commons.io.FileUtils
-import kotlin.io.path.Path
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
-fun String.readFile(): String {
-    return FileUtils.readFileToString(FileUtils.getFile(this), "UTF-8")
-}
-
-fun String.getAbsolutePath(parent: String): String {
-    val childPath = Path(this)
-    var effectivePath = childPath
-    if (!childPath.isAbsolute) {
-        effectivePath = Path(parent).resolve(this).toAbsolutePath()
+fun parseDate(value: String?, useIso: Boolean = false): LocalDateTime? {
+    return try {
+        value?.let {
+            LocalDateTime.parse(
+                it,
+                if (useIso) DateTimeFormatter.ISO_LOCAL_DATE_TIME else DateTimeFormatter.ofPattern("dd-MM-yyyy")
+            )
+        }
+    } catch (e: Exception) {
+        null
     }
-    return effectivePath.normalize().toString()
-}
-
-fun String.getParentPath(): String {
-    var cP = Path(this)
-    if (!cP.isAbsolute) {
-        cP = cP.toAbsolutePath()
-    }
-    return cP.normalize().parent.toString()
 }

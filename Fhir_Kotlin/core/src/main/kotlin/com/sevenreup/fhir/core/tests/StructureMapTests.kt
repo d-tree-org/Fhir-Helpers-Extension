@@ -82,8 +82,6 @@ object StructureMapTests {
                             useRange = true
                             Between()
                         }
-                        // TODO: NotNull
-                        // TODO: Between
                         TestTypes.StartsWith -> StartsWith()
                         TestTypes.StartsWithNoCase -> StartsWithNoCase()
                         TestTypes.EndsWith -> EndsWith()

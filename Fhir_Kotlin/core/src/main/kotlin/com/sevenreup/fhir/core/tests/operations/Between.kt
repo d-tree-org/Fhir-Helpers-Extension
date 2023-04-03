@@ -1,5 +1,6 @@
 package com.sevenreup.fhir.core.tests.operations
 
+import com.google.gson.Gson
 import com.sevenreup.fhir.core.tests.Operation
 import com.sevenreup.fhir.core.tests.TestStatus
 import com.sevenreup.fhir.core.tests.inputs.ValueRange
@@ -16,7 +17,7 @@ class Between : Operation {
                         passed = false,
                         value = value,
                         expected = expected,
-                        exception = Exception("Expected field to be number but got $value")
+                        exception = Exception("Expected field to be number but got ${value ?: "null"}")
                     )
 
                 val passed = valueNumber >= numbers.first && valueNumber <= numbers.second
@@ -35,7 +36,7 @@ class Between : Operation {
                     passed = false,
                     value = value,
                     expected = expected,
-                    exception = Exception("Expected field to be date but got $value")
+                    exception = Exception("Expected field to be date but got ${value ?: "null"}")
                 )
                 val passed = valueDate >= date.first && valueDate <= date.second
 
@@ -52,14 +53,14 @@ class Between : Operation {
                 passed = false,
                 value = value,
                 expected = expected,
-                exception = Exception("Expected Value Range but to be either dates or number")
+                exception = Exception("Expected Value Range but to be either dates or number but got ${Gson().toJson(expected)}")
             )
         } else {
             return TestStatus(
                 passed = false,
                 value = value,
                 expected = expected,
-                exception = Exception("Expected Value Range but got $expected")
+                exception = Exception("Expected Value Range but got ${expected ?: "null"}")
             )
         }
     }

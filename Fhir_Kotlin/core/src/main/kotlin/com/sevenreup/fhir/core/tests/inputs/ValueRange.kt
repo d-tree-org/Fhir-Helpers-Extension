@@ -10,7 +10,7 @@ data class ValueRange(val start: String, val end: String) {
         val endP = end.toBigDecimalOrNull()
 
         if (startP != null && endP != null) {
-            Pair(startP, endP)
+           return Pair(startP, endP)
         }
         return null
     }

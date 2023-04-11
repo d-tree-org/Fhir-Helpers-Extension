@@ -37,7 +37,8 @@ export default class RunCode implements Feature {
   }
 
   private async run() {
-    const doc = window.activeTextEditor.document;
+    try {
+      const doc = window.activeTextEditor.document;
     if (isTestMapFile(doc)) {
       const server = this.conf.server;
       if (server != null) {
@@ -45,6 +46,11 @@ export default class RunCode implements Feature {
         this.openDoc(data, doc.fileName);
       }
     }
+    } catch (error) {
+      console.log(error);
+      
+    }
+    
   }
   private init(subscriptions) {
     const myScheme = "cowsay";

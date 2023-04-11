@@ -35,7 +35,7 @@ export class ServerManager implements IServerManager {
     this.webSocket = new WebSocket("ws://localhost:8080");
     this.webSocket.on("error", (e) => {
       console.log(e);
-      this.state = "connected";
+      this.state = "failed";
       this.connectionEvent.fire(this.state);
     });
     this.webSocket.on("open", () => {

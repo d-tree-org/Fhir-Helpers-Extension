@@ -6,7 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="c3237d43-2c58-4473-81bb-2ff6a2b9b529" name="Changes" comment="between works with dates">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/StructureMapTests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/StructureMapTests.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/compiler/resource_parser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/compiler/resource_parser.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/parsing/ParseJsonCommands.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/parsing/ParseJsonCommands.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/utils/Utils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/utils/Dates.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/server/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/kotlin/server/FhirService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/kotlin/server/FhirService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/src/core/server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/src/core/server.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/src/extension.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/src/extension.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/src/features/run.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/src/features/run.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/src/features/server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/src/features/server.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,7 +129,7 @@
       <recent name="com.sevenreup.fhir.core.tests.operations" />
     </key>
   </component>
-  <component name="RunManager" selected="Kotlin.Cli">
+  <component name="RunManager" selected="Kotlin.Server">
     <configuration name="Fhir_Kotlin:cli [shadowJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -283,9 +291,9 @@
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/utils/Utils.kt</url>
-          <line>18</line>
-          <option name="timeStamp" value="17" />
+          <url>file://$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/parsing/ParseJsonCommands.kt</url>
+          <line>22</line>
+          <option name="timeStamp" value="20" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <condition expression="rule.getName() == &quot;r_appointment_id&quot;" language="JAVA" />
@@ -309,6 +317,10 @@
           <line>512</line>
           <option name="timeStamp" value="14" />
         </line-breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.RuntimeException" package="java.lang" />
+          <option name="timeStamp" value="19" />
+        </breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>

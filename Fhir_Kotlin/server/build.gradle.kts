@@ -24,8 +24,8 @@ dependencies {
     implementation("io.ktor:ktor-server-websockets:2.2.2")
     implementation(project(mapOf("path" to ":core")))
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
 }
 
 tasks.getByName<Test>("test") {

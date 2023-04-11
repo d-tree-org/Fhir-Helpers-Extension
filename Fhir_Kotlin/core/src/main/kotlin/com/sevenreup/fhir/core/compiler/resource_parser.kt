@@ -27,7 +27,8 @@ class ResourceParser {
     }
 
     fun parseStructureMapFromMap(path: String): CoreResponse<String> {
-        val map = scu.parse(path.readFile(), getSrcName(path))
+        val fileData =path.readFile()
+        val map = scu.parse(fileData, getSrcName(path))
         return CoreResponse(data = iParser.encodeResourceToString(map))
     }
 

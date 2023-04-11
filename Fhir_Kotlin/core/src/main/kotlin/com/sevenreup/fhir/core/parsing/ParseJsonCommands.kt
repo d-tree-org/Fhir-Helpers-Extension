@@ -24,10 +24,10 @@ object ParseJsonCommands {
         val gson = Gson()
         val config = gson.fromJson(rawJson, JsonConfig::class.java)
 
-        val data = config.response.toHashSet().map { res ->
+        val data = config.response.toHashSet().associate { res ->
             val bundle = parseBundle(iParser, contextR4, scu, path.getParentPath(), config.map, res)
             FilenameUtils.getName(bundle.file) to iParser.encodeResourceToString(bundle.data)
-        }.toMap()
+        }
 
         return CoreResponse(data = data)
     }

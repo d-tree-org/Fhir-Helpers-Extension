@@ -4,12 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c3237d43-2c58-4473-81bb-2ff6a2b9b529" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/samples/import/sample.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/samples/import/util.map" afterDir="false" />
+    <list default="true" id="c3237d43-2c58-4473-81bb-2ff6a2b9b529" name="Changes" comment="between works with dates">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/ImportTests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/ImportTests.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/Main.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cli/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/cli/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cli/src/main/kotlin/com/sevenreup/fhir/cli/commands/tests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/cli/src/main/kotlin/com/sevenreup/fhir/cli/commands/tests.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/core/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/server/build.gradle.kts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +21,38 @@
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$/cli">
+          <activation />
+        </task>
+        <task path="$PROJECT_DIR$/core">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="FHIRCompiler" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin Interface" />
+        <option value="Kotlin Class" />
+        <option value="Kotlin File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -37,27 +70,127 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Work/dev/fhir-lsp/Fhir_Kotlin&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;19&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Work/dev/fhir-lsp/Fhir_Kotlin/core/src/main/kotlin/com/sevenreup/fhir/core&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Work\dev\fhir-lsp\Fhir_Kotlin\core\src\main\kotlin\com\sevenreup\fhir\core" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Work\dev\fhir-lsp\Fhir_Kotlin\server\src\main\java\com\sevenreup\fhir\server" />
+      <recent name="D:\Work\dev\fhir-lsp\Fhir_Kotlin" />
+      <recent name="D:\Work\dev\fhir-lsp\Fhir_Kotlin\src" />
       <recent name="D:\Work\dev\fhir-lsp\Fhir_Kotlin\samples" />
     </key>
+    <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="com.sevenreup.fhir.core.tests.inputs" />
+      <recent name="com.sevenreup.fhir.server" />
+    </key>
+    <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="com.sevenreup.fhir.core.tests.operations" />
+    </key>
   </component>
-  <component name="RunManager">
-    <configuration name="MainKt" type="JetRunConfigurationType" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.sevenreup.fhir.compiler.MainKt" />
-      <module name="FHIRCompiler.compiler.main" />
-      <option name="PROGRAM_PARAMETERS" value="import_tests sample.map" />
+  <component name="RunManager" selected="Gradle.Fhir_Kotlin:cli [assembleDist]">
+    <configuration name="Fhir_Kotlin:cli [assembleDist]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/cli" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="assembleDist" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="Fhir_Kotlin:cli [assembleShadowDist]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/cli" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="assembleShadowDist" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="Fhir_Kotlin:cli [shadowJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/cli" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="shadowJar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="Cli" type="JetRunConfigurationType">
+      <option name="MAIN_CLASS_NAME" value="com.sevenreup.fhir.cli.MainKt" />
+      <module name="FHIRCompiler.cli.main" />
+      <option name="PROGRAM_PARAMETERS" value="test &quot;D:\Work\dev\fhir-resources\mwcore\structure_map\tracing\home_tracing\test.map.test.json&quot;" />
       <shortenClasspath name="NONE" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Server" type="JetRunConfigurationType">
+      <option name="MAIN_CLASS_NAME" value="server.MainKt" />
+      <module name="FHIRCompiler.server.main" />
+      <shortenClasspath name="MANIFEST" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Gradle.Fhir_Kotlin:cli [assembleDist]" />
+      <item itemvalue="Gradle.Fhir_Kotlin:cli [assembleShadowDist]" />
+      <item itemvalue="Gradle.Fhir_Kotlin:cli [shadowJar]" />
+      <item itemvalue="Kotlin.Cli" />
+      <item itemvalue="Kotlin.Server" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.Fhir_Kotlin:cli [assembleDist]" />
+        <item itemvalue="Gradle.Fhir_Kotlin:cli [assembleShadowDist]" />
+        <item itemvalue="Gradle.Fhir_Kotlin:cli [shadowJar]" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -68,6 +201,149 @@
       <option name="presentableId" value="Default" />
       <updated>1675148082012</updated>
     </task>
+    <task id="LOCAL-00001" summary="move all test printing code to cli">
+      <created>1680081402915</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1680081402915</updated>
+    </task>
+    <task id="LOCAL-00002" summary="add gt, gte, lt, lte comparisons to tests">
+      <created>1680092833930</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1680092833930</updated>
+    </task>
+    <task id="LOCAL-00003" summary="added extra tests">
+      <created>1680158133558</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1680158133558</updated>
+    </task>
+    <task id="LOCAL-00004" summary="setup operations class">
+      <created>1680164102158</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1680164102158</updated>
+    </task>
+    <task id="LOCAL-00005" summary="add nullable values">
+      <created>1680165879613</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1680165879613</updated>
+    </task>
+    <task id="LOCAL-00006" summary="add cli color">
+      <created>1680169914568</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1680169914568</updated>
+    </task>
+    <task id="LOCAL-00007" summary="init between">
+      <created>1680188533502</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1680188533502</updated>
+    </task>
+    <task id="LOCAL-00008" summary="between works with dates">
+      <created>1680511324894</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1680511324894</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="move all test printing code to cli" />
+    <MESSAGE value="add gt, gte, lt, lte comparisons to tests" />
+    <MESSAGE value="added extra tests" />
+    <MESSAGE value="setup operations class" />
+    <MESSAGE value="add nullable values" />
+    <MESSAGE value="add cli color" />
+    <MESSAGE value="init between" />
+    <MESSAGE value="between works with dates" />
+    <option name="LAST_COMMIT_MESSAGE" value="between works with dates" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/ImportTests.kt</url>
+          <line>24</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/ImportTests.kt</url>
+          <line>23</line>
+          <properties>
+            <option name="lambda-ordinal" value="-1" />
+          </properties>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/ImportTests.kt</url>
+          <line>15</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/parsing/ParseJsonCommands.kt</url>
+          <line>22</line>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <condition expression="rule.getName() == &quot;r_appointment_id&quot;" language="JAVA" />
+          <url>jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/ca.uhn.hapi.fhir/org.hl7.fhir.r4/5.3.0/7e1b8059d167bc1c57aa3d2d557b7b06717e5603/org.hl7.fhir.r4-5.3.0-sources.jar!/org/hl7/fhir/r4/utils/StructureMapUtilities.java</url>
+          <line>1407</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <condition expression="r.getName() == &quot;r_appointment_id&quot;" language="JAVA" />
+          <url>jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/ca.uhn.hapi.fhir/org.hl7.fhir.r4/5.3.0/7e1b8059d167bc1c57aa3d2d557b7b06717e5603/org.hl7.fhir.r4-5.3.0-sources.jar!/org/hl7/fhir/r4/utils/StructureMapUtilities.java</url>
+          <line>1402</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/ca.uhn.hapi.fhir/org.hl7.fhir.r4/5.3.0/7e1b8059d167bc1c57aa3d2d557b7b06717e5603/org.hl7.fhir.r4-5.3.0-sources.jar!/org/hl7/fhir/r4/utils/StructureMapUtilities.java</url>
+          <line>1957</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/ca.uhn.hapi.fhir/hapi-fhir-base/5.3.0/43fef9cb0c905636fbb8ec265fb32f4c037b9a86/hapi-fhir-base-5.3.0-sources.jar!/ca/uhn/fhir/parser/BaseParser.java</url>
+          <line>512</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.RuntimeException" package="java.lang" />
+          <option name="timeStamp" value="19" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="java.util.LinkedHashMap$Entry" memberName="value" />
+      </pinned-members>
+    </pin-to-top-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

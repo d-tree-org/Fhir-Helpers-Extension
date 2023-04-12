@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
@@ -9,7 +8,7 @@ plugins {
 }
 
 group = "com.sevenreup.fhir"
-version = "1.0-SNAPSHOT"
+version = "0.0.2-SNAPSHOT"
 
 repositories {
     google()
@@ -18,13 +17,15 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.rnett.krosstalk:krosstalk:1.4.0")
-    implementation("com.github.rnett.krosstalk:krosstalk-server:1.4.0")
     implementation("com.github.arteam:simple-json-rpc-server:1.3")
 
-    testImplementation(kotlin("test"))
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.0")
+    implementation("io.ktor:ktor-server-core:2.2.2")
+    implementation("io.ktor:ktor-server-netty:2.2.2")
+    implementation("io.ktor:ktor-server-websockets:2.2.2")
+    implementation(project(mapOf("path" to ":core")))
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
 }
 
 tasks.getByName<Test>("test") {
@@ -45,5 +46,9 @@ tasks {
         manifest {
             attributes["Main-Class"] = "com.sevenreup.fhir.server.MainKt"
         }
+    }
+
+    withType<CreateStartScripts>() {
+        applicationName = "fhir-tools-server"
     }
 }

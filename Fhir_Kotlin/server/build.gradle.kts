@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.sevenreup.fhir"
-version = "1.0-SNAPSHOT"
+version = "0.0.2-SNAPSHOT"
 
 repositories {
     google()
@@ -46,5 +46,9 @@ tasks {
         manifest {
             attributes["Main-Class"] = "com.sevenreup.fhir.server.MainKt"
         }
+    }
+
+    withType<CreateStartScripts>() {
+        applicationName = "fhir-tools-server"
     }
 }

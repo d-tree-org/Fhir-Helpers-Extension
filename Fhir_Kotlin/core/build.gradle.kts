@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.sevenreup.fhir"
-version = "1.0-SNAPSHOT"
+version = "0.0.1-SNAPSHOT"
 
 repositories {
     google()
@@ -21,8 +21,10 @@ dependencies {
     implementation("org.opencds.cqf:cql-engine-fhir:1.3.14-SNAPSHOT")
     implementation("org.opencds.cqf:cql-engine:1.3.14-SNAPSHOT")
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.20")
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
 }
 
 tasks.getByName<Test>("test") {

@@ -2,30 +2,34 @@
 
 This is a collection of useful features for working with some of the resources in the FHIR spec for example the Questionnaires and Structure Maps.
 
+## Install
+Download the latests [release](https://github.com/d-tree-org/Fhir-Helpers-Extension/releases) and extract the content. 
+Now you can run the `fhir-tools` script in the `bin` folder either running it directly or adding it to your environment variables.
+
 ## Flags and optiones
 
 - Compile structure map
   - This expects a structure map and compiles it into the Json equivalent
   ```bash
-  java -jar exec.jar compile [path].map
+  fhir-tools compile [path].map
   ```
 - Transform questionnare response
   - This expects a structure map and QuestionnaireResponse, then transforms it using the structure maps
   ```bash
-  java -jar exec.jar transform [path].map
+  fhir-tools transform [path].map
   ```
 - Transform questionnare responses (batch)
 
   - This command expects a Json file that has data used to transform
 
   ```bash
-  java -jar exec.jar transform_batch [path].json
+  fhir-tools transform_batch [path].json
   ```
 
 - Test structure map
   - This command expects a Json file
   ```bash
-  java -jar exec.jar test [path].json
+  fhir-tools test [path].json
   ```
 
 ## Structure map Transform
@@ -132,6 +136,7 @@ Example file
   ]
 }
 ```
+
 ### Available Tests
 
 The following operators are available:
@@ -160,4 +165,4 @@ The following operators are available:
 | `$endsWithi`    | Ends with (case-insensitive)             |
 | `$or`           | Joins the filters in an "or" expression  |
 | `$and`          | Joins the filters in an "and" expression |
-| `$not`          | Joins the filters in an "not" expression | 
+| `$not`          | Joins the filters in an "not" expression |

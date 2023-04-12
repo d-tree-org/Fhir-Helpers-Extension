@@ -14,13 +14,13 @@ fun runTests(path: String) {
     var allPassedTests = 0
     var allFailedTests = 0
     val failedTests = mutableListOf<TestStatus>()
-
+    print("\n")
     result.fileResults.forEach { testFile ->
         val hasFailed = testFile.failed > 0
         allPassedTests += testFile.passed
         allFailedTests += testFile.failed
 
-        println("${if (!hasFailed) "✅ ${passStyle("Passed")}" else "❌ ${errStyle("Failed")}"} ${testFile.file} (${testFile.tests})")
+        println("${if (!hasFailed) "\u2705 ${passStyle("Passed")}" else "\u274C ${errStyle("Failed")}"} ${testFile.file} (${testFile.tests})")
         failedTests.addAll(testFile.testResults.filter { !it.passed })
     }
     if (failedTests.isNotEmpty()) {

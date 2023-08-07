@@ -6,7 +6,7 @@ uses "http://hl7.org/fhir/StructureDefinition/Encounter" as target
 uses "http://hl7.org/fhir/StructureDefinition/Observation" as target
 
 
-imports "util.map"
+imports "./util.map"
 
 group Main(source src: QuestionnaireResponse, target bundle: Bundle) {
     src->bundle.id = uuid(),

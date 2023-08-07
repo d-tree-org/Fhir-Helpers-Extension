@@ -1,27 +1,39 @@
-package com.sevenreup.fhir.core
+package com.sevenreup.fhir.core.compiler.imports
 
-import ca.uhn.fhir.context.FhirContext
-import ca.uhn.fhir.context.FhirVersionEnum
 import ca.uhn.fhir.parser.IParser
-import org.hl7.fhir.r4.model.StructureMap
-import com.sevenreup.fhir.core.structure_maps.createStructureMapFromFile
+import com.sevenreup.fhir.core.compiler.parsing.ParseJsonCommands
+import com.sevenreup.fhir.core.config.ProjectConfig
+import com.sevenreup.fhir.core.structureMaps.createStructureMapFromFile
 import com.sevenreup.fhir.core.utils.getAbsolutePath
 import com.sevenreup.fhir.core.utils.getParentPath
+import com.sevenreup.fhir.core.utils.readFile
+import com.sevenreup.fhir.core.utils.toAbsolutePath
+import org.hl7.fhir.r4.model.StructureMap
+import org.hl7.fhir.r4.utils.StructureMapUtilities
 
 private data class StructureHash(val mode: StructureMap.StructureMapModelMode, val url: String)
 
-fun importTests(path: String) {
-    val parentPath = path.getParentPath()
-    val main = createStructureMapFromFile(path, "Main")
+fun handleImports(
+    path: String,
+    iParser: IParser,
+    scu: StructureMapUtilities,
+    projectConfigs: ProjectConfig
+): StructureMap? {
+    println(projectConfigs)
+    val main = scu.parse(path.readFile(), ParseJsonCommands.getSrcName(path))
 
     main?.let { structureMap ->
-        val iParser: IParser = FhirContext.forCached(FhirVersionEnum.R4).newJsonParser()
         println("Original")
         println(iParser.encodeResourceToString(main))
         println("-------------")
         structureMap.import?.let { imports ->
             imports.forEach { import ->
-                val importedMap = handleImports(parentPath,import.value)
+                val importedMap = handleImports(
+                    resolvePath(import.valueAsString, path.getParentPath(), projectConfigs.aliases),
+                    iParser,
+                    scu,
+                    projectConfigs
+                )
                 if (importedMap != null) {
                     main.structure = combineUses(main, importedMap)
                     main.group = combineGroups(main, importedMap)
@@ -29,10 +41,12 @@ fun importTests(path: String) {
             }
         }
         main.import = null
-        println(iParser.encodeResourceToString(main))
         println("\n\n")
-        println(org.hl7.fhir.r4.utils.StructureMapUtilities.render(main))
+        println(StructureMapUtilities.render(main))
+
+        return main
     }
+    return null
 }
 
 fun combineGroups(main: StructureMap, include: StructureMap): List<StructureMap.StructureMapGroupComponent> {
@@ -66,7 +80,17 @@ fun combineUses(main: StructureMap, include: StructureMap): List<StructureMap.St
     return mainStructures.values.toList()
 }
 
-fun handleImports(parentPath: String,path: String): StructureMap? {
-    val actualPath = path.getAbsolutePath(parentPath)
-    return createStructureMapFromFile(actualPath, "Child")
+fun resolvePath(path: String, parent: String, aliases: Map<String, String>): String {
+    return replaceAliases(path.getAbsolutePath(parent), aliases).toAbsolutePath()
+}
+
+fun replaceAliases(input: String, aliases: Map<String, String>): String {
+    var output = input
+    for ((alias, path) in aliases) {
+        val regex = Regex(alias.replace("\\", "\\\\"))
+        val split = input.split(regex)
+        if (split.size <= 1) continue
+        output = "$path/${split[1]}"
+    }
+    return output
 }

@@ -2,15 +2,18 @@ package com.sevenreup.fhir.cli.commands
 
 import com.github.ajalt.mordant.AnsiCode
 import com.github.ajalt.mordant.TermColors
+import com.sevenreup.fhir.core.compiler.parsing.ParseJsonCommands
+import com.sevenreup.fhir.core.config.ProjectConfigManager
 import com.sevenreup.fhir.core.tests.StructureMapTests
 import com.sevenreup.fhir.core.tests.TestStatus
 
-fun runTests(path: String) {
+fun runTests(path: String, projectRoot: String?) {
+    val tests = StructureMapTests(ProjectConfigManager(),ParseJsonCommands())
     val t = TermColors()
     val errStyle = (t.bold + t.red)
     val passStyle = (t.bold + t.green)
 
-    val result = StructureMapTests.test(path)
+    val result = tests.test(path, projectRoot)
     var allPassedTests = 0
     var allFailedTests = 0
     val failedTests = mutableListOf<TestStatus>()

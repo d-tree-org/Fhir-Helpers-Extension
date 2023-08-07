@@ -5,12 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c3237d43-2c58-4473-81bb-2ff6a2b9b529" name="Changes" comment="between works with dates">
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/config/ProjectConfig.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/test/java/compiler/imports/AliasesTests.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cli/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/cli/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cli/src/main/kotlin/com/sevenreup/fhir/cli/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/cli/src/main/kotlin/com/sevenreup/fhir/cli/Main.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cli/src/main/kotlin/com/sevenreup/fhir/cli/commands/tests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/cli/src/main/kotlin/com/sevenreup/fhir/cli/commands/tests.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/core/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/server/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/ImportTests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/compiler/imports/ImportTests.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/compiler/resource_parser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/compiler/resource_parser.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/parsing/ParseJsonCommands.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/compiler/parsing/ParseJsonCommands.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/structure_maps/StructureMaps.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/structureMaps/StructureMaps.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/StructureMapTests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/StructureMapTests.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/utils/FhirHelpers.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/utils/FhirHelpers.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/utils/FileUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/utils/FileUtils.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/samples/import/sample.map" beforeDir="false" afterPath="$PROJECT_DIR$/samples/import/sample.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/kotlin/server/FhirService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/kotlin/server/FhirService.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,6 +40,9 @@
         <task path="$PROJECT_DIR$/core">
           <activation />
         </task>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
         <projects_view>
           <tree_state>
             <expand>
@@ -49,8 +61,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Kotlin Interface" />
-        <option value="Kotlin Class" />
         <option value="Kotlin File" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
@@ -70,6 +82,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;jdk.selected.JAVA_MODULE&quot;: &quot;19&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/Work/dev/fhir-lsp/Fhir_Kotlin/core/src/main/kotlin/com/sevenreup/fhir/core&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
@@ -83,12 +96,14 @@
       <recent name="D:\Work\dev\fhir-lsp\Fhir_Kotlin\core\src\main\kotlin\com\sevenreup\fhir\core" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Work\dev\fhir-lsp\Fhir_Kotlin\core\src\main\kotlin\com\sevenreup\fhir\core\structure_maps\imports" />
       <recent name="D:\Work\dev\fhir-lsp\Fhir_Kotlin\server\src\main\java\com\sevenreup\fhir\server" />
       <recent name="D:\Work\dev\fhir-lsp\Fhir_Kotlin" />
       <recent name="D:\Work\dev\fhir-lsp\Fhir_Kotlin\src" />
       <recent name="D:\Work\dev\fhir-lsp\Fhir_Kotlin\samples" />
     </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="imports" />
       <recent name="com.sevenreup.fhir.core.tests.inputs" />
       <recent name="com.sevenreup.fhir.server" />
     </key>
@@ -96,74 +111,131 @@
       <recent name="com.sevenreup.fhir.core.tests.operations" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.Fhir_Kotlin:cli [assembleDist]">
-    <configuration name="Fhir_Kotlin:cli [assembleDist]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+  <component name="RunManager" selected="Kotlin.Cli">
+    <configuration name="AliasesTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/cli" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
+        <option name="scriptParameters" value="" />
         <option name="taskDescriptions">
           <list />
         </option>
         <option name="taskNames">
           <list>
-            <option value="assembleDist" />
+            <option value=":core:test" />
+            <option value="--tests" />
+            <option value="&quot;imports.AliasesTests&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>true</ForceTestExec>
       <method v="2" />
     </configuration>
-    <configuration name="Fhir_Kotlin:cli [assembleShadowDist]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="AliasesTests.replaceAliasesTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/cli" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
+        <option name="scriptParameters" value="" />
         <option name="taskDescriptions">
           <list />
         </option>
         <option name="taskNames">
           <list>
-            <option value="assembleShadowDist" />
+            <option value=":core:test" />
+            <option value="--tests" />
+            <option value="&quot;imports.AliasesTests.replaceAliasesTest&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>true</ForceTestExec>
       <method v="2" />
     </configuration>
-    <configuration name="Fhir_Kotlin:cli [shadowJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="AliasesTests.replaceAliasesTestRelative" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/cli" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
+        <option name="scriptParameters" value="" />
         <option name="taskDescriptions">
           <list />
         </option>
         <option name="taskNames">
           <list>
-            <option value="shadowJar" />
+            <option value=":core:test" />
+            <option value="--tests" />
+            <option value="&quot;compiler.imports.AliasesTests.replaceAliasesTestRelative&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>true</ForceTestExec>
+      <method v="2" />
+    </configuration>
+    <configuration name="AliasesTests.replaceAliasesTestSymbol" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":core:test" />
+            <option value="--tests" />
+            <option value="&quot;imports.AliasesTests.replaceAliasesTestSymbol&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>true</ForceTestExec>
+      <method v="2" />
+    </configuration>
+    <configuration name="AliasesTests.replaceAliasesTestSymbolWithText" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":core:test" />
+            <option value="--tests" />
+            <option value="&quot;imports.AliasesTests.replaceAliasesTestSymbolWithText&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>true</ForceTestExec>
       <method v="2" />
     </configuration>
     <configuration name="Cli" type="JetRunConfigurationType">
       <option name="MAIN_CLASS_NAME" value="com.sevenreup.fhir.cli.MainKt" />
       <module name="FHIRCompiler.cli.main" />
-      <option name="PROGRAM_PARAMETERS" value="test &quot;D:\Work\dev\fhir-resources\mwcore\structure_map\tracing\home_tracing\test.map.test.json&quot;" />
+      <option name="PROGRAM_PARAMETERS" value="test &quot;D:\Work\dev\fhir-resources\mwcore\structure_map\profile\patient_edit_profile\test.map.test.json&quot; &quot;D:\Work\dev\fhir-resources\mwcore&quot;" />
       <shortenClasspath name="NONE" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -178,17 +250,21 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Gradle.Fhir_Kotlin:cli [assembleDist]" />
-      <item itemvalue="Gradle.Fhir_Kotlin:cli [assembleShadowDist]" />
-      <item itemvalue="Gradle.Fhir_Kotlin:cli [shadowJar]" />
+      <item itemvalue="Gradle.AliasesTests" />
+      <item itemvalue="Gradle.AliasesTests.replaceAliasesTest" />
+      <item itemvalue="Gradle.AliasesTests.replaceAliasesTestRelative" />
+      <item itemvalue="Gradle.AliasesTests.replaceAliasesTestSymbol" />
+      <item itemvalue="Gradle.AliasesTests.replaceAliasesTestSymbolWithText" />
       <item itemvalue="Kotlin.Cli" />
       <item itemvalue="Kotlin.Server" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.Fhir_Kotlin:cli [assembleDist]" />
-        <item itemvalue="Gradle.Fhir_Kotlin:cli [assembleShadowDist]" />
-        <item itemvalue="Gradle.Fhir_Kotlin:cli [shadowJar]" />
+        <item itemvalue="Gradle.AliasesTests.replaceAliasesTestRelative" />
+        <item itemvalue="Gradle.AliasesTests" />
+        <item itemvalue="Gradle.AliasesTests.replaceAliasesTestSymbol" />
+        <item itemvalue="Gradle.AliasesTests.replaceAliasesTestSymbolWithText" />
+        <item itemvalue="Gradle.AliasesTests.replaceAliasesTest" />
       </list>
     </recent_temporary>
   </component>
@@ -302,11 +378,6 @@
           <url>file://$PROJECT_DIR$/compiler/src/main/java/com/sevenreup/fhir/compiler/ImportTests.kt</url>
           <line>15</line>
           <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/parsing/ParseJsonCommands.kt</url>
-          <line>22</line>
-          <option name="timeStamp" value="20" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <condition expression="rule.getName() == &quot;r_appointment_id&quot;" language="JAVA" />

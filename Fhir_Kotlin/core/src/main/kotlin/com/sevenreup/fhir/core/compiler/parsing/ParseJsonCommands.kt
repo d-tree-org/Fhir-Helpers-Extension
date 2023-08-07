@@ -1,7 +1,9 @@
-package com.sevenreup.fhir.core.parsing
+package com.sevenreup.fhir.core.compiler.parsing
 
 import ca.uhn.fhir.parser.IParser
 import com.google.gson.Gson
+import com.sevenreup.fhir.core.compiler.imports.handleImports
+import com.sevenreup.fhir.core.config.ProjectConfig
 import com.sevenreup.fhir.core.models.MapConfig
 import com.sevenreup.fhir.core.utils.CoreResponse
 import com.sevenreup.fhir.core.utils.getAbsolutePath
@@ -13,19 +15,30 @@ import org.hl7.fhir.r4.model.Bundle
 import org.hl7.fhir.r4.model.QuestionnaireResponse
 import org.hl7.fhir.r4.utils.StructureMapUtilities
 
-object ParseJsonCommands {
-    fun parse(
+class ParseJsonCommands {
+    fun parseSingle(
         path: String,
         iParser: IParser,
         scu: StructureMapUtilities,
-        contextR4: SimpleWorkerContext
+        projectConfig: ProjectConfig
+    ): CoreResponse<String> {
+        val map = handleImports(path, iParser, scu, projectConfig)
+        return CoreResponse(data = iParser.encodeResourceToString(map))
+    }
+
+    fun parseFromConfig(
+        path: String,
+        iParser: IParser,
+        scu: StructureMapUtilities,
+        contextR4: SimpleWorkerContext,
+        projectConfig: ProjectConfig
     ): CoreResponse<Map<String, String>> {
         val rawJson = path.readFile()
         val gson = Gson()
         val config = gson.fromJson(rawJson, JsonConfig::class.java)
 
         val data = config.response.toHashSet().associate { res ->
-            val bundle = parseBundle(iParser, contextR4, scu, path.getParentPath(), config.map, res)
+            val bundle = parseBundle(iParser, contextR4, scu, path.getParentPath(), config.map, res, projectConfig)
             FilenameUtils.getName(bundle.file) to iParser.encodeResourceToString(bundle.data)
         }
 
@@ -38,14 +51,15 @@ object ParseJsonCommands {
         scu: StructureMapUtilities,
         configPath: String,
         map: MapConfig,
-        path: String
+        path: String,
+        projectConfig: ProjectConfig
     ): ParseResponse {
         println("\n----Start {${FilenameUtils.getName(path)}}-----")
         val questionnaireData = path.getAbsolutePath(configPath).readFile()
         val targetResource = Bundle()
         val baseElement =
             iParser.parseResource(QuestionnaireResponse::class.java, questionnaireData)
-        val strMap = scu.parse(map.path.getAbsolutePath(configPath).readFile(), map.name ?: "Main")
+        val strMap = handleImports(map.path.getAbsolutePath(configPath), iParser, scu, projectConfig)
         scu.transform(contextR4, baseElement, strMap, targetResource)
         println("\n------End----------\n")
 
@@ -54,6 +68,13 @@ object ParseJsonCommands {
             data = targetResource
         )
     }
+
+    companion object {
+        fun getSrcName(path: String): String {
+            return "Name"
+        }
+    }
+
 }
 
 private data class JsonConfig(

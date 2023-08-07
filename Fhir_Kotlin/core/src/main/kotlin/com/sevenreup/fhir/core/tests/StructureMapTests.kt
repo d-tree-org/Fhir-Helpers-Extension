@@ -6,8 +6,9 @@ import ca.uhn.fhir.parser.IParser
 import com.google.gson.Gson
 import com.jayway.jsonpath.Configuration
 import com.jayway.jsonpath.JsonPath
+import com.sevenreup.fhir.core.compiler.parsing.ParseJsonCommands
+import com.sevenreup.fhir.core.config.ProjectConfigManager
 import com.sevenreup.fhir.core.models.MapConfig
-import com.sevenreup.fhir.core.parsing.ParseJsonCommands
 import com.sevenreup.fhir.core.tests.inputs.TestTypes
 import com.sevenreup.fhir.core.tests.inputs.ValueRange
 import com.sevenreup.fhir.core.tests.operations.*
@@ -21,8 +22,8 @@ import org.hl7.fhir.r4.utils.StructureMapUtilities
 import org.hl7.fhir.utilities.npm.FilesystemPackageCacheManager
 import org.hl7.fhir.utilities.npm.ToolsVersion
 
-object StructureMapTests {
-    fun test(path: String): TestResult {
+class StructureMapTests(private val configManager: ProjectConfigManager, private val parser: ParseJsonCommands) {
+    fun test(path: String, projectRoot: String?): TestResult {
         val rawJson = path.readFile()
         val gson = Gson()
         val config = gson.fromJson(rawJson, JsonConfig::class.java)
@@ -39,8 +40,9 @@ object StructureMapTests {
         var failedFiles = 0
 
         for (test in config.tests) {
+            val configs = configManager.loadProjectConfig(projectRoot, path.getParentPath())
             val bundle =
-                ParseJsonCommands.parseBundle(iParser, contextR4, scu, path.getParentPath(), config.map, test.response)
+                parser.parseBundle(iParser, contextR4, scu, path.getParentPath(), config.map, test.response, configs)
             val jsonString = iParser.encodeResourceToString(bundle.data)
             println(jsonString)
 
@@ -82,6 +84,7 @@ object StructureMapTests {
                             useRange = true
                             Between()
                         }
+
                         TestTypes.StartsWith -> StartsWith()
                         TestTypes.StartsWithNoCase -> StartsWithNoCase()
                         TestTypes.EndsWith -> EndsWith()
@@ -90,7 +93,8 @@ object StructureMapTests {
                     }
 
                     testResult = if (operation != null) {
-                        operation.execute(value = result, expected = if(useRange) verify.valueRange else verify.value).copy(path = verify.path)
+                        operation.execute(value = result, expected = if (useRange) verify.valueRange else verify.value)
+                            .copy(path = verify.path)
                     } else {
                         val err = Exception("Assertion not supported")
                         TestStatus(

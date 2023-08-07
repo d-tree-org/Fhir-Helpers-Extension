@@ -1,9 +1,11 @@
 package com.sevenreup.fhir.core.tests.inputs
 
 import com.sevenreup.fhir.core.utils.parseDate
+import kotlinx.serialization.Serializable
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
+@Serializable
 data class ValueRange(val start: String, val end: String) {
     fun isNumber(): Pair<BigDecimal, BigDecimal>? {
         val startP = start.toBigDecimalOrNull()

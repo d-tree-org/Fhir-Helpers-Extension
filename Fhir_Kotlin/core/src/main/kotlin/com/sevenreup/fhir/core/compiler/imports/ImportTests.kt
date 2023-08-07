@@ -3,7 +3,6 @@ package com.sevenreup.fhir.core.compiler.imports
 import ca.uhn.fhir.parser.IParser
 import com.sevenreup.fhir.core.compiler.parsing.ParseJsonCommands
 import com.sevenreup.fhir.core.config.ProjectConfig
-import com.sevenreup.fhir.core.structureMaps.createStructureMapFromFile
 import com.sevenreup.fhir.core.utils.getAbsolutePath
 import com.sevenreup.fhir.core.utils.getParentPath
 import com.sevenreup.fhir.core.utils.readFile
@@ -19,7 +18,7 @@ fun handleImports(
     scu: StructureMapUtilities,
     projectConfigs: ProjectConfig
 ): StructureMap? {
-    println(projectConfigs)
+    println("${projectConfigs}_$path")
     val main = scu.parse(path.readFile(), ParseJsonCommands.getSrcName(path))
 
     main?.let { structureMap ->
@@ -29,7 +28,7 @@ fun handleImports(
         structureMap.import?.let { imports ->
             imports.forEach { import ->
                 val importedMap = handleImports(
-                    resolvePath(import.valueAsString, path.getParentPath(), projectConfigs.aliases),
+                    resolvePath(import.valueAsString, path.getParentPath(), projectConfigs),
                     iParser,
                     scu,
                     projectConfigs
@@ -80,8 +79,14 @@ fun combineUses(main: StructureMap, include: StructureMap): List<StructureMap.St
     return mainStructures.values.toList()
 }
 
-fun resolvePath(path: String, parent: String, aliases: Map<String, String>): String {
-    return replaceAliases(path.getAbsolutePath(parent), aliases).toAbsolutePath()
+fun resolvePath(path: String, parent: String, projectConfigs: ProjectConfig): String {
+    return replaceAliases(path, projectConfigs.aliases).let {
+        if (path == it) {
+            it.getAbsolutePath(parent)
+        } else {
+            it.getAbsolutePath(projectConfigs.basePath ?: "")
+        }
+    }
 }
 
 fun replaceAliases(input: String, aliases: Map<String, String>): String {

@@ -23,9 +23,9 @@ class ProjectConfigManager {
         println(path)
         val gson = Gson()
         val rawJson: String = "$path\\fhir.compiler.json".readFileOrNull() ?: return ProjectConfig()
-        return gson.fromJson(rawJson, ProjectConfig::class.java)
+        return gson.fromJson(rawJson, ProjectConfig::class.java).copy(basePath = path)
     }
 }
 
 
-data class ProjectConfig(val aliases: Map<String, String> = mapOf())
+data class ProjectConfig(val aliases: Map<String, String> = mapOf(), val basePath: String? = null)

@@ -5,6 +5,7 @@ import { Formatter } from "./features/formatter";
 import CompileStrMap from "./features/compile";
 import RunCode from "./features/run";
 import { ServerManager } from "./core/server";
+import TestRunner from './testRunner';
 
 let context: ExtensionContext;
 let extensionFeatures: Feature[] = [];
@@ -33,6 +34,7 @@ export function activate(context: ExtensionContext) {
         new CompileStrMap(context),
         new RunCode(serverManager),
         new Formatter(context.subscriptions),
+        new TestRunner(context,)
         // new Server(serverManager),
       ];
     } else if (state == "failed") {

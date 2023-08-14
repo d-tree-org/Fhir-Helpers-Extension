@@ -3,13 +3,14 @@ package com.sevenreup.fhir.core.tests
 import ca.uhn.fhir.context.FhirContext
 import ca.uhn.fhir.context.FhirVersionEnum
 import ca.uhn.fhir.parser.IParser
+import com.charleskorn.kaml.Yaml
 import com.google.gson.Gson
 import com.jayway.jsonpath.Configuration
 import com.jayway.jsonpath.JsonPath
-import com.sevenreup.fhir.core.models.MapConfig
-import com.sevenreup.fhir.core.parsing.ParseJsonCommands
+import com.sevenreup.fhir.core.compiler.parsing.ParseJsonCommands
+import com.sevenreup.fhir.core.config.ProjectConfigManager
+import com.sevenreup.fhir.core.models.JsonConfig
 import com.sevenreup.fhir.core.tests.inputs.TestTypes
-import com.sevenreup.fhir.core.tests.inputs.ValueRange
 import com.sevenreup.fhir.core.tests.operations.*
 import com.sevenreup.fhir.core.utilities.TransformSupportServices
 import com.sevenreup.fhir.core.utils.getParentPath
@@ -21,11 +22,29 @@ import org.hl7.fhir.r4.utils.StructureMapUtilities
 import org.hl7.fhir.utilities.npm.FilesystemPackageCacheManager
 import org.hl7.fhir.utilities.npm.ToolsVersion
 
-object StructureMapTests {
-    fun test(path: String): TestResult {
-        val rawJson = path.readFile()
-        val gson = Gson()
-        val config = gson.fromJson(rawJson, JsonConfig::class.java)
+
+class StructureMapTests(private val configManager: ProjectConfigManager, private val parser: ParseJsonCommands) {
+    private fun loadConfigs(path: String): JsonConfig {
+        return when (path.split(".").last()) {
+            "json" -> {
+                val rawJson = path.readFile()
+                val gson = Gson()
+                gson.fromJson(rawJson, JsonConfig::class.java)
+            }
+
+            "yml", "yaml" -> {
+                val rawJson = path.readFile()
+                Yaml.default.decodeFromString(JsonConfig.serializer(), rawJson)
+            }
+
+            else -> {
+                throw Exception("File format not supported")
+            }
+        }
+    }
+
+    fun test(path: String, projectRoot: String?): TestResult {
+        val config = loadConfigs(path)
 
         val iParser: IParser = FhirContext.forCached(FhirVersionEnum.R4).newJsonParser()
         val pcm = FilesystemPackageCacheManager(true, ToolsVersion.TOOLS_VERSION)
@@ -39,13 +58,13 @@ object StructureMapTests {
         var failedFiles = 0
 
         for (test in config.tests) {
+            val configs = configManager.loadProjectConfig(projectRoot, path.getParentPath())
             val bundle =
-                ParseJsonCommands.parseBundle(iParser, contextR4, scu, path.getParentPath(), config.map, test.response)
+                parser.parseBundle(iParser, contextR4, scu, path.getParentPath(), config.map, test.response, configs)
             val jsonString = iParser.encodeResourceToString(bundle.data)
             println(jsonString)
 
-            val document =
-                Configuration.defaultConfiguration().jsonProvider().parse(jsonString)
+            val document = Configuration.defaultConfiguration().jsonProvider().parse(jsonString)
             val status = mutableListOf<TestStatus>()
 
             var passedTests = 0
@@ -82,6 +101,7 @@ object StructureMapTests {
                             useRange = true
                             Between()
                         }
+
                         TestTypes.StartsWith -> StartsWith()
                         TestTypes.StartsWithNoCase -> StartsWithNoCase()
                         TestTypes.EndsWith -> EndsWith()
@@ -90,7 +110,8 @@ object StructureMapTests {
                     }
 
                     testResult = if (operation != null) {
-                        operation.execute(value = result, expected = if(useRange) verify.valueRange else verify.value).copy(path = verify.path)
+                        operation.execute(value = result, expected = if (useRange) verify.valueRange else verify.value)
+                            .copy(path = verify.path)
                     } else {
                         val err = Exception("Assertion not supported")
                         TestStatus(
@@ -107,8 +128,7 @@ object StructureMapTests {
                     testResult =
                         TestStatus(false, value = result, expected = verify.value, exception = e, path = verify.path)
                 }
-                if (testResult.passed)
-                    passedTests++ else failedTests++
+                if (testResult.passed) passedTests++ else failedTests++
                 status.add(
                     testResult
                 )
@@ -131,20 +151,13 @@ object StructureMapTests {
         }
 
         return TestResult(
-            fileTestResults,
-            failed = failedFiles,
-            passed = passedFiles,
-            files = config.tests.size
+            fileTestResults, failed = failedFiles, passed = passedFiles, files = config.tests.size
         )
     }
 }
 
 data class FileTestResult(
-    val file: String,
-    val tests: Int,
-    val passed: Int,
-    val failed: Int,
-    val testResults: List<TestStatus>
+    val file: String, val tests: Int, val passed: Int, val failed: Int, val testResults: List<TestStatus>
 )
 
 data class TestStatus @JvmOverloads constructor(
@@ -156,26 +169,5 @@ data class TestStatus @JvmOverloads constructor(
 )
 
 data class TestResult(
-    val fileResults: List<FileTestResult>,
-    val failed: Int,
-    val passed: Int,
-    val files: Int
-)
-
-data class JsonConfig(
-    val type: String,
-    val map: MapConfig,
-    val tests: List<ResTest>
-)
-
-data class ResTest(
-    val response: String,
-    val verify: List<TestVerify>
-)
-
-data class TestVerify(
-    val type: String,
-    val path: String,
-    val value: String?,
-    val valueRange: ValueRange?
+    val fileResults: List<FileTestResult>, val failed: Int, val passed: Int, val files: Int
 )

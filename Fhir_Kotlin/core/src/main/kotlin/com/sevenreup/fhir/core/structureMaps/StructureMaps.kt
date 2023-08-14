@@ -1,4 +1,4 @@
-package com.sevenreup.fhir.core.structure_maps
+package com.sevenreup.fhir.core.structureMaps
 
 import org.hl7.fhir.r4.context.SimpleWorkerContext
 import org.hl7.fhir.r4.model.StructureMap

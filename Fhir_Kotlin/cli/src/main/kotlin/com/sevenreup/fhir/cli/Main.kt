@@ -2,20 +2,21 @@ package com.sevenreup.fhir.cli
 
 import com.sevenreup.fhir.cli.commands.runTests
 import com.sevenreup.fhir.core.compiler.ResourceParser
-import com.sevenreup.fhir.core.importTests
+import com.sevenreup.fhir.core.config.ProjectConfigManager
 import com.sevenreup.fhir.core.parseBundle
 import com.sevenreup.fhir.core.utils.formatStructureMap
 import com.sevenreup.fhir.core.utils.strJsonToMap
 import com.sevenreup.fhir.core.utils.verifyQuestionnaire
 
 fun main(args: Array<String>) {
-    val parser = ResourceParser()
+    val parser = ResourceParser(configManager = ProjectConfigManager())
     if (args.isNotEmpty()) {
         when (args[0]) {
             "compile" -> {
                 val path = args[1]
+                val projectRoot = args.getOrNull(2)
 
-                val resString = parser.parseStructureMapFromMap(path)
+                val resString = parser.parseStructureMapFromMap(path, projectRoot)
 
                 println("\n\nMAP_OUTPUT_STARTS_HERE\n\n")
                 println(resString.data)
@@ -32,14 +33,11 @@ fun main(args: Array<String>) {
 
                 formatStructureMap(path, srcName)
             }
+
             "to_map" -> {
                 val path = args[1]
 
                 strJsonToMap(path)
-            }
-
-            "import_tests" -> {
-                importTests("./samples/import/sample.map")
             }
 
             "transform" -> {
@@ -51,7 +49,9 @@ fun main(args: Array<String>) {
 
             "transform_batch" -> {
                 val path = args[1]
-                val data = parser.parseTransformFromJson(path)
+                val projectRoot = args.getOrNull(2)
+
+                val data = parser.parseTransformFromJson(path,projectRoot)
                 data.data?.entries?.forEach {
                     println("-----" + it.key + "----")
                     println(it.value)
@@ -60,7 +60,9 @@ fun main(args: Array<String>) {
 
             "test" -> {
                 val path = args[1]
-                runTests(path)
+                val projectRoot = args.getOrNull(2)
+
+                runTests(path, projectRoot)
             }
 
             else -> {

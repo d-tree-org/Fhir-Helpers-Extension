@@ -3,7 +3,7 @@ package com.sevenreup.fhir.core.utils
 import ca.uhn.fhir.context.FhirContext
 import ca.uhn.fhir.context.FhirVersionEnum
 import ca.uhn.fhir.parser.IParser
-import com.sevenreup.fhir.core.structure_maps.createStructureMapFromFile
+import com.sevenreup.fhir.core.structureMaps.createStructureMapFromFile
 import org.hl7.fhir.r4.context.SimpleWorkerContext
 import org.hl7.fhir.r4.model.Questionnaire
 import org.hl7.fhir.utilities.npm.FilesystemPackageCacheManager

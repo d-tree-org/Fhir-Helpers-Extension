@@ -4,6 +4,7 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 plugins {
     id("com.github.johnrengelman.shadow") version "7.1.2"
     kotlin("jvm") version "1.7.10"
+    kotlin("kapt")
     application
 }
 
@@ -17,6 +18,9 @@ repositories {
 }
 
 dependencies {
+    implementation("info.picocli:picocli:4.7.4")
+    kapt("info.picocli:picocli-codegen:4.7.4")
+
     testImplementation(kotlin("test"))
     implementation("com.github.ajalt:mordant:1.2.1")
     implementation(project(":core"))
@@ -24,6 +28,12 @@ dependencies {
 
 application {
     mainClass.set("com.sevenreup.fhir.cli.MainKt")
+}
+
+kapt {
+    arguments {
+        arg("project", "${project.group}/${project.name}")
+    }
 }
 
 tasks.test {

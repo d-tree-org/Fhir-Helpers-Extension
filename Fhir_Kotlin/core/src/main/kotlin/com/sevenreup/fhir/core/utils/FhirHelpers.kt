@@ -9,8 +9,8 @@ import org.hl7.fhir.r4.model.Questionnaire
 import org.hl7.fhir.utilities.npm.FilesystemPackageCacheManager
 import org.hl7.fhir.utilities.npm.ToolsVersion
 
-fun formatStructureMap(path: String, srcName: String) {
-    val map = createStructureMapFromFile(path, srcName)
+fun formatStructureMap(path: String, srcName: String?) {
+    val map = createStructureMapFromFile(path, srcName ?: "Main")
 
     println("\n\nMAP_OUTPUT_STARTS_HERE\n\n")
     println(org.hl7.fhir.r4.utils.StructureMapUtilities.render(map))

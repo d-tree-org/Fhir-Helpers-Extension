@@ -3,7 +3,7 @@ export interface YamlData {
   tests: TestItem[];
 }
 
-type Position = {
+export type Position = {
   line: number;
   character: number;
 };

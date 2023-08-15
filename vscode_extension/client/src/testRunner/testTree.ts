@@ -68,6 +68,7 @@ export class TestFile {
         const id = `${item.uri}/${data.getLabel()}`;
 
         const tcase = controller.createTestItem(id, data.getLabel(), item.uri);
+        console.log(data.getLabel(), tcase);
         testData.set(tcase, data);
         tcase.range = range;
         parent.children.push(tcase);

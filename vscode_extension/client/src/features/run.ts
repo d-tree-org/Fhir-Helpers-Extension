@@ -20,6 +20,7 @@ import { temporaryDirectory, temporaryWrite } from "../core/util/temp";
 import { createHash } from "node:crypto";
 import path from "node:path";
 import fs from "node:fs";
+import { TextDecoder } from "util";
 
 export default class RunCode implements Feature {
   conf: IServerManager;

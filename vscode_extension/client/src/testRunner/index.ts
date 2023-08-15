@@ -25,11 +25,11 @@ export default class TestRunner implements Feature {
 
     ctrl.refreshHandler = async () => {
       console.log("refreshHandler");
-      // await Promise.all(
-      //   getWorkspaceTestPatterns().map(({ pattern }) =>
-      //     findInitialFiles(ctrl, pattern)
-      //   )
-      // );
+      await Promise.all(
+        getWorkspaceTestPatterns().map(({ pattern }) =>
+          findInitialFiles(ctrl, pattern)
+        )
+      );
     };
 
     ctrl.createRunProfile(
@@ -41,24 +41,20 @@ export default class TestRunner implements Feature {
     );
 
     ctrl.resolveHandler = async (item) => {
-      console.log("resolveHandler", item);
+      if (!item) {
+        context.subscriptions.push(
+          ...startWatchingWorkspace(ctrl, fileChangedEmitter)
+        );
+        return;
+      }
 
-      // if (!item) {
-      //   context.subscriptions.push(
-      //     ...startWatchingWorkspace(ctrl, fileChangedEmitter)
-      //   );
-      //   return;
-      // }
-
-      // const data = testData.get(item);
-      // if (data instanceof TestFile) {
-      //   await data.updateFromDisk(ctrl, item);
-      // }
+      const data = testData.get(item);
+      if (data instanceof TestFile) {
+        await data.updateFromDisk(ctrl, item);
+      }
     };
 
     function updateNodeForDocument(e: vscode.TextDocument) {
-      console.log("updateNodeForDocument", e.uri.path);
-
       if (e.uri.scheme !== "file") {
         return;
       }
@@ -109,4 +105,53 @@ function getOrCreateFile(controller: vscode.TestController, uri: vscode.Uri) {
 
   file.canResolveChildren = true;
   return { file, data };
+}
+
+async function findInitialFiles(
+  controller: vscode.TestController,
+  pattern: vscode.GlobPattern
+) {
+  for (const file of await vscode.workspace.findFiles(pattern)) {
+    getOrCreateFile(controller, file);
+  }
+}
+
+function getWorkspaceTestPatterns() {
+  if (!vscode.workspace.workspaceFolders) {
+    return [];
+  }
+
+  const extensions = ["json", "yaml"]; // Add more extensions if needed
+  const pattern = `**/*.{${extensions.join(",")}}`;
+
+  return vscode.workspace.workspaceFolders.map((workspaceFolder) => ({
+    workspaceFolder,
+    pattern: new vscode.RelativePattern(workspaceFolder, pattern),
+  }));
+}
+
+function startWatchingWorkspace(
+  controller: vscode.TestController,
+  fileChangedEmitter: vscode.EventEmitter<vscode.Uri>
+) {
+  return getWorkspaceTestPatterns().map(({ workspaceFolder, pattern }) => {
+    const watcher = vscode.workspace.createFileSystemWatcher(pattern);
+
+    watcher.onDidCreate((uri) => {
+      getOrCreateFile(controller, uri);
+      fileChangedEmitter.fire(uri);
+    });
+    watcher.onDidChange(async (uri) => {
+      const { file, data } = getOrCreateFile(controller, uri);
+      if (data.didResolve) {
+        await data.updateFromDisk(controller, file);
+      }
+      fileChangedEmitter.fire(uri);
+    });
+    watcher.onDidDelete((uri) => controller.items.delete(uri.toString()));
+
+    findInitialFiles(controller, pattern);
+
+    return watcher;
+  });
 }

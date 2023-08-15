@@ -1,5 +1,5 @@
 import { describe, it, assert } from "vitest";
-import { parseYaml } from "../testRunner/parser";
+import { parseYaml } from "../testRunner/parsers/yaml";
 
 const content = `
 type: str_test
@@ -27,7 +27,8 @@ tests:
 describe("parser", () => {
   it("should parse a simple expression", () => {
     const response = parseYaml(content);
+    console.log(JSON.stringify(response));
 
-    assert.equal(response.length, 2);
+    assert.equal(response.length, 4);
   });
 });

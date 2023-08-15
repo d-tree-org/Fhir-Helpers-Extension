@@ -18,6 +18,8 @@ repositories {
 }
 
 dependencies {
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1")
+
     implementation("info.picocli:picocli:4.7.4")
     kapt("info.picocli:picocli-codegen:4.7.4")
 

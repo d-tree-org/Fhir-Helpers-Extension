@@ -38,8 +38,12 @@ class TestCommand : Callable<Int> {
 
     @Option(names = ["-r", "--root"])
     var projectRoot: String? = null
+
+    @Option(names = ["-w", "--watch"])
+    var watch: Boolean = false
+
     override fun call(): Int {
-        runTests(path, projectRoot)
+        runTests(path, watch, projectRoot)
         return 0
     }
 }

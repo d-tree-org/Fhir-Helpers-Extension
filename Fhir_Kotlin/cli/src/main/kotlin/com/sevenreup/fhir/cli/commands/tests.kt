@@ -6,9 +6,39 @@ import com.sevenreup.fhir.core.compiler.parsing.ParseJsonCommands
 import com.sevenreup.fhir.core.config.ProjectConfigManager
 import com.sevenreup.fhir.core.tests.StructureMapTests
 import com.sevenreup.fhir.core.tests.TestStatus
+import com.sevenreup.fhir.core.utils.asWatchChannel
+import com.sevenreup.fhir.core.utils.toAbsolutePath
+import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import java.io.File
 
-fun runTests(path: String, projectRoot: String?) {
-    val tests = StructureMapTests(ProjectConfigManager(),ParseJsonCommands())
+fun runTests(path: String, watch: Boolean, projectRoot: String?) {
+    val configManager = ProjectConfigManager()
+    if (watch) {
+        val file = File(path.toAbsolutePath())
+        runBlocking {
+            val channel = file.asWatchChannel()
+
+            launch {
+                channel.consumeEach { event ->
+                    try {
+                        runTestOnFiles(configManager, path, projectRoot)
+                    } catch (e: Exception) {
+                        val t = TermColors()
+                        val errStyle = (t.bold + t.red)
+                        println(errStyle(e.toString()))
+                    }
+                }
+            }
+        }
+    } else {
+        runTestOnFiles(configManager, path, projectRoot)
+    }
+}
+
+private fun runTestOnFiles(configManager: ProjectConfigManager, path: String, projectRoot: String?) {
+    val tests = StructureMapTests(configManager, ParseJsonCommands())
     val t = TermColors()
     val errStyle = (t.bold + t.red)
     val passStyle = (t.bold + t.green)
@@ -39,8 +69,27 @@ fun runTests(path: String, projectRoot: String?) {
     }
 
 
-    println("\nTest files ${createPassedFailedString(result.passed, result.failed, passStyle, errStyle)} (${result.files})")
-    println("\tTests ${createPassedFailedString(allPassedTests, allFailedTests, passStyle, errStyle)} (${allFailedTests + allPassedTests})")
+    println(
+        "\nTest files ${
+            createPassedFailedString(
+                result.passed,
+                result.failed,
+                passStyle,
+                errStyle
+            )
+        } (${result.files})"
+    )
+    println(
+        "\tTests ${
+            createPassedFailedString(
+                allPassedTests,
+                allFailedTests,
+                passStyle,
+                errStyle
+            )
+        } (${allFailedTests + allPassedTests})"
+    )
+
 }
 
 private const val DIVIDER = "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"

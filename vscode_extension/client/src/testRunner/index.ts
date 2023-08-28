@@ -61,7 +61,7 @@ export default class TestRunner implements Feature {
             await data.run(test, run, this.server.server);
           }
 
-          const lineNo = test.range!.start.line;
+          // TODO: add coverage
 
           run.appendOutput(`Completed ${test.id}\r\n`);
         }
@@ -134,6 +134,10 @@ export default class TestRunner implements Feature {
         updateNodeForDocument(e.document)
       )
     );
+
+    getWorkspaceTestPatterns().map(({ pattern }) =>
+      findInitialFiles(ctrl, pattern)
+    );
   }
 
   dispose(): void {
@@ -147,11 +151,10 @@ function getOrCreateFile(controller: vscode.TestController, uri: vscode.Uri) {
     return { file: existing, data: testData.get(existing) as TestFile };
   }
 
-  const file = controller.createTestItem(
-    uri.toString(),
-    uri.path.split("/").pop()!,
-    uri
-  );
+  const path = uri.path.split("/");
+  const name = path[path.length - 2];
+
+  const file = controller.createTestItem(uri.toString(), name, uri);
   controller.items.add(file);
 
   const data = new TestFile(uri.path.endsWith(".json"));
@@ -165,18 +168,19 @@ async function findInitialFiles(
   controller: vscode.TestController,
   pattern: vscode.GlobPattern
 ) {
-  for (const file of await vscode.workspace.findFiles(pattern)) {
-    console.log(file);
+  const files = await vscode.workspace.findFiles(pattern);
+  console.log({ type: "findInitialFiles", files, pattern });
+  for (const file of files) {
     if (file.scheme !== "file") {
       return;
     }
-
-    if (
-      !file.path.endsWith(".map.test.yaml") ||
-      !!file.path.endsWith(".map.test.json")
-    ) {
+    const isTestFile =
+      file.path.endsWith(".map.test.yaml") ||
+      file.path.endsWith(".map.test.json");
+    if (!isTestFile) {
       return;
     }
+
     getOrCreateFile(controller, file);
   }
 }
@@ -187,7 +191,7 @@ function getWorkspaceTestPatterns() {
   }
 
   const extensions = ["json", "yaml"]; // Add more extensions if needed
-  const pattern = `**/*.{${extensions.join(",")}}`;
+  const pattern = `**/*.map.test.{${extensions.join(",")}}`;
 
   return vscode.workspace.workspaceFolders.map((workspaceFolder) => ({
     workspaceFolder,

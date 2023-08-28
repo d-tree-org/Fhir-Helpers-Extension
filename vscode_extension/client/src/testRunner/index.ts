@@ -1,15 +1,15 @@
 import * as vscode from "vscode";
 import { log } from "console";
 import { Feature } from "../feature.type";
-import { TestFile, testData } from "./testTree";
-// import { TestFile } from "./testTree";
+import { TestCase, TestFile, testData } from "./testTree";
+import { IServerManager } from "../core/server";
 
 export default class TestRunner implements Feature {
-  private context: vscode.ExtensionContext;
+  private server: IServerManager;
 
-  constructor(context: vscode.ExtensionContext) {
+  constructor(context: vscode.ExtensionContext, serverConf: IServerManager) {
     log("TestRunner activated");
-    this.context = context;
+    this.server = serverConf;
     const ctrl = vscode.tests.createTestController("testRunner", "Test Runner");
     context.subscriptions.push(ctrl);
 
@@ -19,9 +19,60 @@ export default class TestRunner implements Feature {
       cancellation: vscode.CancellationToken
     ) => {
       console.log("runHandler", request, cancellation);
+      return startTestRun(request, cancellation);
     };
 
-    // const startTestRun = (request: vscode.TestRunRequest) => {};
+    const startTestRun = (
+      request: vscode.TestRunRequest,
+      token: vscode.CancellationToken
+    ) => {
+      console.log("Here");
+      console.log(request);
+      const queue: { test: vscode.TestItem; data: TestCase }[] = [];
+      const run = ctrl.createTestRun(request);
+
+      const discoverTests = async (tests: Iterable<vscode.TestItem>) => {
+        for (const test of tests) {
+          if (request.exclude?.includes(test)) {
+            continue;
+          }
+
+          const data = testData.get(test);
+          if (data instanceof TestCase) {
+            run.enqueued(test);
+            queue.push({ test, data });
+          } else {
+            if (data instanceof TestFile && !data.didResolve) {
+              await data.updateFromDisk(ctrl, test);
+            }
+
+            await discoverTests(gatherTestItems(test.children));
+          }
+        }
+      };
+
+      const runTestQueue = async () => {
+        for (const { test, data } of queue) {
+          run.appendOutput(`Running ${test.id}\r\n`);
+          if (run.token.isCancellationRequested) {
+            run.skipped(test);
+          } else {
+            run.started(test);
+            await data.run(test, run, this.server.server);
+          }
+
+          const lineNo = test.range!.start.line;
+
+          run.appendOutput(`Completed ${test.id}\r\n`);
+        }
+
+        run.end();
+      };
+
+      discoverTests(request.include ?? gatherTestItems(ctrl.items)).then(
+        runTestQueue
+      );
+    };
 
     ctrl.refreshHandler = async () => {
       console.log("refreshHandler");
@@ -41,6 +92,7 @@ export default class TestRunner implements Feature {
     );
 
     ctrl.resolveHandler = async (item) => {
+      console.log(item);
       if (!item) {
         context.subscriptions.push(
           ...startWatchingWorkspace(ctrl, fileChangedEmitter)
@@ -65,6 +117,8 @@ export default class TestRunner implements Feature {
       ) {
         return;
       }
+
+      log("updateNodeForDocument", e.uri.path);
 
       const { file, data } = getOrCreateFile(ctrl, e.uri);
       data.updateFromContents(ctrl, e.getText(), file);
@@ -112,6 +166,17 @@ async function findInitialFiles(
   pattern: vscode.GlobPattern
 ) {
   for (const file of await vscode.workspace.findFiles(pattern)) {
+    console.log(file);
+    if (file.scheme !== "file") {
+      return;
+    }
+
+    if (
+      !file.path.endsWith(".map.test.yaml") ||
+      !!file.path.endsWith(".map.test.json")
+    ) {
+      return;
+    }
     getOrCreateFile(controller, file);
   }
 }
@@ -154,4 +219,10 @@ function startWatchingWorkspace(
 
     return watcher;
   });
+}
+
+function gatherTestItems(collection: vscode.TestItemCollection) {
+  const items: vscode.TestItem[] = [];
+  collection.forEach((item) => items.push(item));
+  return items;
 }

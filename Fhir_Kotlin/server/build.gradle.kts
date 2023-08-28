@@ -7,7 +7,7 @@ plugins {
     application
 }
 
-group = "com.sevenreup.fhir"
+group = "com.sevenreup.fhir.server"
 version = "0.0.2-SNAPSHOT"
 
 repositories {

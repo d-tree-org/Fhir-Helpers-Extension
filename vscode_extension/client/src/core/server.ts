@@ -2,6 +2,8 @@ import axios from "axios";
 import { JSONRPCClient } from "json-rpc-2.0";
 import { EventEmitter, ExtensionContext } from "vscode";
 import WebSocket = require("ws");
+import * as path from "path";
+import { execShell } from "../utils/terminal";
 
 type ServerState = "loading" | "connected" | "failed";
 
@@ -32,6 +34,7 @@ export class ServerManager implements IServerManager {
   }
 
   async initServer() {
+    // await runServer(this.context);
     this.webSocket = new WebSocket("ws://localhost:8080");
     this.webSocket.on("error", (e) => {
       console.log(e);
@@ -62,4 +65,14 @@ export class ServerManager implements IServerManager {
       console.log(data.toString());
     });
   }
+}
+
+async function runServer(context: ExtensionContext) {
+  const compilerPath = context.asAbsolutePath(
+    path.join("bin", "server", "server.jar")
+  );
+
+  const process = await execShell(`java -jar ${compilerPath}`);
+
+  console.log(process);
 }

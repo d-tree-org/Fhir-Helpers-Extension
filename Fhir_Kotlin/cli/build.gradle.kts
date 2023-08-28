@@ -8,7 +8,7 @@ plugins {
     application
 }
 
-group = "com.sevenreup.fhir.compiler"
+group = "com.sevenreup.fhir.cli"
 version = "0.0.2-SNAPSHOT"
 
 repositories {

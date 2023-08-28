@@ -1,7 +1,9 @@
 import { TextDecoder } from "util";
 import * as vscode from "vscode";
 import { parseStructureMapFile } from "./parser";
-import { TestCaseData } from "./parsers/types";
+import { TestCaseData, TestResult } from "./parsers/types";
+import { JSONRPCClient } from "json-rpc-2.0";
+import { sendRunTest } from "../core/run";
 
 const textDecoder = new TextDecoder("utf-8");
 
@@ -68,7 +70,7 @@ export class TestFile {
         const id = `${item.uri}/${data.getLabel()}`;
 
         const tcase = controller.createTestItem(id, data.getLabel(), item.uri);
-        console.log(data.getLabel(), tcase);
+        // console.log(data.getLabel(), tcase);
         testData.set(tcase, data);
         tcase.range = range;
         parent.children.push(tcase);
@@ -86,7 +88,40 @@ export class TestCase {
     return `${this.data.path} ${this.data.value}}`;
   }
 
-  async run(item: vscode.TestItem, options: vscode.TestRun): Promise<void> {
-    console.log(item);
+  async run(
+    item: vscode.TestItem,
+    options: vscode.TestRun,
+    server: JSONRPCClient
+  ): Promise<void> {
+    console.log({
+      i: "Runn this item",
+      item,
+      options,
+      data: this.data,
+      generation: this.generation,
+    });
+    const start = Date.now();
+
+    const res = await sendRunTest(item, this.data, server);
+    const duration = Date.now() - start;
+
+    if (res.error) {
+      options.errored(item, new vscode.TestMessage(res.error));
+      return;
+    }
+    const result = res.result as TestResult;
+
+    if (result.passed) {
+      options.passed(item, duration);
+      return;
+    } else {
+      options.failed(
+        item,
+        new vscode.TestMessage(
+          (result.exception as any)?.message ?? result.exception
+        )
+      );
+      return;
+    }
   }
 }

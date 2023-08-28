@@ -1,4 +1,4 @@
-package server
+package com.sevenreup.fhir.server
 
 import com.github.arteam.simplejsonrpc.server.JsonRpcServer
 import io.ktor.server.application.*
@@ -8,7 +8,7 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
-import server.sockets.SocketTransport
+import com.sevenreup.fhir.server.sockets.SocketTransport
 
 fun main(args: Array<String>) {
     val service = FhirService()

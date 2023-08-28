@@ -31,7 +31,6 @@
     "@types/vscode": "^1.74.0",
     "@types/ws": "^8.5.4",
     "@vscode/test-electron": "^2.1.2",
-    "glob": "^7.1.4",
-    "vitest": "^0.34.1"
+    "glob": "^7.1.4"
   }
 }

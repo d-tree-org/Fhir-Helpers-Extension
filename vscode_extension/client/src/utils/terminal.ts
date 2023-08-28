@@ -1,11 +1,8 @@
-import * as cp from "child_process";
+import util from "util";
+import { exec as execNonPromise } from "child_process";
 
-export const execShell = (cmd: string) =>
-  new Promise<string>((resolve, reject) => {
-    cp.exec(cmd, (err, out) => {
-      if (err) {
-        return reject(err);
-      }
-      return resolve(out);
-    });
-  });
+const exec = util.promisify(execNonPromise);
+
+export const execShell = async (cmd: string) => {
+  return await exec(cmd);
+};

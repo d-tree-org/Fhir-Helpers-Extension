@@ -1,4 +1,3 @@
-
 export interface YamlData {
   tests: TestItem[];
 }
@@ -15,8 +14,15 @@ export type TestCaseData = {
   };
   response: string;
   path: string;
-  value: string;
+  value?: string;
+  valueRange?: ValueRange;
+  type: string;
 };
+
+interface ValueRange {
+  start: string;
+  end: string;
+}
 
 export interface TestItem {
   response: string;
@@ -27,4 +33,13 @@ export interface VerifySection {
   type: string;
   path: string;
   value?: string;
+  valueRange?: ValueRange;
+}
+
+export interface TestResult {
+  passed: boolean;
+  value?: any;
+  expected?: any;
+  exception?: string;
+  path?: string;
 }

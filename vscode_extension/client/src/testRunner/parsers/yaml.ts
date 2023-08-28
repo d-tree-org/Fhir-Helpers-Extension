@@ -34,7 +34,9 @@ export const parseYaml = (yamlContent: string): TestCaseData[] => {
             range,
             response: testStep.response,
             path: verifyItem.path,
-            value: verifyItem.value || "",
+            value: verifyItem.value,
+            valueRange: verifyItem.valueRange,
+            type: verifyItem.type,
           });
         }
       }

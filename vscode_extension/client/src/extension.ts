@@ -5,7 +5,7 @@ import { Formatter } from "./features/formatter";
 import CompileStrMap from "./features/compile";
 import RunCode from "./features/run";
 import { ServerManager } from "./core/server";
-import TestRunner from './testRunner';
+import TestRunner from "./testRunner";
 
 let context: ExtensionContext;
 let extensionFeatures: Feature[] = [];
@@ -31,10 +31,10 @@ export function activate(context: ExtensionContext) {
   serverManager.onConnection((state) => {
     if (state == "connected") {
       extensionFeatures = [
-        new CompileStrMap(context),
+        new CompileStrMap(context, serverManager),
         new RunCode(serverManager),
         new Formatter(context.subscriptions),
-        new TestRunner(context,)
+        new TestRunner(context, serverManager),
         // new Server(serverManager),
       ];
     } else if (state == "failed") {

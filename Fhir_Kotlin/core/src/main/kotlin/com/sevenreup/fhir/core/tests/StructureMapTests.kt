@@ -10,6 +10,8 @@ import com.jayway.jsonpath.JsonPath
 import com.sevenreup.fhir.core.compiler.parsing.ParseJsonCommands
 import com.sevenreup.fhir.core.config.ProjectConfigManager
 import com.sevenreup.fhir.core.models.JsonConfig
+import com.sevenreup.fhir.core.models.TestVerify
+import com.sevenreup.fhir.core.tests.inputs.TestCaseData
 import com.sevenreup.fhir.core.tests.inputs.TestTypes
 import com.sevenreup.fhir.core.tests.operations.*
 import com.sevenreup.fhir.core.utilities.TransformSupportServices
@@ -24,6 +26,19 @@ import org.hl7.fhir.utilities.npm.ToolsVersion
 
 
 class StructureMapTests(private val configManager: ProjectConfigManager, private val parser: ParseJsonCommands) {
+
+    private val iParser: IParser = FhirContext.forCached(FhirVersionEnum.R4).newJsonParser()
+    private val scu: StructureMapUtilities
+    private var contextR4: SimpleWorkerContext
+
+    init {
+        val pcm = FilesystemPackageCacheManager(true, ToolsVersion.TOOLS_VERSION)
+        contextR4 = SimpleWorkerContext.fromPackage(pcm.loadPackage("hl7.fhir.r4.core", "4.0.1"))
+        contextR4.setExpansionProfile(Parameters())
+        contextR4.isCanRunWithoutTerminology = true
+        scu = StructureMapUtilities(contextR4, TransformSupportServices(contextR4))
+    }
+
     private fun loadConfigs(path: String): JsonConfig {
         return when (path.split(".").last()) {
             "json" -> {
@@ -43,15 +58,24 @@ class StructureMapTests(private val configManager: ProjectConfigManager, private
         }
     }
 
+    fun targetTest(path: String, data: TestCaseData, projectRoot: String? = null): TestStatus {
+        val config = loadConfigs(path)
+        val configs = configManager.loadProjectConfig(projectRoot, path.getParentPath())
+
+        val bundle =
+            parser.parseBundle(iParser, contextR4, scu, path.getParentPath(), config.map, data.response, configs)
+        val jsonString = iParser.encodeResourceToString(bundle.data)
+        println(jsonString)
+        val document = Configuration.defaultConfiguration().jsonProvider().parse(jsonString)
+        return runTest(
+            document,
+            TestVerify(type = data.type, path = data.path, value = data.value, valueRange = data.valueRange)
+        )
+    }
+
     fun test(path: String, projectRoot: String?): TestResult {
         val config = loadConfigs(path)
 
-        val iParser: IParser = FhirContext.forCached(FhirVersionEnum.R4).newJsonParser()
-        val pcm = FilesystemPackageCacheManager(true, ToolsVersion.TOOLS_VERSION)
-        val contextR4 = SimpleWorkerContext.fromPackage(pcm.loadPackage("hl7.fhir.r4.core", "4.0.1"))
-        contextR4.setExpansionProfile(Parameters())
-        contextR4.isCanRunWithoutTerminology = true
-        val scu = StructureMapUtilities(contextR4, TransformSupportServices(contextR4))
         val fileTestResults = mutableListOf<FileTestResult>()
 
         var passedFiles = 0
@@ -71,63 +95,7 @@ class StructureMapTests(private val configManager: ProjectConfigManager, private
             var failedTests = 0
 
             for (verify in test.verify) {
-                var result: Any? = null
-                var testResult: TestStatus
-
-                try {
-                    var useRange = false
-                    val resultRaw: Any = JsonPath.read(document, verify.path)
-                    result = if (resultRaw is JSONArray) {
-                        resultRaw.firstOrNull()?.toString() ?: ""
-                    } else {
-                        resultRaw.toString()
-                    }
-
-                    val operation = when (verify.type) {
-                        TestTypes.Equals -> EqualsTo()
-                        TestTypes.EqualsNoCase -> EqualsToNoCase()
-                        TestTypes.NotEquals -> NotEqualsTo()
-                        TestTypes.LessThan -> LessThan()
-                        TestTypes.LessThanOrEqual -> LessThanOrEqual()
-                        TestTypes.GreaterThan -> GreaterThan()
-                        TestTypes.GreaterThanOrEqual -> GreaterThanOrEqual()
-                        TestTypes.Contains -> Contains()
-                        TestTypes.NotContains -> NotContains()
-                        TestTypes.ContainsNoCase -> ContainsNoCase()
-                        TestTypes.NotContainsNoCase -> NotContainsNoCase()
-                        TestTypes.Null -> Null()
-                        TestTypes.NotNull -> NotNull()
-                        TestTypes.Between -> {
-                            useRange = true
-                            Between()
-                        }
-
-                        TestTypes.StartsWith -> StartsWith()
-                        TestTypes.StartsWithNoCase -> StartsWithNoCase()
-                        TestTypes.EndsWith -> EndsWith()
-                        TestTypes.EndsWithNoCase -> EndsWithNoCase()
-                        else -> null
-                    }
-
-                    testResult = if (operation != null) {
-                        operation.execute(value = result, expected = if (useRange) verify.valueRange else verify.value)
-                            .copy(path = verify.path)
-                    } else {
-                        val err = Exception("Assertion not supported")
-                        TestStatus(
-                            passed = false, value = result, expected = verify.value, exception = err, path = verify.path
-                        )
-                    }
-
-                } catch (e: Exception) {
-                    if (e is ClassCastException) {
-                        val failedToCastToString = e.message?.contains("Array")
-                        println(failedToCastToString)
-                        // TODO: Work on array
-                    }
-                    testResult =
-                        TestStatus(false, value = result, expected = verify.value, exception = e, path = verify.path)
-                }
+                val testResult = runTest(document, verify)
                 if (testResult.passed) passedTests++ else failedTests++
                 status.add(
                     testResult
@@ -153,6 +121,69 @@ class StructureMapTests(private val configManager: ProjectConfigManager, private
         return TestResult(
             fileTestResults, failed = failedFiles, passed = passedFiles, files = config.tests.size
         )
+    }
+
+
+    private fun runTest(document: Any, verify: TestVerify): TestStatus {
+        var testResult: TestStatus
+        var result: Any? = null
+
+        try {
+            var useRange = false
+            val resultRaw: Any = JsonPath.read(document, verify.path)
+            result = if (resultRaw is JSONArray) {
+                resultRaw.firstOrNull()?.toString() ?: ""
+            } else {
+                resultRaw.toString()
+            }
+
+            val operation = when (verify.type) {
+                TestTypes.Equals -> EqualsTo()
+                TestTypes.EqualsNoCase -> EqualsToNoCase()
+                TestTypes.NotEquals -> NotEqualsTo()
+                TestTypes.LessThan -> LessThan()
+                TestTypes.LessThanOrEqual -> LessThanOrEqual()
+                TestTypes.GreaterThan -> GreaterThan()
+                TestTypes.GreaterThanOrEqual -> GreaterThanOrEqual()
+                TestTypes.Contains -> Contains()
+                TestTypes.NotContains -> NotContains()
+                TestTypes.ContainsNoCase -> ContainsNoCase()
+                TestTypes.NotContainsNoCase -> NotContainsNoCase()
+                TestTypes.Null -> Null()
+                TestTypes.NotNull -> NotNull()
+                TestTypes.Between -> {
+                    useRange = true
+                    Between()
+                }
+
+                TestTypes.StartsWith -> StartsWith()
+                TestTypes.StartsWithNoCase -> StartsWithNoCase()
+                TestTypes.EndsWith -> EndsWith()
+                TestTypes.EndsWithNoCase -> EndsWithNoCase()
+                else -> null
+            }
+
+            testResult = if (operation != null) {
+                operation.execute(value = result, expected = if (useRange) verify.valueRange else verify.value)
+                    .copy(path = verify.path)
+            } else {
+                val err = Exception("Assertion not supported")
+                TestStatus(
+                    passed = false, value = result, expected = verify.value, exception = err, path = verify.path
+                )
+            }
+
+        } catch (e: Exception) {
+            if (e is ClassCastException) {
+                val failedToCastToString = e.message?.contains("Array")
+                println(failedToCastToString)
+                // TODO: Work on array
+            }
+            testResult =
+                TestStatus(false, value = result, expected = verify.value, exception = e, path = verify.path)
+        }
+
+        return testResult
     }
 }
 

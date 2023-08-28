@@ -1,26 +1,17 @@
-import { execShell } from "../utils/terminal";
-import * as path from "path";
-import { ExtensionContext } from "vscode";
+import { JSONRPCClient } from "json-rpc-2.0";
 
 function getJsonOutput(data: string) {
   const splitData = data.split("MAP_OUTPUT_STARTS_HERE");
   return splitData[1].trim();
 }
 
-export async function compileMap(
-  data: string,
-  filePath: string,
-  context: ExtensionContext
-): Promise<string> {
+export async function compileMap(filePath: string, server: JSONRPCClient) {
   try {
-    const compilerPath = context.asAbsolutePath(
-      path.join("bin", "compile", "compile.jar")
-    );
-
-    const process = await execShell(`java -jar ${compilerPath} compile ${filePath}`);
-    console.log(process);
-
-    return getJsonOutput(process);
+    const res = await server.request("compileStructureMap", {
+      path: filePath,
+    });
+    console.log(res);
+    return res;
   } catch (error) {
     throw Error(error);
   }

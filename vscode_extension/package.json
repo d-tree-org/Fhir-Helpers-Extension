@@ -132,15 +132,15 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "pnpm run compile",
+    "vscode:prepublish": "npm run compile",
     "package": "vsce package",
     "compile": "tsc -b",
     "watch": "tsc -b -w",
     "lint": "eslint ./client/src ./server/src --ext .ts,.tsx",
-    "postinstall": "cd client && pnpm install && cd ..",
+    "postinstall": "cd client && npm install && cd ..",
     "test": "sh ./scripts/e2e.sh",
-    "unit:test": "cd client && pnpm run test && cd ..",
-    "unit:coverage": "cd client && pnpm run coverage && cd .."
+    "unit:test": "cd client && npm run test && cd ..",
+    "unit:coverage": "cd client && npm run coverage && cd .."
   },
   "devDependencies": {
     "@types/mocha": "^9.1.0",
@@ -151,8 +151,5 @@
     "eslint": "^8.26.0",
     "mocha": "^9.2.1",
     "typescript": "^5.1.3"
-  },
-  "dependencies": {
-    "portfinder": "^1.0.32"
   }
 }

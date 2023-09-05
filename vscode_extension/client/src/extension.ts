@@ -20,7 +20,7 @@ export function activate(context: ExtensionContext) {
       extensionFeatures = [
         new CompileStrMap(context, serverManager),
         new RunCode(serverManager),
-        new Formatter(context.subscriptions),
+        new Formatter(context.subscriptions, serverManager),
         new TestRunner(context, serverManager),
       ];
     } else if (state == "failed") {

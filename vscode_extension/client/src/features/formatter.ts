@@ -12,9 +12,15 @@ import {
 } from "vscode";
 import { Feature } from "../feature.type";
 import { isMapFile } from "../utils";
+import { IServerManager } from "../core/server";
+import { JSONRPCClient } from "json-rpc-2.0";
+import { RPCResponse } from "../core/run";
 
 export class Formatter implements Feature {
-  constructor(subscriptions: Disposable[]) {
+  private conf: IServerManager;
+
+  constructor(subscriptions: Disposable[], serverConf: IServerManager) {
+    this.conf = serverConf;
     subscriptions.push(
       languages.registerDocumentFormattingEditProvider(
         {
@@ -22,15 +28,28 @@ export class Formatter implements Feature {
           scheme: "file",
         },
         {
-          provideDocumentFormattingEdits(document: TextDocument): TextEdit[] {
-            const formattedDocument: string | undefined = beautifyMap(
-              document.getText()
-            );
-            if (formattedDocument) {
-              return [TextEdit.replace(getRange(document), formattedDocument)];
-            }
+          provideDocumentFormattingEdits: async (
+            document: TextDocument
+          ): Promise<TextEdit[]> => {
+            try {
+              const response = await beautifyMap(
+                document.uri.fsPath,
+                this.conf.server
+              );
+              if (response.error) {
+                window.showErrorMessage(response.error);
+                return [];
+              }
+              if (response.result) {
+                return [TextEdit.replace(getRange(document), response.result)];
+              }
 
-            return [TextEdit.replace(getRange(document), document.getText())];
+              return [TextEdit.replace(getRange(document), document.getText())];
+            } catch (error) {
+              console.error(error);
+
+              return [];
+            }
           },
         }
       ),
@@ -43,25 +62,30 @@ export class Formatter implements Feature {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   dispose(): void {}
 
-  beautify(): any {
+  async beautify(): Promise<void> {
     const activeTextEditor: TextEditor | undefined = window.activeTextEditor;
 
     if (activeTextEditor && isMapFile(activeTextEditor.document)) {
-      activeTextEditor.edit((editBuilder: TextEditorEdit) => {
-        const formattedDocument: string | undefined = beautifyMap(
-          activeTextEditor.document.getText()
+      activeTextEditor.edit(async (editBuilder: TextEditorEdit) => {
+        const response = await beautifyMap(
+          activeTextEditor.document.uri.fsPath,
+          this.conf.server
         );
 
-        if (formattedDocument) {
+        if (response.error) {
+          window.showErrorMessage(response.error);
+          return;
+        }
+
+        if (response.result) {
           editBuilder.replace(
             getRange(activeTextEditor.document),
-            formattedDocument
+            response.result
           );
         }
       });
     } else {
       window.showWarningMessage("This is not a MAP document!");
-
       return;
     }
   }
@@ -77,6 +101,19 @@ function getRange(document: TextDocument): Range {
   );
 }
 
-function beautifyMap(data: string) {
-  return "jeff";
+async function beautifyMap(
+  file: string,
+  server: JSONRPCClient
+): Promise<RPCResponse> {
+  try {
+    const res = await server.request("formatStructureMap", {
+      path: file,
+    });
+
+    return { result: res as string };
+  } catch (error) {
+    return {
+      error: error.toString(),
+    };
+  }
 }

@@ -16,10 +16,10 @@ fun createParser() = ResourceParser(configManager = ProjectConfigManager())
 
 @Command(name = "compile")
 class CompileCommand : Callable<Int> {
-    @Parameters(index = "0")
+    @Parameters(index = "0", description = ["Path to the StructureMap file"])
     lateinit var path: String
 
-    @Option(names = ["-r", "--root"])
+    @Option(names = ["-r", "--root"], description = [Constants.rootDescription])
     var projectRoot: String? = null
     override fun call(): Int {
         val parser = createParser()
@@ -33,13 +33,13 @@ class CompileCommand : Callable<Int> {
 
 @Command(name = "test")
 class TestCommand : Callable<Int> {
-    @Parameters(index = "0")
+    @Parameters(index = "0", description = ["Path to the test file"])
     lateinit var path: String
 
-    @Option(names = ["-r", "--root"])
+    @Option(names = ["-r", "--root"], description = [Constants.rootDescription])
     var projectRoot: String? = null
 
-    @Option(names = ["-w", "--watch"])
+    @Option(names = ["-w", "--watch"], description = [Constants.watchDescription])
     var watch: Boolean = false
 
     override fun call(): Int {
@@ -50,7 +50,7 @@ class TestCommand : Callable<Int> {
 
 @Command(name = "qst_verify")
 class QuestVerifyCommand : Callable<Int> {
-    @Parameters(index = "0")
+    @Parameters(index = "0", description = ["Path to the questionnaire"])
     lateinit var path: String
 
     override fun call(): Int {
@@ -61,21 +61,22 @@ class QuestVerifyCommand : Callable<Int> {
 
 @Command(name = "fmt_str")
 class FmtStrCommand : Callable<Int> {
-    @Parameters(index = "0")
+    @Parameters(index = "0", description = ["Path to the StructureMap File"])
     lateinit var path: String
 
     @Option(names = ["-src", "--source"])
     var srcName: String? = null
     override fun call(): Int {
-
-        formatStructureMap(path, srcName)
+        val data = formatStructureMap(path, srcName)
+        println("\n\nMAP_OUTPUT_STARTS_HERE\n\n")
+        println(data.data)
         return 0
     }
 }
 
 @Command(name = "to_map")
 class ToMapCommand : Callable<Int> {
-    @Parameters(index = "0")
+    @Parameters(index = "0", description = ["Path to the StructureMap File"])
     lateinit var path: String
     override fun call(): Int {
 
@@ -86,7 +87,7 @@ class ToMapCommand : Callable<Int> {
 
 @Command(name = "transform")
 class TransformCommand : Callable<Int> {
-    @Parameters(index = "0")
+    @Parameters(index = "0", description = ["Path to the StructureMap File"])
     lateinit var path: String
 
     @Parameters(index = "1")
@@ -99,10 +100,10 @@ class TransformCommand : Callable<Int> {
 
 @Command(name = "transform_batch")
 class TransFormBatchCommand : Callable<Int> {
-    @Parameters(index = "0")
+    @Parameters(index = "0", description = ["Path to the config"])
     lateinit var path: String
 
-    @Option(names = ["-r", "--root"])
+    @Option(names = ["-r", "--root"], description = [Constants.rootDescription])
     var projectRoot: String? = null
     override fun call(): Int {
         val parser = createParser()

@@ -18,6 +18,7 @@ import { Feature } from "../feature.type";
 import { isMapFile } from "../utils";
 import { AvailableCommands } from "../utils/constants";
 import { compileMap } from "../core/compile";
+import { IServerManager } from "../core/server";
 
 export default class CompileStrMap implements Feature {
   private openedDocuments: string[] = [];
@@ -25,10 +26,12 @@ export default class CompileStrMap implements Feature {
   private subscriptions: Disposable[];
   private webview: WebviewPanel | undefined;
   private context: ExtensionContext;
+  private conf: IServerManager;
 
-  constructor(context: ExtensionContext) {
+  constructor(context: ExtensionContext, serverConf: IServerManager) {
     this.context = context;
     this.subscriptions = context.subscriptions;
+    this.conf = serverConf;
     this.subscriptions.push(
       commands.registerCommand(AvailableCommands.compile, () => {
         window.showInformationMessage("Structure Map Compilation Started");
@@ -142,9 +145,8 @@ export default class CompileStrMap implements Feature {
 
   private async getContent(document: TextDocument): Promise<string> {
     const html: string = await compileMap(
-      document.getText(),
       document.uri.fsPath,
-      this.context
+      this.conf.server
     );
 
     if (html) {

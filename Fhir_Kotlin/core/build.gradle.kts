@@ -15,6 +15,8 @@ repositories {
 }
 
 dependencies {
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1")
+
     implementation("com.jayway.jsonpath:json-path:2.7.0")
     implementation("org.yaml:snakeyaml:1.21")
 

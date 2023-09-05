@@ -1,11 +1,5 @@
-import * as cp from "child_process";
+import * as execa from "execa";
 
-export const execShell = (cmd: string) =>
-  new Promise<string>((resolve, reject) => {
-    cp.exec(cmd, (err, out) => {
-      if (err) {
-        return reject(err);
-      }
-      return resolve(out);
-    });
-  });
+export const execShell = async (cmd: string, controller: AbortController) => {
+  return execa.commandSync(cmd);
+};

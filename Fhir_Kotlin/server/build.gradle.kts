@@ -7,8 +7,8 @@ plugins {
     application
 }
 
-group = "com.sevenreup.fhir"
-version = "0.0.2-SNAPSHOT"
+group = "com.sevenreup.fhir.server"
+version = "0.0.3-SNAPSHOT"
 
 repositories {
     google()

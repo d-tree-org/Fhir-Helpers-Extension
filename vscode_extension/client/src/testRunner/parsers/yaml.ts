@@ -1,20 +1,20 @@
-import * as vscode from "vscode";
 import * as yaml from "yaml";
 import { YamlData, TestCaseData } from "./types";
 
-export const parseYaml = (yamlContent: string) => {
+export const parseYaml = (yamlContent: string): TestCaseData[] => {
   const parsedYaml: YamlData = yaml.parse(yamlContent);
 
   const extractedTestCases: TestCaseData[] = [];
+  console.log(parsedYaml);
 
   // Process each test step
   parsedYaml.tests.forEach((testStep, stepIndex) => {
     testStep.verify.forEach((verifyItem) => {
-      if (verifyItem.type === "notNull" && verifyItem.path) {
+      if (verifyItem.type && verifyItem.path) {
         // Extract range start and end for the "notNull" test
         const rangeStartLine = yamlContent
           .split("\n")
-          .findIndex((line) => line.includes("- type: notNull"));
+          .findIndex((line) => line.includes("- type:"));
         const rangeEndLine = yamlContent
           .split("\n")
           .findIndex(
@@ -22,19 +22,21 @@ export const parseYaml = (yamlContent: string) => {
           );
 
         if (rangeStartLine !== -1 && rangeEndLine !== -1) {
-          const range = new vscode.Range(
-            new vscode.Position(rangeStartLine, 0),
-            new vscode.Position(
-              rangeEndLine,
-              yamlContent.split("\n")[rangeEndLine].length
-            )
-          );
+          const range = {
+            start: { line: rangeStartLine, character: 0 },
+            end: {
+              line: rangeEndLine,
+              character: yamlContent.split("\n")[rangeEndLine].length,
+            },
+          };
 
           extractedTestCases.push({
             range,
             response: testStep.response,
             path: verifyItem.path,
-            value: verifyItem.value || "",
+            value: verifyItem.value,
+            valueRange: verifyItem.valueRange,
+            type: verifyItem.type,
           });
         }
       }

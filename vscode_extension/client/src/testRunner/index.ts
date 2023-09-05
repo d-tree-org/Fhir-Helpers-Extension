@@ -111,14 +111,13 @@ export default class TestRunner implements Feature {
         return;
       }
 
-      if (
-        !e.uri.path.endsWith(".map.test.yaml") ||
-        !!e.uri.path.endsWith(".map.test.json")
-      ) {
+      const isTestFile =
+      e.uri.path.endsWith(".map.test.yaml") ||
+      e.uri.path.endsWith(".map.test.json") ||
+      e.uri.path.endsWith(".map.test.yml");
+      if (!isTestFile) {
         return;
       }
-
-      log("updateNodeForDocument", e.uri.path);
 
       const { file, data } = getOrCreateFile(ctrl, e.uri);
       data.updateFromContents(ctrl, e.getText(), file);
@@ -176,7 +175,8 @@ async function findInitialFiles(
     }
     const isTestFile =
       file.path.endsWith(".map.test.yaml") ||
-      file.path.endsWith(".map.test.json");
+      file.path.endsWith(".map.test.json") ||
+      file.path.endsWith(".map.test.yml");
     if (!isTestFile) {
       return;
     }
@@ -190,7 +190,7 @@ function getWorkspaceTestPatterns() {
     return [];
   }
 
-  const extensions = ["json", "yaml"]; // Add more extensions if needed
+  const extensions = ["json", "yaml", "yml"]; // Add more extensions if needed
   const pattern = `**/*.map.test.{${extensions.join(",")}}`;
 
   return vscode.workspace.workspaceFolders.map((workspaceFolder) => ({

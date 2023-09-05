@@ -5,26 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c3237d43-2c58-4473-81bb-2ff6a2b9b529" name="Changes" comment="between works with dates">
-      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/inputs/TestCase.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cli/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/cli/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/StructureMapTests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/StructureMapTests.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/inputs/ValueRange.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/inputs/ValueRange.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/server/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/kotlin/server/FhirService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/kotlin/com/sevenreup/fhir/server/FhirService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/kotlin/server/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/kotlin/com/sevenreup/fhir/server/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/kotlin/server/sockets/Connection.kt" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/kotlin/com/sevenreup/fhir/server/sockets/Connection.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/kotlin/server/sockets/SocketTransport.kt" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/kotlin/com/sevenreup/fhir/server/sockets/SocketTransport.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/kotlin/com/sevenreup/fhir/server/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/kotlin/com/sevenreup/fhir/server/Main.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../vscode_extension/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../vscode_extension/client/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/pnpm-lock.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/src/core/run.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/src/core/run.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../vscode_extension/client/src/core/server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/src/core/server.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../vscode_extension/client/src/extension.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/src/extension.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/src/features/server.ts" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../vscode_extension/client/src/testRunner/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/src/testRunner/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/src/testRunner/parsers/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/src/testRunner/parsers/types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/src/testRunner/parsers/yaml.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/src/testRunner/parsers/yaml.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/src/testRunner/testTree.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/src/testRunner/testTree.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/src/tests/parser.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/src/tests/parser.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/src/utils/terminal.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/src/utils/terminal.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vscode_extension/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vscode_extension/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/pnpm-lock.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

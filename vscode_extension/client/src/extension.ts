@@ -1,4 +1,4 @@
-import { ExtensionContext, ProgressLocation, window } from "vscode";
+import { ExtensionContext, window } from "vscode";
 
 import { Feature } from "./feature.type";
 import { Formatter } from "./features/formatter";
@@ -15,19 +15,6 @@ export function activate(context: ExtensionContext) {
   this.context = context;
   serverManager = new ServerManager(context);
 
-  window.withProgress(
-    {
-      location: ProgressLocation.Notification,
-      title: "Connecting to server",
-      cancellable: false,
-    },
-    async (progress, token) => {
-      progress.report({ increment: 20 });
-      await serverManager.initServer();
-      return null;
-    }
-  );
-
   serverManager.onConnection((state) => {
     if (state == "connected") {
       extensionFeatures = [
@@ -35,12 +22,13 @@ export function activate(context: ExtensionContext) {
         new RunCode(serverManager),
         new Formatter(context.subscriptions),
         new TestRunner(context, serverManager),
-        // new Server(serverManager),
       ];
     } else if (state == "failed") {
       window.showInformationMessage("Failed to connect to server");
     }
   });
+
+  serverManager.initServer();
 }
 
 export function deactivate() {
@@ -51,4 +39,6 @@ export function deactivate() {
   for (const subscription of context.subscriptions) {
     subscription.dispose();
   }
+
+  serverManager.dispose();
 }

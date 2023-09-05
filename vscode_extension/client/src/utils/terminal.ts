@@ -1,8 +1,5 @@
-import util from "util";
-import { exec as execNonPromise } from "child_process";
+import * as execa from "execa";
 
-const exec = util.promisify(execNonPromise);
-
-export const execShell = async (cmd: string) => {
-  return await exec(cmd);
+export const execShell = async (cmd: string, controller: AbortController) => {
+  return execa.commandSync(cmd);
 };

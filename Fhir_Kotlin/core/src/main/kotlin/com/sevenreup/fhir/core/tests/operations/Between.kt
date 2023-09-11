@@ -3,11 +3,21 @@ package com.sevenreup.fhir.core.tests.operations
 import com.google.gson.Gson
 import com.sevenreup.fhir.core.tests.Operation
 import com.sevenreup.fhir.core.tests.TestStatus
+import com.sevenreup.fhir.core.tests.inputs.PathResult
+import com.sevenreup.fhir.core.tests.inputs.PathResultType
 import com.sevenreup.fhir.core.tests.inputs.ValueRange
 import com.sevenreup.fhir.core.utils.parseDate
 
 class Between : Operation {
-    override fun execute(value: Any?, expected: Any?): TestStatus {
+    override fun execute(value: PathResult?, expected: Any?): TestStatus {
+        if (value?.type == PathResultType.ARRAY) {
+            return TestStatus(
+                passed = false,
+                value = value,
+                expected = expected,
+                exception = Exception("Expected Value Range but got ${expected ?: "null"}")
+            )
+        }
         if (expected is ValueRange? && expected != null) {
             var error: Exception? = null
             val numbers = expected.isNumber()
@@ -53,7 +63,13 @@ class Between : Operation {
                 passed = false,
                 value = value,
                 expected = expected,
-                exception = Exception("Expected Value Range but to be either dates or number but got ${Gson().toJson(expected)}")
+                exception = Exception(
+                    "Expected Value Range but to be either dates or number but got ${
+                        Gson().toJson(
+                            expected
+                        )
+                    }"
+                )
             )
         } else {
             return TestStatus(

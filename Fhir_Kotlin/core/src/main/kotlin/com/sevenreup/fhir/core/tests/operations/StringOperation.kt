@@ -2,6 +2,8 @@ package com.sevenreup.fhir.core.tests.operations
 
 import com.sevenreup.fhir.core.tests.Operation
 import com.sevenreup.fhir.core.tests.TestStatus
+import com.sevenreup.fhir.core.tests.inputs.PathResult
+import com.sevenreup.fhir.core.tests.inputs.PathResultType
 import com.sevenreup.fhir.core.tests.inputs.testTypeNameMap
 
 open class StringOperation : Operation {
@@ -14,10 +16,10 @@ open class StringOperation : Operation {
         TODO("Implement this in the class that inherits")
     }
 
-    override fun execute(value: Any?, expected: Any?): TestStatus {
-        return if (value is String && expected is String) {
+    override fun execute(value: PathResult?, expected: Any?): TestStatus {
+        return if (value?.value is String && expected is String) {
             var error: Exception? = null
-            val passed: Boolean = calculateValue(value, expected)
+            val passed: Boolean = calculateValue(value.value.toString(), expected)
             if (!passed)
                 error = Exception("Expected: $value ${testTypeNameMap[getName()]} $expected")
             TestStatus(

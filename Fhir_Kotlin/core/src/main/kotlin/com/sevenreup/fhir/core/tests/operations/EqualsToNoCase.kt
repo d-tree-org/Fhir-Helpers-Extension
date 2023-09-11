@@ -2,12 +2,13 @@ package com.sevenreup.fhir.core.tests.operations
 
 import com.sevenreup.fhir.core.tests.Operation
 import com.sevenreup.fhir.core.tests.TestStatus
+import com.sevenreup.fhir.core.tests.inputs.PathResult
 import com.sevenreup.fhir.core.tests.inputs.TestTypes
 
 class EqualsToNoCase : Operation {
-    override fun execute(value: Any?, expected: Any?): TestStatus {
-        return if (value is String) {
-            val passed = value.equals(expected.toString(), ignoreCase = true)
+    override fun execute(value: PathResult?, expected: Any?): TestStatus {
+        return if (value?.value is String) {
+            val passed = value.toString().equals(expected.toString(), ignoreCase = true)
             var error: Exception? = null
             if (!passed) {
                 error = Exception("Expected: $expected but got $value instead")

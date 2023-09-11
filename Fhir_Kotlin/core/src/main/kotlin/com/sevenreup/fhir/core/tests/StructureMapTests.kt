@@ -11,6 +11,8 @@ import com.sevenreup.fhir.core.compiler.parsing.ParseJsonCommands
 import com.sevenreup.fhir.core.config.ProjectConfigManager
 import com.sevenreup.fhir.core.models.JsonConfig
 import com.sevenreup.fhir.core.models.TestVerify
+import com.sevenreup.fhir.core.tests.inputs.PathResult
+import com.sevenreup.fhir.core.tests.inputs.PathResultType
 import com.sevenreup.fhir.core.tests.inputs.TestCaseData
 import com.sevenreup.fhir.core.tests.inputs.TestTypes
 import com.sevenreup.fhir.core.tests.operations.*
@@ -126,15 +128,22 @@ class StructureMapTests(private val configManager: ProjectConfigManager, private
 
     private fun runTest(document: Any, verify: TestVerify): TestStatus {
         var testResult: TestStatus
-        var result: Any? = null
+        var result: PathResult? = null
 
         try {
             var useRange = false
             val resultRaw: Any = JsonPath.read(document, verify.path)
             result = if (resultRaw is JSONArray) {
-                resultRaw.firstOrNull()?.toString() ?: ""
+                val array = resultRaw.map { it.toString() }
+                if (array.isEmpty()) {
+                    PathResult(PathResultType.STRING, null)
+                } else if (array.size == 1) {
+                    PathResult(PathResultType.STRING, array.singleOrNull())
+                } else {
+                    PathResult(PathResultType.ARRAY, array)
+                }
             } else {
-                resultRaw.toString()
+                PathResult(PathResultType.STRING, resultRaw.toString())
             }
 
             val operation = when (verify.type) {

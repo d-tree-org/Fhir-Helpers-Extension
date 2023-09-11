@@ -2,6 +2,7 @@ package com.sevenreup.fhir.core.tests.operations
 
 import com.sevenreup.fhir.core.tests.Operation
 import com.sevenreup.fhir.core.tests.TestStatus
+import com.sevenreup.fhir.core.tests.inputs.PathResult
 import com.sevenreup.fhir.core.tests.inputs.testTypeNameMap
 import java.math.BigDecimal
 
@@ -15,10 +16,10 @@ open class NumberOperations : Operation {
         TODO("Implement this in the class that inherits")
     }
 
-    override fun execute(value: Any?, expected: Any?): TestStatus {
-        return if (value is String && expected is String) {
+    override fun execute(value: PathResult?, expected: Any?): TestStatus {
+        return if (value?.value is String && expected is String) {
             val expectedNumber = expected.toBigDecimalOrNull()
-            val valueNumber = value.toBigDecimalOrNull()
+            val valueNumber = value.toString().toBigDecimalOrNull()
             val passed: Boolean
             var error: Exception? = null
             if (expectedNumber == null || valueNumber == null) {

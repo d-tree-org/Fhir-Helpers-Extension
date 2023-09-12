@@ -5,18 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c3237d43-2c58-4473-81bb-2ff6a2b9b529" name="Changes" comment="between works with dates">
-      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/inputs/PathResult.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/runner/MapRunner.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/Operation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/Operation.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cli/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/cli/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cli/src/main/kotlin/com/sevenreup/fhir/cli/commands/tests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/cli/src/main/kotlin/com/sevenreup/fhir/cli/commands/tests.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/StructureMapTests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/StructureMapTests.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/operations/Between.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/operations/Between.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/operations/EqualsTo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/operations/EqualsTo.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/operations/EqualsToNoCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/operations/EqualsToNoCase.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/operations/NotEqualsTo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/operations/NotEqualsTo.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/operations/NotNull.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/operations/NotNull.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/operations/Null.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/operations/Null.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/operations/NumberOperations.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/operations/NumberOperations.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/operations/StringOperation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/operations/StringOperation.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,8 +54,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Kotlin Interface" />
-        <option value="Kotlin File" />
         <option value="Kotlin Class" />
+        <option value="Kotlin File" />
       </list>
     </option>
   </component>
@@ -232,7 +225,7 @@
     <configuration name="Cli" type="JetRunConfigurationType">
       <option name="MAIN_CLASS_NAME" value="com.sevenreup.fhir.cli.MainKt" />
       <module name="FHIRCompiler.cli.main" />
-      <option name="PROGRAM_PARAMETERS" value="test &quot;D:\Work\dev\fhir-resources\structure_map\registration\all_patients\test.map.test.yaml&quot;" />
+      <option name="PROGRAM_PARAMETERS" value="test &quot;D:\Work\dev\fhir-resources\structure_map&quot; -w" />
       <shortenClasspath name="NONE" />
       <method v="2">
         <option name="Make" enabled="true" />

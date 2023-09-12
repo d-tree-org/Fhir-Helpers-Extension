@@ -16,15 +16,21 @@ import com.sevenreup.fhir.core.tests.inputs.PathResultType
 import com.sevenreup.fhir.core.tests.inputs.TestCaseData
 import com.sevenreup.fhir.core.tests.inputs.TestTypes
 import com.sevenreup.fhir.core.tests.operations.*
+import com.sevenreup.fhir.core.tests.runner.getAllTestFiles
 import com.sevenreup.fhir.core.utilities.TransformSupportServices
+import com.sevenreup.fhir.core.utils.asWatchChannel
 import com.sevenreup.fhir.core.utils.getParentPath
 import com.sevenreup.fhir.core.utils.readFile
+import com.sevenreup.fhir.core.utils.toAbsolutePath
+import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.flow.flow
 import net.minidev.json.JSONArray
 import org.hl7.fhir.r4.context.SimpleWorkerContext
 import org.hl7.fhir.r4.model.Parameters
 import org.hl7.fhir.r4.utils.StructureMapUtilities
 import org.hl7.fhir.utilities.npm.FilesystemPackageCacheManager
 import org.hl7.fhir.utilities.npm.ToolsVersion
+import java.io.File
 
 
 class StructureMapTests(private val configManager: ProjectConfigManager, private val parser: ParseJsonCommands) {
@@ -69,19 +75,65 @@ class StructureMapTests(private val configManager: ProjectConfigManager, private
         val jsonString = iParser.encodeResourceToString(bundle.data)
         println(jsonString)
         val document = Configuration.defaultConfiguration().jsonProvider().parse(jsonString)
-        return runTest(
+        return startTestRun(
             document,
             TestVerify(type = data.type, path = data.path, value = data.value, valueRange = data.valueRange)
         )
     }
 
-    fun test(path: String, projectRoot: String?): TestResult {
+    suspend fun watchTestChanges(path: String, projectRoot: String?) = flow<TestResult> {
+        val file = File(path.toAbsolutePath())
+        val channel = file.asWatchChannel()
+
+        channel.consumeEach { event ->
+            try {
+                emit(runTests(path, projectRoot))
+            } catch (e: Exception) {
+                error(e)
+            }
+        }
+    }
+
+    fun runTests(path: String, projectRoot: String?): TestResult {
+        val file = File(path)
+
+        return if (file.isDirectory) {
+            val files = getAllTestFiles(path)
+            startTestRun(files.map { it }, projectRoot)
+        } else {
+            startTestRun(listOf(file.absolutePath), projectRoot)
+        }
+    }
+
+    private fun startTestRun(paths: List<String>, projectRoot: String?): TestResult {
+        val results = mutableListOf<MapTestResult>()
+        var passed = 0
+        var failed = 0
+        for (file in paths) {
+            var result = test(file, projectRoot)
+
+            if (result.failed <= 0) {
+                passed++
+            } else {
+                failed--
+            }
+
+            results.add(result)
+        }
+
+        return TestResult(list = results, failed = failed, passed = passed, files = results.size)
+    }
+
+    private fun test(path: String, projectRoot: String?): MapTestResult {
         val config = loadConfigs(path)
 
-        val fileTestResults = mutableListOf<FileTestResult>()
+        val responseTestResults = mutableListOf<ResponseTestResult>()
 
         var passedFiles = 0
         var failedFiles = 0
+
+        var passedTestCount = 0
+        var failedTestCount = 0
 
         for (test in config.tests) {
             val configs = configManager.loadProjectConfig(projectRoot, path.getParentPath())
@@ -97,7 +149,7 @@ class StructureMapTests(private val configManager: ProjectConfigManager, private
             var failedTests = 0
 
             for (verify in test.verify) {
-                val testResult = runTest(document, verify)
+                val testResult = startTestRun(document, verify)
                 if (testResult.passed) passedTests++ else failedTests++
                 status.add(
                     testResult
@@ -109,8 +161,12 @@ class StructureMapTests(private val configManager: ProjectConfigManager, private
             } else {
                 passedFiles++
             }
-            fileTestResults.add(
-                FileTestResult(
+
+            passedTestCount += passedFiles
+            failedTestCount += failedFiles
+
+            responseTestResults.add(
+                ResponseTestResult(
                     file = test.response,
                     tests = test.verify.size,
                     passed = passedTests,
@@ -120,13 +176,18 @@ class StructureMapTests(private val configManager: ProjectConfigManager, private
             )
         }
 
-        return TestResult(
-            fileTestResults, failed = failedFiles, passed = passedFiles, files = config.tests.size
+        return MapTestResult(
+            responseTestResults,
+            failed = failedFiles,
+            passed = passedFiles,
+            files = config.tests.size,
+            allFailedTests = failedTestCount,
+            allPassedTests = passedTestCount
         )
     }
 
 
-    private fun runTest(document: Any, verify: TestVerify): TestStatus {
+    private fun startTestRun(document: Any, verify: TestVerify): TestStatus {
         var testResult: TestStatus
         var result: PathResult? = null
 
@@ -196,7 +257,7 @@ class StructureMapTests(private val configManager: ProjectConfigManager, private
     }
 }
 
-data class FileTestResult(
+data class ResponseTestResult(
     val file: String, val tests: Int, val passed: Int, val failed: Int, val testResults: List<TestStatus>
 )
 
@@ -208,6 +269,16 @@ data class TestStatus @JvmOverloads constructor(
     val path: String? = null
 )
 
+data class MapTestResult(
+    val fileResults: List<ResponseTestResult>,
+    val failed: Int,
+    val passed: Int,
+    val files: Int,
+    val allPassedTests: Int,
+    val allFailedTests: Int
+)
+
+
 data class TestResult(
-    val fileResults: List<FileTestResult>, val failed: Int, val passed: Int, val files: Int
+    val list: List<MapTestResult>, val failed: Int, val passed: Int, val files: Int
 )

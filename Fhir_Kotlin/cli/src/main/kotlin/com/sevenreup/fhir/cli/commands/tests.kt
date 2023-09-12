@@ -1,49 +1,79 @@
 package com.sevenreup.fhir.cli.commands
 
-import com.github.ajalt.mordant.AnsiCode
-import com.github.ajalt.mordant.TermColors
+
+import com.github.ajalt.mordant.rendering.TextColors.green
+import com.github.ajalt.mordant.rendering.TextColors.red
+import com.github.ajalt.mordant.rendering.TextStyle
+import com.github.ajalt.mordant.rendering.TextStyles.bold
+import com.github.ajalt.mordant.terminal.Terminal
 import com.sevenreup.fhir.core.compiler.parsing.ParseJsonCommands
 import com.sevenreup.fhir.core.config.ProjectConfigManager
+import com.sevenreup.fhir.core.tests.MapTestResult
 import com.sevenreup.fhir.core.tests.StructureMapTests
+import com.sevenreup.fhir.core.tests.TestResult
 import com.sevenreup.fhir.core.tests.TestStatus
-import com.sevenreup.fhir.core.utils.asWatchChannel
-import com.sevenreup.fhir.core.utils.toAbsolutePath
-import kotlinx.coroutines.channels.consumeEach
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
-import java.io.File
 
 fun runTests(path: String, watch: Boolean, projectRoot: String?) {
     val configManager = ProjectConfigManager()
+    val tests = StructureMapTests(configManager, ParseJsonCommands())
     if (watch) {
-        val file = File(path.toAbsolutePath())
         runBlocking {
-            val channel = file.asWatchChannel()
-
-            launch {
-                channel.consumeEach { event ->
-                    try {
-                        runTestOnFiles(configManager, path, projectRoot)
-                    } catch (e: Exception) {
-                        val t = TermColors()
-                        val errStyle = (t.bold + t.red)
-                        println(errStyle(e.toString()))
-                    }
-                }
+            tests.watchTestChanges(path, projectRoot).collect {
+                printResults(it)
             }
         }
     } else {
-        runTestOnFiles(configManager, path, projectRoot)
+        printResults(tests.runTests(path, projectRoot))
     }
 }
 
-private fun runTestOnFiles(configManager: ProjectConfigManager, path: String, projectRoot: String?) {
-    val tests = StructureMapTests(configManager, ParseJsonCommands())
-    val t = TermColors()
-    val errStyle = (t.bold + t.red)
-    val passStyle = (t.bold + t.green)
+private fun printResults(result: TestResult) {
+    val t = Terminal()
+    val errStyle = (bold + red)
+    val passStyle = (bold + green)
+    var allPassedTests = 0
+    var allFailedTests = 0
+    for (map in result.list) {
+        allPassedTests += map.allPassedTests
+        allFailedTests += map.allFailedTests
+        printMapResults(map, errStyle, passStyle)
+    }
 
-    val result = tests.test(path, projectRoot)
+    if (result.list.size > 1) {
+        t.println(errStyle("$DIVIDER$DIVIDER"))
+        t.println("\nRunning Completed")
+        if (allFailedTests > 0) {
+            t.println("${errStyle.bg(" Failed ")} Some tests passed")
+        } else {
+            t.println("${passStyle.bg(" Passed ")} All tests passed")
+        }
+        t.println(
+            "\nTest files ${
+                createPassedFailedString(
+                    result.passed,
+                    result.failed,
+                    passStyle,
+                    errStyle
+                )
+            } (${result.files})"
+        )
+        t.println(
+            "\tTests ${
+                createPassedFailedString(
+                    allPassedTests,
+                    allFailedTests,
+                    passStyle,
+                    errStyle
+                )
+            } (${allFailedTests + allPassedTests})"
+        )
+    }
+}
+
+fun printMapResults(result: MapTestResult, errStyle: TextStyle, passStyle: TextStyle) {
+
     var allPassedTests = 0
     var allFailedTests = 0
     val failedTests = mutableListOf<TestStatus>()
@@ -94,7 +124,7 @@ private fun runTestOnFiles(configManager: ProjectConfigManager, path: String, pr
 
 private const val DIVIDER = "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
 
-private fun createPassedFailedString(pass: Int, fail: Int, passStyle: AnsiCode, errStyle: AnsiCode): String {
+private fun createPassedFailedString(pass: Int, fail: Int, passStyle: TextStyle, errStyle: TextStyle): String {
     val passed: String? = if (pass > 0) passStyle("$pass passed") else null
     val failed: String? = if (fail > 0) errStyle("$fail failed") else null
     return "${failed ?: ""}${if (failed != null && passed != null) " | " else ""}${passed ?: ""}"

@@ -47,7 +47,7 @@ class StructureMapTests(private val configManager: ProjectConfigManager, private
         scu = StructureMapUtilities(contextR4, TransformSupportServices(contextR4))
     }
 
-    private fun loadConfigs(path: String): JsonConfig {
+    private fun readTestFile(path: String): JsonConfig {
         return when (path.split(".").last()) {
             "json" -> {
                 val rawJson = path.readFile()
@@ -67,11 +67,11 @@ class StructureMapTests(private val configManager: ProjectConfigManager, private
     }
 
     fun targetTest(path: String, data: TestCaseData, projectRoot: String? = null): TestStatus {
-        val config = loadConfigs(path)
+        val testData = readTestFile(path)
         val configs = configManager.loadProjectConfig(projectRoot, path.getParentPath())
 
         val bundle =
-            parser.parseBundle(iParser, contextR4, scu, path.getParentPath(), config.map, data.response, configs)
+            parser.parseBundle(iParser, contextR4, scu, path.getParentPath(), testData.map, data.response, configs)
         val jsonString = iParser.encodeResourceToString(bundle.data)
         println(jsonString)
         val document = Configuration.defaultConfiguration().jsonProvider().parse(jsonString)
@@ -125,7 +125,7 @@ class StructureMapTests(private val configManager: ProjectConfigManager, private
     }
 
     private fun test(path: String, projectRoot: String?): MapTestResult {
-        val config = loadConfigs(path)
+        val testData = readTestFile(path)
 
         val responseTestResults = mutableListOf<ResponseTestResult>()
 
@@ -135,10 +135,10 @@ class StructureMapTests(private val configManager: ProjectConfigManager, private
         var passedTestCount = 0
         var failedTestCount = 0
 
-        for (test in config.tests) {
+        for (test in testData.tests) {
             val configs = configManager.loadProjectConfig(projectRoot, path.getParentPath())
             val bundle =
-                parser.parseBundle(iParser, contextR4, scu, path.getParentPath(), config.map, test.response, configs)
+                parser.parseBundle(iParser, contextR4, scu, path.getParentPath(), testData.map, test.response, configs)
             val jsonString = iParser.encodeResourceToString(bundle.data)
             println(jsonString)
 
@@ -180,7 +180,7 @@ class StructureMapTests(private val configManager: ProjectConfigManager, private
             responseTestResults,
             failed = failedFiles,
             passed = passedFiles,
-            files = config.tests.size,
+            files = testData.tests.size,
             allFailedTests = failedTestCount,
             allPassedTests = passedTestCount
         )

@@ -7,22 +7,22 @@ class MapRunner {
 }
 
 fun getAllTestFiles(directoryPath: String): List<String> {
-    val extension = ".map.test.yaml"
+    val extensions = listOf(".map.test.yaml", ".map.test.json", ".map.test.yml")
 
     val fileList = mutableListOf<File>()
-    findFilesWithExtension(File(directoryPath), extension, fileList)
+    findFilesWithExtension(File(directoryPath), extensions, fileList)
 
     return fileList.map { it.absolutePath }
 }
 
-fun findFilesWithExtension(directory: File, extension: String, fileList: MutableList<File>) {
+fun findFilesWithExtension(directory: File, extensions: List<String>, fileList: MutableList<File>) {
     val files = directory.listFiles()
+
     if (files != null) {
         for (file in files) {
             if (file.isDirectory) {
-                // Recursively search in subdirectories
-                findFilesWithExtension(file, extension, fileList)
-            } else if (file.isFile && file.name.endsWith(extension)) {
+                findFilesWithExtension(file, extensions, fileList)
+            } else if (file.isFile && extensions.firstOrNull { file.name.endsWith(it) } != null) {
                 fileList.add(file)
             }
         }

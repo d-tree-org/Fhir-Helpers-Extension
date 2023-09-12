@@ -9,16 +9,17 @@ import com.sevenreup.fhir.core.tests.inputs.ValueRange
 import com.sevenreup.fhir.core.utils.parseDate
 
 class Between : Operation {
-    override fun execute(value: PathResult?, expected: Any?): TestStatus {
-        if (value?.type == PathResultType.ARRAY) {
+    override fun execute(pathResult: PathResult?, expected: Any?): TestStatus {
+        if (pathResult?.type == PathResultType.ARRAY) {
             return TestStatus(
                 passed = false,
-                value = value,
+                value = pathResult,
                 expected = expected,
                 exception = Exception("Expected Value Range but got ${expected ?: "null"}")
             )
         }
         if (expected is ValueRange? && expected != null) {
+            val value = pathResult?.value
             var error: Exception? = null
             val numbers = expected.isNumber()
             if (numbers != null) {
@@ -74,7 +75,7 @@ class Between : Operation {
         } else {
             return TestStatus(
                 passed = false,
-                value = value,
+                value = pathResult,
                 expected = expected,
                 exception = Exception("Expected Value Range but got ${expected ?: "null"}")
             )

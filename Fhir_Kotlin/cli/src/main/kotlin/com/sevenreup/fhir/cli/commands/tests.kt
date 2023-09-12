@@ -14,6 +14,7 @@ import com.sevenreup.fhir.core.tests.TestResult
 import com.sevenreup.fhir.core.tests.TestStatus
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
+import kotlin.system.exitProcess
 
 fun runTests(path: String, watch: Boolean, projectRoot: String?) {
     val configManager = ProjectConfigManager()
@@ -25,7 +26,12 @@ fun runTests(path: String, watch: Boolean, projectRoot: String?) {
             }
         }
     } else {
-        printResults(tests.runTests(path, projectRoot))
+        val results = tests.runTests(path, projectRoot)
+        printResults(results)
+
+        if (results.failed > 0) {
+            exitProcess(1)
+        }
     }
 }
 

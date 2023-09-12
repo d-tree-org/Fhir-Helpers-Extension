@@ -110,12 +110,12 @@ class StructureMapTests(private val configManager: ProjectConfigManager, private
         var passed = 0
         var failed = 0
         for (file in paths) {
-            var result = test(file, projectRoot)
+            val result = test(file, projectRoot)
 
             if (result.failed <= 0) {
                 passed++
             } else {
-                failed--
+                failed++
             }
 
             results.add(result)

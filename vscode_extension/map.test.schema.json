@@ -36,7 +36,32 @@
               "properties": {
                 "type": {
                   "type": "string",
-                  "description": "A string representing the verification type"
+                  "description": "A string representing the verification type",
+                  "enum": [
+                    "eq",
+                    "eqi",
+                    "ne",
+                    "lt",
+                    "lte",
+                    "gt",
+                    "gte",
+                    "in",
+                    "notIn",
+                    "contains",
+                    "notContains",
+                    "containsi",
+                    "notContainsi",
+                    "null",
+                    "notNull",
+                    "between",
+                    "startsWith",
+                    "startsWithi",
+                    "endsWith",
+                    "endsWithi",
+                    "or",
+                    "and",
+                    "not"
+                  ]
                 },
                 "path": {
                   "type": "string",

@@ -1,0 +1,83 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "A string with the type 'str_test'"
+    },
+    "map": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "A string representing the path"
+        },
+        "name": {
+          "type": "string",
+          "description": "A string representing the name"
+        }
+      },
+      "required": ["path", "name"]
+    },
+    "tests": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "response": {
+            "type": "string",
+            "description": "A string representing the response path"
+          },
+          "verify": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "A string representing the verification type"
+                },
+                "path": {
+                  "type": "string",
+                  "description": "A string representing the JSON path for verification"
+                },
+                "value": {},
+                "valueRange": {
+                  "type": "object",
+                  "properties": {
+                    "start": {
+                      "oneOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "number"
+                        }
+                      ],
+                      "description": "Either a string or a number for the start value of the range comparison"
+                    },
+                    "end": {
+                      "oneOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "number"
+                        }
+                      ],
+                      "description": "Either a string or a number for the end value of the range comparison"
+                    }
+                  }
+                }
+              },
+              "required": ["type", "path"]
+            }
+          }
+        },
+        "required": ["response", "verify"]
+      }
+    }
+  },
+  "required": ["type", "map", "tests"]
+}

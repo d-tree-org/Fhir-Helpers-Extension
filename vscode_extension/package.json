@@ -129,7 +129,23 @@
           "group": "navigation"
         }
       ]
-    }
+    },
+    "yamlValidation": [
+      {
+        "fileMatch": "*.map.test.yaml",
+        "url": "./map.test.schema.json"
+      },
+      {
+        "fileMatch": "*.map.test.yml",
+        "url": "./map.test.schema.json"
+      }
+    ],
+    "jsonValidation": [
+      {
+        "fileMatch": "*.map.test.json",
+        "url": "./map.test.schema.json"
+      }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "npm run esbuild-base -- --minify",

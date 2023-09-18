@@ -63,7 +63,7 @@ export class TestFile {
       }
     };
 
-    parseStructureMapFile(content, false, {
+    parseStructureMapFile(content, this.isJson, {
       onTest: (range, td) => {
         const parent = ancestors[ancestors.length - 1];
         const data = new TestCase(td, thisGeneration);

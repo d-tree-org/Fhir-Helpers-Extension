@@ -11,7 +11,7 @@ export const parseYaml = (yamlContent: string): TestCaseData[] => {
   parsedYaml.tests.forEach((testStep, stepIndex) => {
     testStep.verify.forEach((verifyItem) => {
       if (verifyItem.type && verifyItem.path) {
-        // Extract range start and end for the "notNull" test
+        let allLines = yamlContent.split("\n");
         const rangeStartLine = yamlContent
           .split("\n")
           .findIndex((line) => line.includes("- type:"));
@@ -45,3 +45,4 @@ export const parseYaml = (yamlContent: string): TestCaseData[] => {
 
   return extractedTestCases;
 };
+

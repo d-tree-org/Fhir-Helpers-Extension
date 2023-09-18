@@ -44,7 +44,8 @@ export const parseYaml = (yamlContent: string): TestCaseData[] => {
   parsedYaml.tests.forEach((testStep, stepIndex) => {
     testStep.verify.forEach((verifyItem, verfyIndex) => {
       if (verifyItem.type && verifyItem.path) {
-        const pos = posMap.get(`${stepIndex},${verfyIndex}`);
+        const id = `${stepIndex},${verfyIndex}`;
+        const pos = posMap.get(id);
 
         const range = {
           start: { line: pos.startLine - 1, character: pos.startChar },
@@ -55,6 +56,7 @@ export const parseYaml = (yamlContent: string): TestCaseData[] => {
         };
 
         extractedTestCases.push({
+          id: id,
           range,
           response: testStep.response,
           path: verifyItem.path,

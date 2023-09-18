@@ -8,6 +8,7 @@ export type Position = {
 };
 
 export type TestCaseData = {
+  id: string;
   range: {
     start: Position;
     end: Position;

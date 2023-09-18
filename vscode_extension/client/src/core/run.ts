@@ -21,9 +21,11 @@ export async function sendRunTest(
 ): Promise<RPCResponse> {
   try {
     const file = item.uri.fsPath;
+    const newData = { ...data };
+    delete newData.id;
     const res = await server.request("runTest", {
       path: file,
-      data: data,
+      data: newData,
     });
     console.log(file);
     return {
@@ -31,7 +33,7 @@ export async function sendRunTest(
     };
   } catch (error) {
     console.log(error);
-    
+
     return {
       error: error.toString(),
     };

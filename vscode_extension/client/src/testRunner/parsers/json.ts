@@ -27,6 +27,7 @@ export const parseJson = (jsonContent: string): TestCaseData[] => {
             },
           };
           extractedTestCases.push({
+            id: `${stepIndex},${verifyItem.path}`,
             range: range,
             response: testStep.response,
             path: verifyItem.path,

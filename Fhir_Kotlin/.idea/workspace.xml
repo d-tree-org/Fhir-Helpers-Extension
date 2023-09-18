@@ -246,8 +246,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.Fhir_Kotlin:cli [shadowJar]" />
         <item itemvalue="Gradle.Fhir_Kotlin:server [shadowJar]" />
+        <item itemvalue="Gradle.Fhir_Kotlin:cli [shadowJar]" />
         <item itemvalue="Gradle.AliasesTests.replaceAliasesTestRelative" />
         <item itemvalue="Gradle.AliasesTests" />
         <item itemvalue="Gradle.AliasesTests.replaceAliasesTestSymbol" />

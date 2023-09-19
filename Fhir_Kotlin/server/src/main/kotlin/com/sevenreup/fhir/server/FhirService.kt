@@ -42,7 +42,7 @@ class FhirService {
 
             return res.data!!
         } catch (e: Exception) {
-            throw Exception("Something went wrong")
+            throw e
         }
     }
 
@@ -57,7 +57,7 @@ class FhirService {
 
             return res.data!!
         } catch (e: Exception) {
-            throw Exception("Something went wrong")
+            throw e
         }
     }
 
@@ -68,7 +68,7 @@ class FhirService {
             println(path)
             return runner.targetTest(path, data)
         } catch (e: Exception) {
-            throw Exception("Something went wrong")
+            throw e
         }
     }
 }

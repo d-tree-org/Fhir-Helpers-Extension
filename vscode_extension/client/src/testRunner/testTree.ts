@@ -67,9 +67,8 @@ export class TestFile {
       onTest: (range, td) => {
         const parent = ancestors[ancestors.length - 1];
         const data = new TestCase(td, thisGeneration);
-        const id = `${item.uri}/${data.getLabel()}`;
 
-        const tcase = controller.createTestItem(id, data.getLabel(), item.uri);
+        const tcase = controller.createTestItem(td.id, data.getLabel(), item.uri);
         // console.log(data.getLabel(), tcase);
         testData.set(tcase, data);
         tcase.range = range;

@@ -5,10 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c3237d43-2c58-4473-81bb-2ff6a2b9b529" name="Changes" comment="between works with dates">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/StructureMapTests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/StructureMapTests.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../vscode_extension/client/src/testRunner/parsers/json.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/src/testRunner/parsers/json.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/src/testRunner/parsers/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/src/testRunner/parsers/types.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../vscode_extension/client/src/testRunner/parsers/yaml.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/src/testRunner/parsers/yaml.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../vscode_extension/client/src/testRunner/testTree.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/src/testRunner/testTree.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +106,7 @@
       <recent name="com.sevenreup.fhir.core.tests.operations" />
     </key>
   </component>
-  <component name="RunManager" selected="Kotlin.Server">
+  <component name="RunManager" selected="Kotlin.Cli">
     <configuration name="AliasesTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />

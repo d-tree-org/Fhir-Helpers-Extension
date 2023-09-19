@@ -76,8 +76,7 @@ class StructureMapTests(private val configManager: ProjectConfigManager, private
         println(jsonString)
         val document = Configuration.defaultConfiguration().jsonProvider().parse(jsonString)
         return startTestRun(
-            document,
-            TestVerify(type = data.type, path = data.path, value = data.value, valueRange = data.valueRange)
+            document, TestVerify(type = data.type, path = data.path, value = data.value, valueRange = data.valueRange)
         )
     }
 
@@ -110,15 +109,32 @@ class StructureMapTests(private val configManager: ProjectConfigManager, private
         var passed = 0
         var failed = 0
         for (file in paths) {
-            val result = test(file, projectRoot)
+            try {
+                val result = test(file, projectRoot)
 
-            if (result.failed <= 0) {
-                passed++
-            } else {
+                if (result.failed <= 0) {
+                    passed++
+                } else {
+                    failed++
+                }
+
+                results.add(result)
+            } catch (e: Exception) {
                 failed++
+                results.add(
+                    MapTestResult(
+                        fileResults = listOf(
+                            ResponseTestResult(
+                                file = file,
+                                tests = 1,
+                                passed = 0,
+                                failed = 1,
+                                testResults = listOf(TestStatus(false, null, null, e, file))
+                            )
+                        ), failed = 1, passed = 0, files = 1, allPassedTests = 0, allFailedTests = 1
+                    )
+                )
             }
-
-            results.add(result)
         }
 
         return TestResult(list = results, failed = failed, passed = passed, files = results.size)
@@ -249,8 +265,7 @@ class StructureMapTests(private val configManager: ProjectConfigManager, private
                 println(failedToCastToString)
                 // TODO: Work on array
             }
-            testResult =
-                TestStatus(false, value = result, expected = verify.value, exception = e, path = verify.path)
+            testResult = TestStatus(false, value = result, expected = verify.value, exception = e, path = verify.path)
         }
 
         return testResult

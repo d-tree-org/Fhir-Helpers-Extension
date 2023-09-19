@@ -67,17 +67,22 @@ class StructureMapTests(private val configManager: ProjectConfigManager, private
     }
 
     fun targetTest(path: String, data: TestCaseData, projectRoot: String? = null): TestStatus {
-        val testData = readTestFile(path)
-        val configs = configManager.loadProjectConfig(projectRoot, path.getParentPath())
+        try {
+            val testData = readTestFile(path)
+            val configs = configManager.loadProjectConfig(projectRoot, path.getParentPath())
 
-        val bundle =
-            parser.parseBundle(iParser, contextR4, scu, path.getParentPath(), testData.map, data.response, configs)
-        val jsonString = iParser.encodeResourceToString(bundle.data)
-        println(jsonString)
-        val document = Configuration.defaultConfiguration().jsonProvider().parse(jsonString)
-        return startTestRun(
-            document, TestVerify(type = data.type, path = data.path, value = data.value, valueRange = data.valueRange)
-        )
+            val bundle =
+                parser.parseBundle(iParser, contextR4, scu, path.getParentPath(), testData.map, data.response, configs)
+            val jsonString = iParser.encodeResourceToString(bundle.data)
+            println(jsonString)
+            val document = Configuration.defaultConfiguration().jsonProvider().parse(jsonString)
+            return startTestRun(
+                document,
+                TestVerify(type = data.type, path = data.path, value = data.value, valueRange = data.valueRange)
+            )
+        } catch (e: Exception) {
+            return TestStatus(false, null, null, e, path)
+        }
     }
 
     suspend fun watchTestChanges(path: String, projectRoot: String?) = flow<TestResult> {

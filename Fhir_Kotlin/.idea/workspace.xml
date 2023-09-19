@@ -7,6 +7,7 @@
     <list default="true" id="c3237d43-2c58-4473-81bb-2ff6a2b9b529" name="Changes" comment="between works with dates">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/StructureMapTests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/tests/StructureMapTests.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/kotlin/com/sevenreup/fhir/server/FhirService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/kotlin/com/sevenreup/fhir/server/FhirService.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../vscode_extension/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../vscode_extension/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../vscode_extension/client/src/testRunner/parsers/json.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vscode_extension/client/src/testRunner/parsers/json.ts" afterDir="false" />
@@ -106,7 +107,7 @@
       <recent name="com.sevenreup.fhir.core.tests.operations" />
     </key>
   </component>
-  <component name="RunManager" selected="Kotlin.Cli">
+  <component name="RunManager" selected="Kotlin.Server">
     <configuration name="AliasesTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />

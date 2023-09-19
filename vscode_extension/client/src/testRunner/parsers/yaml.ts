@@ -38,8 +38,6 @@ export const parseYaml = (yamlContent: string): TestCaseData[] => {
     }
   }
 
-  console.log(posMap);
-
   // Process each test step
   parsedYaml.tests.forEach((testStep, stepIndex) => {
     testStep.verify.forEach((verifyItem, verfyIndex) => {

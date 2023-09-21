@@ -25,6 +25,8 @@ export async function sendRunTest(
     const file = item.uri.fsPath;
     const newData = { ...data };
     delete newData.id;
+    delete newData.title;
+    delete newData.parentTitle;
     const res = await server.request("runTest", {
       path: file,
       data: newData,

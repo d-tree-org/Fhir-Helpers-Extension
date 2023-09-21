@@ -18,6 +18,8 @@ export type TestCaseData = {
   value?: string;
   valueRange?: ValueRange;
   type: string;
+  title?: string;
+  parentTitle?: string;
 };
 
 interface ValueRange {
@@ -27,6 +29,7 @@ interface ValueRange {
 
 export interface TestItem {
   response: string;
+  title?: string;
   verify: VerifySection[];
 }
 
@@ -35,6 +38,7 @@ export interface VerifySection {
   path: string;
   value?: string;
   valueRange?: ValueRange;
+  title?: string;
 }
 
 export interface TestResult {

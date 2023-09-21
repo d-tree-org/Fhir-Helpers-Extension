@@ -10,10 +10,14 @@ data class JsonConfig(
 
 @Serializable
 data class ResTest(
-    val response: String, val verify: List<TestVerify>
+    val response: String, val verify: List<TestVerify>, val title: String? = ""
 )
 
 @Serializable
 data class TestVerify(
-    val type: String = "", val path: String = "", val value: String? = null, val valueRange: ValueRange? = null
+    val type: String = "",
+    val path: String = "",
+    val title: String? = "",
+    val value: String? = null,
+    val valueRange: ValueRange? = null
 )

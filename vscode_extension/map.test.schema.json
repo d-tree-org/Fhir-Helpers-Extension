@@ -25,6 +25,10 @@
       "items": {
         "type": "object",
         "properties": {
+          "title": {
+            "type": "string",
+            "description": "A string representing the test title"
+          },
           "response": {
             "type": "string",
             "description": "A string representing the response path"
@@ -34,6 +38,10 @@
             "items": {
               "type": "object",
               "properties": {
+                "title": {
+                  "type": "string",
+                  "description": "A string representing the verification title"
+                },
                 "type": {
                   "type": "string",
                   "description": "A string representing the verification type",

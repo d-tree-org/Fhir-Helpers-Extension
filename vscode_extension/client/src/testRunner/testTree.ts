@@ -68,7 +68,11 @@ export class TestFile {
         const parent = ancestors[ancestors.length - 1];
         const data = new TestCase(td, thisGeneration);
 
-        const tcase = controller.createTestItem(td.id, data.getLabel(), item.uri);
+        const tcase = controller.createTestItem(
+          td.id,
+          data.getLabel(),
+          item.uri
+        );
         // console.log(data.getLabel(), tcase);
         testData.set(tcase, data);
         tcase.range = range;
@@ -84,7 +88,9 @@ export class TestCase {
   constructor(private readonly data: TestCaseData, public generation: number) {}
 
   getLabel() {
-    return `${this.data.path} ${this.data.value}}`;
+    return `${this.data.parentTitle ? this.data.parentTitle + " - " : ""}${
+      this.data.title ?? this.data.path
+    } ${this.data.value}}`;
   }
 
   async run(

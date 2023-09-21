@@ -21,7 +21,8 @@ export const parseYaml = (yamlContent: string): TestCaseData[] => {
   >();
   for (let resIndex = 0; resIndex < testlists.length; resIndex++) {
     const response = testlists[resIndex];
-    const list = response.items[1].value.items;
+    const list = response.items.find((item: any) => item.key.value === "verify")
+      .value.items;
     for (let i = 0; i < list.length; i++) {
       const item = list[i];
       const startChar = item.range[0];
@@ -56,6 +57,8 @@ export const parseYaml = (yamlContent: string): TestCaseData[] => {
         extractedTestCases.push({
           id: id,
           range,
+          title: verifyItem.title,
+          parentTitle: testStep.title,
           response: testStep.response,
           path: verifyItem.path,
           value: verifyItem.value,

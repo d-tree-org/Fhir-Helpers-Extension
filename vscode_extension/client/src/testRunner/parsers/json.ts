@@ -23,6 +23,8 @@ export const parseJson = (jsonContent: string): TestCaseData[] => {
         extractedTestCases.push({
           id: `${stepIndex},${verifyItem.path}`,
           range: range,
+          title: verifyItem.title,
+          parentTitle: testStep.title,
           response: testStep.response,
           path: verifyItem.path,
           value: verifyItem.value || "",

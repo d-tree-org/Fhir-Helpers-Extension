@@ -3,7 +3,7 @@ import * as vscode from "vscode";
 import { parseStructureMapFile } from "./parser";
 import { TestCaseData, TestResult } from "./parsers/types";
 import { JSONRPCClient } from "json-rpc-2.0";
-import { sendRunTest } from "../core/run";
+import { sendRunTest } from "../core/rpc/run";
 
 const textDecoder = new TextDecoder("utf-8");
 

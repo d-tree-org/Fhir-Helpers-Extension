@@ -5,7 +5,6 @@ import com.sevenreup.fhir.core.compiler.ResourceParser
 import com.sevenreup.fhir.core.config.ProjectConfigManager
 import com.sevenreup.fhir.core.parseBundle
 import com.sevenreup.fhir.core.utils.formatStructureMap
-import com.sevenreup.fhir.core.utils.strJsonToMap
 import com.sevenreup.fhir.core.utils.verifyQuestionnaire
 import picocli.CommandLine
 import picocli.CommandLine.*
@@ -74,17 +73,6 @@ class FmtStrCommand : Callable<Int> {
     }
 }
 
-@Command(name = "to_map")
-class ToMapCommand : Callable<Int> {
-    @Parameters(index = "0", description = ["Path to the StructureMap File"])
-    lateinit var path: String
-    override fun call(): Int {
-
-        strJsonToMap(path)
-        return 0
-    }
-}
-
 @Command(name = "transform")
 class TransformCommand : Callable<Int> {
     @Parameters(index = "0", description = ["Path to the StructureMap File"])
@@ -118,7 +106,7 @@ class TransFormBatchCommand : Callable<Int> {
 
 @Command(
     subcommands = [TestCommand::class, CompileCommand::class, TransformCommand::class,
-        TransFormBatchCommand::class, QuestVerifyCommand::class, FmtStrCommand::class, ToMapCommand::class]
+        TransFormBatchCommand::class, QuestVerifyCommand::class, FmtStrCommand::class,]
 )
 class RunCommand : Callable<Int> {
     override fun call(): Int {

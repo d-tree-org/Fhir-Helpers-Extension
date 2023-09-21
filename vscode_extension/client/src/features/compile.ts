@@ -3,9 +3,7 @@ import {
   Disposable,
   ExtensionContext,
   OutputChannel,
-  Position,
   ProgressLocation,
-  Range,
   TextDocument,
   TextDocumentChangeEvent,
   TextEditor,
@@ -17,8 +15,17 @@ import {
 import { Feature } from "../feature.type";
 import { isMapFile } from "../utils";
 import { AvailableCommands } from "../utils/constants";
-import { compileMap } from "../core/compile";
+import { compileMap } from "../core/rpc/compile";
 import { IServerManager } from "../core/server";
+import { getFileWorkSpacePath } from "../utils/workspace";
+import {
+  closeFileIfOpen,
+  getFileName,
+  temporaryDirectory,
+  temporaryWrite,
+} from "../core/util/temp";
+import { format } from "prettier";
+import fs from "node:fs";
 
 export default class CompileStrMap implements Feature {
   private openedDocuments: string[] = [];
@@ -27,11 +34,13 @@ export default class CompileStrMap implements Feature {
   private webview: WebviewPanel | undefined;
   private context: ExtensionContext;
   private conf: IServerManager;
+  currentDir = "";
 
   constructor(context: ExtensionContext, serverConf: IServerManager) {
     this.context = context;
     this.subscriptions = context.subscriptions;
     this.conf = serverConf;
+    this.currentDir = temporaryDirectory();
     this.subscriptions.push(
       commands.registerCommand(AvailableCommands.compile, () => {
         window.showInformationMessage("Structure Map Compilation Started");
@@ -44,7 +53,7 @@ export default class CompileStrMap implements Feature {
               title: "Compiling Structure Map",
               cancellable: false,
             },
-            (progress, token) => {
+            (progress) => {
               progress.report({ increment: 20 });
               return this.displayWebView(window.activeTextEditor.document);
             }
@@ -52,8 +61,13 @@ export default class CompileStrMap implements Feature {
         } else {
           window.showErrorMessage("Active editor doesn't show a Map document.");
         }
-      }),
+      })
+    );
 
+  }
+
+  listenToChanges() {
+    this.subscriptions.push(
       workspace.onDidOpenTextDocument((document?: TextDocument) => {
         if (
           document &&
@@ -108,6 +122,8 @@ export default class CompileStrMap implements Feature {
   dispose(): void {
     if (this.webview !== undefined) {
       this.webview.dispose();
+      closeFileIfOpen(this.currentDir);
+      fs.rmSync(this.currentDir, { recursive: true, force: true });
     }
   }
 
@@ -122,17 +138,21 @@ export default class CompileStrMap implements Feature {
     }
     try {
       const content = await this.getContent(document);
-
-      const textDocument = await workspace.openTextDocument({
-        language: "json",
-        content: content,
-      });
-
-      const textEditor = await window.showTextDocument(textDocument, {
+      const filePath = await temporaryWrite(
+        format(content, { parser: "json" }),
+        getFileName(activeTextEditor.document.fileName),
+        {
+          dir: this.currentDir,
+        }
+      );
+      // const textDocument = await workspace.openTextDocument({
+      //   language: "json",
+      //   content: content,
+      // });
+      const doc = await workspace.openTextDocument(filePath);
+      const editor = await window.showTextDocument(doc, {
         preview: false,
-        preserveFocus: false,
         viewColumn: ViewColumn.Two,
-        selection: new Range(new Position(0, 0), new Position(0, 0)),
       });
 
       commands.executeCommand("editor.action.formatDocument");
@@ -144,8 +164,10 @@ export default class CompileStrMap implements Feature {
   }
 
   private async getContent(document: TextDocument): Promise<string> {
+    const path = document.uri.fsPath;
     const html: string = await compileMap(
-      document.uri.fsPath,
+      path,
+      getFileWorkSpacePath(path),
       this.conf.server
     );
 

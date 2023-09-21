@@ -1,6 +1,7 @@
 package com.sevenreup.fhir.server
 
 import com.github.arteam.simplejsonrpc.core.annotation.JsonRpcMethod
+import com.github.arteam.simplejsonrpc.core.annotation.JsonRpcOptional
 import com.github.arteam.simplejsonrpc.core.annotation.JsonRpcParam
 import com.github.arteam.simplejsonrpc.core.annotation.JsonRpcService
 import com.sevenreup.fhir.core.compiler.ResourceParser
@@ -17,9 +18,12 @@ class FhirService {
     private val configManager = ProjectConfigManager()
 
     @JsonRpcMethod("compileStructureMap")
-    fun callCompileStructureMap(@JsonRpcParam("path") path: String): String {
+    fun callCompileStructureMap(
+        @JsonRpcParam("path") path: String,
+        @JsonRpcOptional @JsonRpcParam("projectRoot") root: String? = null
+    ): String {
         try {
-            val res = parser.parseStructureMapFromMap(path, null)
+            val res = parser.parseStructureMapFromMap(path, root)
 
             if (res.error != null) {
                 throw Exception(res.error)
@@ -27,14 +31,17 @@ class FhirService {
 
             return res.data!!
         } catch (e: Exception) {
-            throw Exception("Something went wrong")
+            throw e
         }
     }
 
     @JsonRpcMethod("formatStructureMap")
-    fun callFormatStructureMap(@JsonRpcParam("path") path: String): String {
+    fun callFormatStructureMap(
+        @JsonRpcParam("path") path: String,
+        @JsonRpcOptional @JsonRpcParam("projectRoot") root: String? = null
+    ): String {
         try {
-            val res = formatStructureMap(path, null)
+            val res = formatStructureMap(path, root)
 
             if (res.error != null) {
                 throw Exception(res.error)
@@ -47,9 +54,12 @@ class FhirService {
     }
 
     @JsonRpcMethod("parseTransformFromJson")
-    fun callTransformBatch(@JsonRpcParam("path") path: String): Map<String, String> {
+    fun callTransformBatch(
+        @JsonRpcParam("path") path: String,
+        @JsonRpcOptional @JsonRpcParam("projectRoot") root: String? = null
+    ): Map<String, String> {
         try {
-            val res = parser.parseTransformFromJson(path, null)
+            val res = parser.parseTransformFromJson(path, root)
 
             if (res.error != null) {
                 throw Exception(res.error)
@@ -62,11 +72,15 @@ class FhirService {
     }
 
     @JsonRpcMethod("runTest")
-    fun callRunTest(@JsonRpcParam("path") path: String, @JsonRpcParam("data") data: TestCaseData): TestStatus {
+    fun callRunTest(
+        @JsonRpcParam("path") path: String,
+        @JsonRpcOptional @JsonRpcParam("projectRoot") root: String? = null,
+        @JsonRpcParam("data") data: TestCaseData
+    ): TestStatus {
         try {
             val runner = StructureMapTests(configManager, ParseJsonCommands())
             println(path)
-            return runner.targetTest(path, data)
+            return runner.targetTest(path, data, root)
         } catch (e: Exception) {
             throw e
         }

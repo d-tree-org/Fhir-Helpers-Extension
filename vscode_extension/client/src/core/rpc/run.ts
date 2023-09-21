@@ -1,12 +1,14 @@
 import { TestItem, TextDocument } from "vscode";
 import { JSONRPCClient } from "json-rpc-2.0";
-import { TestCaseData } from "../testRunner/parsers/types";
+import { TestCaseData } from "../../testRunner/parsers/types";
+import { getFileWorkSpacePath } from "../../utils/workspace";
 
 export async function runConfMap(doc: TextDocument, server: JSONRPCClient) {
   try {
     const file = doc.uri.fsPath;
     const res = await server.request("parseTransformFromJson", {
       path: file,
+      projectRoot: getFileWorkSpacePath(file),
     });
     return res;
   } catch (error) {
@@ -26,6 +28,7 @@ export async function sendRunTest(
     const res = await server.request("runTest", {
       path: file,
       data: newData,
+      projectRoot: getFileWorkSpacePath(file),
     });
     console.log(file);
     return {

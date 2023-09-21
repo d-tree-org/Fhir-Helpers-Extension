@@ -13,12 +13,15 @@ import {
 import { Feature } from "../feature.type";
 import { isTestMapFile } from "../utils";
 import { AvailableCommands } from "../utils/constants";
-import { runConfMap } from "../core/run";
+import { runConfMap } from "../core/rpc/run";
 import { IServerManager } from "../core/server";
 import { format } from "prettier";
-import { temporaryDirectory, temporaryWrite } from "../core/util/temp";
-import { createHash } from "node:crypto";
-import path from "node:path";
+import {
+  closeFileIfOpen,
+  getFileName,
+  temporaryDirectory,
+  temporaryWrite,
+} from "../core/util/temp";
 import fs from "node:fs";
 import { TextDecoder } from "util";
 
@@ -40,18 +43,16 @@ export default class RunCode implements Feature {
   private async run() {
     try {
       const doc = window.activeTextEditor.document;
-    if (isTestMapFile(doc)) {
-      const server = this.conf.server;
-      if (server != null) {
-        const data = await runConfMap(doc, server);
-        this.openDoc(data, doc.fileName);
+      if (isTestMapFile(doc)) {
+        const server = this.conf.server;
+        if (server != null) {
+          const data = await runConfMap(doc, server);
+          this.openDoc(data, doc.fileName);
+        }
       }
-    }
     } catch (error) {
       console.log(error);
-      
     }
-    
   }
   private init(subscriptions) {
     const myScheme = "cowsay";
@@ -104,12 +105,6 @@ export default class RunCode implements Feature {
   }
 }
 
-function getFileName(file: string) {
-  const has = createHash("MD5", {});
-  has.update(file);
-  return `${path.basename(path.dirname(file))}-${has.digest("hex")}.json`;
-}
-
 function cleanData(data: any) {
   const cleaned = {};
   for (const key in data) {
@@ -120,15 +115,4 @@ function cleanData(data: any) {
     }
   }
   return cleaned;
-}
-
-async function closeFileIfOpen(dir: string): Promise<void> {
-  const tabs: Tab[] = window.tabGroups.all.map((tg) => tg.tabs).flat();
-  const index = tabs.findIndex(
-    (tab) =>
-      tab.input instanceof TabInputText && tab.input.uri.fsPath.includes(dir)
-  );
-  if (index !== -1) {
-    await window.tabGroups.close(tabs[index]);
-  }
 }

@@ -74,7 +74,11 @@ class StructureMapTests(private val configManager: ProjectConfigManager, private
             val bundle =
                 parser.parseBundle(iParser, contextR4, scu, path.getParentPath(), testData.map, data.response, configs)
             val jsonString = iParser.encodeResourceToString(bundle.data)
+
+            println("----- Response ------")
             println(jsonString)
+            println("----- End Response ------")
+
             val document = Configuration.defaultConfiguration().jsonProvider().parse(jsonString)
             return startTestRun(
                 document,

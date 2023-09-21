@@ -14,7 +14,7 @@ import { Feature } from "../feature.type";
 import { isMapFile } from "../utils";
 import { IServerManager } from "../core/server";
 import { JSONRPCClient } from "json-rpc-2.0";
-import { RPCResponse } from "../core/run";
+import { RPCResponse } from "../core/rpc/run";
 
 export class Formatter implements Feature {
   private conf: IServerManager;

@@ -90,7 +90,7 @@ export class TestCase {
   getLabel() {
     return `${this.data.parentTitle ? this.data.parentTitle + " - " : ""}${
       this.data.title ?? this.data.path
-    } ${this.data.value}}`;
+    }`;
   }
 
   async run(

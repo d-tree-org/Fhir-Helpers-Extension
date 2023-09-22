@@ -3,7 +3,7 @@
   "description": "A combination of helpful features to work with FHIR",
   "author": "Christopher Phiri",
   "license": "MIT",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "repository": {
     "type": "git",
     "url": "https://github.com/Microsoft/vscode-extension-samples"

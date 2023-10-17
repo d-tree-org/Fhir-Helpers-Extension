@@ -4,12 +4,13 @@ import com.google.gson.Gson
 import com.sevenreup.fhir.core.utils.getActualPath
 import com.sevenreup.fhir.core.utils.getParentPath
 import com.sevenreup.fhir.core.utils.readFileOrNull
+import com.sevenreup.fhir.core.utils.toAbsolutePath
 
 class ProjectConfigManager {
     fun loadProjectConfig(projectRoot: String?, file: String?): ProjectConfig {
         println("Project Root: $projectRoot, $file")
         if (projectRoot != null) {
-            return searchForConfig(projectRoot.getActualPath())
+            return searchForConfig(projectRoot.toAbsolutePath())
         } else {
             if (file != null) {
                 val parentPath = file.getParentPath()

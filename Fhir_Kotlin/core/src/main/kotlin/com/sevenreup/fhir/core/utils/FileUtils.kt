@@ -46,5 +46,5 @@ fun String.toAbsolutePath(): String {
     if (!cP.isAbsolute) {
         cP = cP.toAbsolutePath()
     }
-    return cP.toString()
+    return cP.normalize().toString()
 }

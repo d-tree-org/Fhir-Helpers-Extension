@@ -79,7 +79,6 @@ class FhirService {
     ): TestStatus {
         try {
             val runner = StructureMapTests(configManager, ParseJsonCommands())
-            println(path)
             return runner.targetTest(path, data, root)
         } catch (e: Exception) {
             throw e

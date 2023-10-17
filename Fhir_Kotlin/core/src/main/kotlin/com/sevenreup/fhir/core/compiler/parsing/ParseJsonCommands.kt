@@ -49,17 +49,17 @@ class ParseJsonCommands {
         iParser: IParser,
         contextR4: SimpleWorkerContext,
         scu: StructureMapUtilities,
-        configPath: String,
+        parentPath: String,
         map: MapConfig,
         path: String,
         projectConfig: ProjectConfig
     ): ParseResponse {
         println("\n----Start {${FilenameUtils.getName(path)}}-----")
-        val questionnaireData = path.getAbsolutePath(configPath).readFile()
+        val questionnaireData = path.getAbsolutePath(parentPath).readFile()
         val targetResource = Bundle()
         val baseElement =
             iParser.parseResource(QuestionnaireResponse::class.java, questionnaireData)
-        val strMap = handleImports(map.path.getAbsolutePath(configPath), iParser, scu, projectConfig)
+        val strMap = handleImports(map.path.getAbsolutePath(parentPath), iParser, scu, projectConfig)
         scu.transform(contextR4, baseElement, strMap, targetResource)
         println("\n------End----------\n")
 

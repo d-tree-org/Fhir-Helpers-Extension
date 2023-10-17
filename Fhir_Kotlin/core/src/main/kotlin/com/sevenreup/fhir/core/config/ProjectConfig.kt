@@ -7,7 +7,7 @@ import com.sevenreup.fhir.core.utils.readFileOrNull
 
 class ProjectConfigManager {
     fun loadProjectConfig(projectRoot: String?, file: String?): ProjectConfig {
-        println("$projectRoot, $file")
+        println("Project Root: $projectRoot, $file")
         if (projectRoot != null) {
             return searchForConfig(projectRoot.getActualPath())
         } else {
@@ -28,4 +28,11 @@ class ProjectConfigManager {
 }
 
 
-data class ProjectConfig(val aliases: Map<String, String> = mapOf(), val basePath: String? = null)
+data class ProjectConfig(val aliases: Map<String, String> = mapOf(), val basePath: String? = null, val compileMode: CompileMode = CompileMode.Silent)
+
+
+enum class CompileMode {
+    Debug,
+    Production,
+    Silent
+}

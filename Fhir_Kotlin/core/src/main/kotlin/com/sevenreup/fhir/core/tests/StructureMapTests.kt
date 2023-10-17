@@ -8,6 +8,8 @@ import com.google.gson.Gson
 import com.jayway.jsonpath.Configuration
 import com.jayway.jsonpath.JsonPath
 import com.sevenreup.fhir.core.compiler.parsing.ParseJsonCommands
+import com.sevenreup.fhir.core.config.CompileMode
+import com.sevenreup.fhir.core.config.ProjectConfig
 import com.sevenreup.fhir.core.config.ProjectConfigManager
 import com.sevenreup.fhir.core.models.JsonConfig
 import com.sevenreup.fhir.core.models.TestVerify
@@ -18,10 +20,7 @@ import com.sevenreup.fhir.core.tests.inputs.TestTypes
 import com.sevenreup.fhir.core.tests.operations.*
 import com.sevenreup.fhir.core.tests.runner.getAllTestFiles
 import com.sevenreup.fhir.core.utilities.TransformSupportServices
-import com.sevenreup.fhir.core.utils.asWatchChannel
-import com.sevenreup.fhir.core.utils.getParentPath
-import com.sevenreup.fhir.core.utils.readFile
-import com.sevenreup.fhir.core.utils.toAbsolutePath
+import com.sevenreup.fhir.core.utils.*
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.flow.flow
 import net.minidev.json.JSONArray
@@ -38,6 +37,7 @@ class StructureMapTests(private val configManager: ProjectConfigManager, private
     private val iParser: IParser = FhirContext.forCached(FhirVersionEnum.R4).newJsonParser()
     private val scu: StructureMapUtilities
     private var contextR4: SimpleWorkerContext
+    private lateinit var configs: ProjectConfig
 
     init {
         val pcm = FilesystemPackageCacheManager(true, ToolsVersion.TOOLS_VERSION)
@@ -69,15 +69,17 @@ class StructureMapTests(private val configManager: ProjectConfigManager, private
     fun targetTest(path: String, data: TestCaseData, projectRoot: String? = null): TestStatus {
         try {
             val testData = readTestFile(path)
-            val configs = configManager.loadProjectConfig(projectRoot, path.getParentPath())
+            configs = configManager.loadProjectConfig(projectRoot, path.getParentPath())
 
             val bundle =
                 parser.parseBundle(iParser, contextR4, scu, path.getParentPath(), testData.map, data.response, configs)
             val jsonString = iParser.encodeResourceToString(bundle.data)
 
-            println("----- Response ------")
-            println(jsonString)
-            println("----- End Response ------")
+            if (configs.compileMode != CompileMode.Production) {
+                println("----- Response ------")
+                println(jsonString)
+                println("----- End Response ------")
+            }
 
             val document = Configuration.defaultConfiguration().jsonProvider().parse(jsonString)
             return startTestRun(
@@ -161,9 +163,18 @@ class StructureMapTests(private val configManager: ProjectConfigManager, private
         var failedTestCount = 0
 
         for (test in testData.tests) {
-            val configs = configManager.loadProjectConfig(projectRoot, path.getParentPath())
+            val parentPath = path.getParentPath()
+            configs = configManager.loadProjectConfig(projectRoot, parentPath)
             val bundle =
-                parser.parseBundle(iParser, contextR4, scu, path.getParentPath(), testData.map, test.response, configs)
+                parser.parseBundle(
+                    iParser,
+                    contextR4,
+                    scu,
+                    parentPath,
+                    testData.map,
+                    test.response,
+                    configs
+                )
             val jsonString = iParser.encodeResourceToString(bundle.data)
             println(jsonString)
 

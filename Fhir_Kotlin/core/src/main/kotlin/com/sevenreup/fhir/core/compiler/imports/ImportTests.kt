@@ -2,11 +2,11 @@ package com.sevenreup.fhir.core.compiler.imports
 
 import ca.uhn.fhir.parser.IParser
 import com.sevenreup.fhir.core.compiler.parsing.ParseJsonCommands
+import com.sevenreup.fhir.core.config.CompileMode
 import com.sevenreup.fhir.core.config.ProjectConfig
 import com.sevenreup.fhir.core.utils.getAbsolutePath
 import com.sevenreup.fhir.core.utils.getParentPath
 import com.sevenreup.fhir.core.utils.readFile
-import com.sevenreup.fhir.core.utils.toAbsolutePath
 import org.hl7.fhir.r4.model.StructureMap
 import org.hl7.fhir.r4.utils.StructureMapUtilities
 
@@ -18,13 +18,15 @@ fun handleImports(
     scu: StructureMapUtilities,
     projectConfigs: ProjectConfig
 ): StructureMap? {
-    println("${projectConfigs}_$path")
+    println("Import Data -${projectConfigs}_$path")
     val main = scu.parse(path.readFile(), ParseJsonCommands.getSrcName(path))
 
     main?.let { structureMap ->
-        println("Original")
-        println(iParser.encodeResourceToString(main))
-        println("-------------")
+        if (projectConfigs.compileMode == CompileMode.Debug) {
+            println("Original")
+            println(iParser.encodeResourceToString(main))
+            println("-------------")
+        }
         structureMap.import?.let { imports ->
             imports.forEach { import ->
                 val importedMap = handleImports(
@@ -40,9 +42,10 @@ fun handleImports(
             }
         }
         main.import = null
-        println("\n\n")
-        println(StructureMapUtilities.render(main))
-
+        if (projectConfigs.compileMode == CompileMode.Debug) {
+            println("\n\n")
+            println(StructureMapUtilities.render(main))
+        }
         return main
     }
     return null

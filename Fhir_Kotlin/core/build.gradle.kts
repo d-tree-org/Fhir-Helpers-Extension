@@ -18,7 +18,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1")
 
     implementation("com.jayway.jsonpath:json-path:2.7.0")
-    implementation("org.yaml:snakeyaml:1.21")
+    implementation("org.yaml:snakeyaml:1.27")
+
 
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.11.2")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.1")

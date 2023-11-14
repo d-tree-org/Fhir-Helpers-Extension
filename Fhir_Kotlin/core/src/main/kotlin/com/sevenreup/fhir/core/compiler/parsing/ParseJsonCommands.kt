@@ -13,9 +13,12 @@ import org.apache.commons.io.FilenameUtils
 import org.hl7.fhir.r4.context.SimpleWorkerContext
 import org.hl7.fhir.r4.model.Bundle
 import org.hl7.fhir.r4.model.QuestionnaireResponse
+import org.hl7.fhir.r4.model.StructureMap
 import org.hl7.fhir.r4.utils.StructureMapUtilities
 
 class ParseJsonCommands {
+    val strCache: MutableMap<String, StructureMap> = mutableMapOf()
+
     fun parseSingle(
         path: String,
         iParser: IParser,
@@ -57,9 +60,16 @@ class ParseJsonCommands {
         println("\n----Start {${FilenameUtils.getName(path)}}-----")
         val questionnaireData = path.getAbsolutePath(parentPath).readFile()
         val targetResource = Bundle()
+        val strMap: StructureMap?
         val baseElement =
             iParser.parseResource(QuestionnaireResponse::class.java, questionnaireData)
-        val strMap = handleImports(map.path.getAbsolutePath(parentPath), iParser, scu, projectConfig)
+        if (strCache.containsKey(map.path)) {
+            strMap = strCache[map.path]
+        } else {
+            strMap = handleImports(map.path.getAbsolutePath(parentPath), iParser, scu, projectConfig)
+            strMap?.also { strCache[map.path] = it }
+        }
+
         scu.transform(contextR4, baseElement, strMap, targetResource)
         println("\n------End----------\n")
 

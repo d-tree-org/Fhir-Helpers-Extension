@@ -1,0 +1,30 @@
+{
+  "list": [
+    {
+      "fileResults": [
+        {
+          "file": "./response/sample.json",
+          "tests": 1,
+          "passed": 1,
+          "failed": 0,
+          "testResults": [
+            {
+              "passed": true,
+              "value": "{resource\u003d{resourceType\u003dEncounter, id\u003d84d19332-bbea-43aa-beef-ea01e431ab71, status\u003dfinished, class\u003d{system\u003dhttp://terminology.hl7.org/CodeSystem/v3-ActCode, code\u003dIMP, display\u003dinpatient encounter}, serviceType\u003d{coding\u003d[{\"system\":\"https:\\/\\/d-tree.org\",\"code\":\"eir\"}]}}}",
+              "exception": {},
+              "path": "$.entry[?(@.resource.resourceType \u003d\u003d \"Encounter\")]"
+            }
+          ]
+        }
+      ],
+      "failed": 0,
+      "passed": 1,
+      "files": 1,
+      "allPassedTests": 1,
+      "allFailedTests": 0
+    }
+  ],
+  "failed": 0,
+  "passed": 1,
+  "files": 1
+}

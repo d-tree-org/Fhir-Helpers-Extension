@@ -1,0 +1,24 @@
+map "https://fhir-dev.d-tree.org/fhir/StructureMap/exposed-infant-hiv-test-and-results" = "Exposed Infant HIV Test And Results"
+
+uses "http://hl7.org/fhir/StructureDefinition/QuestionnaireResponse" as source
+uses "http://hl7.org/fhir/StructureDefinition/Bundle" as target
+uses "http://hl7.org/fhir/StructureDefinition/Encounter" as target
+uses "http://hl7.org/fhir/StructureDefinition/Observation" as target
+
+group Main(source src: QuestionnaireResponse, target bundle: Bundle) {
+    src->bundle.id = uuid(),
+    bundle.type = "collection" then {
+        src then ExtractEncounter(src, bundle) "r_ext_enc";
+    } "r_add_bundle_info";
+}
+
+group ExtractEncounter(source src: QuestionnaireResponse, target bundle: Bundle) {
+    src->bundle.entry as entry,
+    entry.resource = create("Encounter") as encounter then {
+        src->encounter.id = uuid(),
+            encounter.status = "finished",
+            encounter.class = c("http://terminology.hl7.org/CodeSystem/v3-ActCode", "IMP", "inpatient encounter"),
+            encounter.serviceType = cc("https://d-tree.org", "eir", "Exposed Infant HIV Test And Results") "r_enc_data";
+    }
+    "r_encounter";
+}

@@ -1,10 +1,13 @@
 package com.sevenreup.fhir.core.tests.runner
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.sevenreup.fhir.core.config.ProjectConfig
+import com.sevenreup.fhir.core.tests.TestResult
+import com.sevenreup.fhir.core.utilities.ThrowableTypeAdapter
+import com.sevenreup.fhir.core.utils.createFile
+import com.sevenreup.fhir.core.utils.verifyDirectories
 import java.io.File
-
-class MapRunner {
-
-}
 
 fun getAllTestFiles(directoryPath: String): List<String> {
     val extensions = listOf(".map.test.yaml", ".map.test.json", ".map.test.yml")
@@ -27,4 +30,13 @@ fun findFilesWithExtension(directory: File, extensions: List<String>, fileList: 
             }
         }
     }
+}
+
+fun generateTestReport(result: TestResult, config: ProjectConfig) {
+    val gson = GsonBuilder()
+        .registerTypeAdapter(Exception::class.java, ThrowableTypeAdapter())
+        .create()
+    config.reportPath.verifyDirectories()
+    val content = gson.toJson(result)
+    content.createFile("${config.reportPath}/report.json")
 }

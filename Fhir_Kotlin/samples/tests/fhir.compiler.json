@@ -1,0 +1,7 @@
+{
+  "aliases": {
+    "@/*": "./structure_map"
+  },
+  "compileMode": "Silent",
+  "generateReport": "true"
+}

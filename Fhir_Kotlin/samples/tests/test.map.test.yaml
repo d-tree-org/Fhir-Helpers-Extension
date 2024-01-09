@@ -1,0 +1,11 @@
+type: str_test
+map:
+  path: "./sample.map"
+  name: sample
+tests:
+  - response: "./response/sample.json"
+    title: "Sample"
+    verify:
+      - type: notNull
+        path: $.entry[?(@.resource.resourceType == "Encounter")]
+        title: "Encounter"

@@ -7,32 +7,43 @@ import com.github.ajalt.mordant.rendering.TextStyle
 import com.github.ajalt.mordant.rendering.TextStyles.bold
 import com.github.ajalt.mordant.terminal.Terminal
 import com.sevenreup.fhir.core.compiler.parsing.ParseJsonCommands
+import com.sevenreup.fhir.core.config.ProjectConfig
 import com.sevenreup.fhir.core.config.ProjectConfigManager
 import com.sevenreup.fhir.core.tests.MapTestResult
 import com.sevenreup.fhir.core.tests.StructureMapTests
 import com.sevenreup.fhir.core.tests.TestResult
 import com.sevenreup.fhir.core.tests.TestStatus
+import com.sevenreup.fhir.core.tests.runner.generateTestReport
+import com.sevenreup.fhir.core.utils.getParentPath
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
 import kotlin.system.exitProcess
 
 fun runTests(path: String, watch: Boolean, projectRoot: String?) {
     val configManager = ProjectConfigManager()
+    val configs = configManager.loadProjectConfig(projectRoot, path.getParentPath())
     val tests = StructureMapTests(configManager, ParseJsonCommands())
     if (watch) {
         runBlocking {
             tests.watchTestChanges(path, projectRoot).collect {
-                printResults(it)
+                generateLogs(it, configs)
             }
         }
     } else {
         val results = tests.runTests(path, projectRoot)
-        printResults(results)
+        generateLogs(results, configs)
 
         if (results.failed > 0) {
             exitProcess(1)
         }
     }
+}
+
+private fun generateLogs(results: TestResult, config: ProjectConfig) {
+    if (config.generateReport) {
+        generateTestReport(results, config)
+    }
+    printResults(results)
 }
 
 private fun printResults(result: TestResult) {

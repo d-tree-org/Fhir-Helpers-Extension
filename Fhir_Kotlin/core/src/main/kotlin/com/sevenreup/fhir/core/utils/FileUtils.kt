@@ -1,6 +1,8 @@
 package com.sevenreup.fhir.core.utils
 
 import org.apache.commons.io.FileUtils
+import java.io.File
+import java.io.FileWriter
 import kotlin.io.path.Path
 import kotlin.io.path.isDirectory
 
@@ -8,10 +10,30 @@ fun String.readFile(): String {
     return FileUtils.readFileToString(FileUtils.getFile(this), "UTF-8")
 }
 
+fun String.createFile(path: String) {
+    try {
+        val file = File(path)
+        val writer = FileWriter(file)
+        writer.write(this)
+        writer.close()
+    } catch (e: Exception) {
+        println(e)
+        return
+    }
+}
+
+fun String.verifyDirectories() {
+    val directory: File = File(this)
+    if (!directory.exists()) {
+        directory.mkdirs()
+    }
+}
+
 fun String.readFileOrNull(): String? {
     return try {
         this.readFile()
     } catch (e: Exception) {
+        println(e)
         null
     }
 }

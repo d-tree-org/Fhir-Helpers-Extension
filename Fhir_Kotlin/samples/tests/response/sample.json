@@ -1,0 +1,10 @@
+{
+  "resourceType": "QuestionnaireResponse",
+  "item": [
+    {
+      "linkId": "hiv-test-type",
+      "text": "Select: test type",
+      "answer": [{ "valueCoding": { "code": "dbs", "display": "DBS" } }]
+    }
+  ]
+}

@@ -11,8 +11,7 @@ import com.sevenreup.fhir.core.compiler.parsing.ParseJsonCommands
 import com.sevenreup.fhir.core.config.CompileMode
 import com.sevenreup.fhir.core.config.ProjectConfig
 import com.sevenreup.fhir.core.config.ProjectConfigManager
-import com.sevenreup.fhir.core.models.JsonConfig
-import com.sevenreup.fhir.core.models.TestVerify
+import com.sevenreup.fhir.core.models.*
 import com.sevenreup.fhir.core.tests.inputs.PathResult
 import com.sevenreup.fhir.core.tests.inputs.PathResultType
 import com.sevenreup.fhir.core.tests.inputs.TestCaseData
@@ -30,7 +29,6 @@ import org.hl7.fhir.r4.utils.StructureMapUtilities
 import org.hl7.fhir.utilities.npm.FilesystemPackageCacheManager
 import org.hl7.fhir.utilities.npm.ToolsVersion
 import java.io.File
-
 
 class StructureMapTests(private val configManager: ProjectConfigManager, private val parser: ParseJsonCommands) {
 
@@ -291,29 +289,3 @@ class StructureMapTests(private val configManager: ProjectConfigManager, private
         return testResult
     }
 }
-
-data class ResponseTestResult(
-    val file: String, val tests: Int, val passed: Int, val failed: Int, val testResults: List<TestStatus>
-)
-
-data class TestStatus @JvmOverloads constructor(
-    val passed: Boolean,
-    val value: Any? = null,
-    val expected: Any? = null,
-    val exception: Exception? = null,
-    val path: String? = null
-)
-
-data class MapTestResult(
-    val fileResults: List<ResponseTestResult>,
-    val failed: Int,
-    val passed: Int,
-    val files: Int,
-    val allPassedTests: Int,
-    val allFailedTests: Int
-)
-
-
-data class TestResult(
-    val list: List<MapTestResult>, val failed: Int, val passed: Int, val files: Int
-)

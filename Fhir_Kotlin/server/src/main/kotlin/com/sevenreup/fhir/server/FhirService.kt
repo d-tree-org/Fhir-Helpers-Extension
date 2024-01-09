@@ -8,7 +8,7 @@ import com.sevenreup.fhir.core.compiler.ResourceParser
 import com.sevenreup.fhir.core.compiler.parsing.ParseJsonCommands
 import com.sevenreup.fhir.core.config.ProjectConfigManager
 import com.sevenreup.fhir.core.tests.StructureMapTests
-import com.sevenreup.fhir.core.tests.TestStatus
+import com.sevenreup.fhir.core.models.TestStatus
 import com.sevenreup.fhir.core.tests.inputs.TestCaseData
 import com.sevenreup.fhir.core.utils.formatStructureMap
 

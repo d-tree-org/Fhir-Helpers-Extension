@@ -9,10 +9,10 @@ import com.github.ajalt.mordant.terminal.Terminal
 import com.sevenreup.fhir.core.compiler.parsing.ParseJsonCommands
 import com.sevenreup.fhir.core.config.ProjectConfig
 import com.sevenreup.fhir.core.config.ProjectConfigManager
-import com.sevenreup.fhir.core.tests.MapTestResult
+import com.sevenreup.fhir.core.models.MapTestResult
+import com.sevenreup.fhir.core.models.TestResult
 import com.sevenreup.fhir.core.tests.StructureMapTests
-import com.sevenreup.fhir.core.tests.TestResult
-import com.sevenreup.fhir.core.tests.TestStatus
+import com.sevenreup.fhir.core.models.TestStatus
 import com.sevenreup.fhir.core.tests.runner.generateTestReport
 import com.sevenreup.fhir.core.utils.getParentPath
 import kotlinx.coroutines.flow.collect

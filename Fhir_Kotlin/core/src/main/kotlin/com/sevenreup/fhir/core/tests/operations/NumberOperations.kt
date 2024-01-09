@@ -1,7 +1,7 @@
 package com.sevenreup.fhir.core.tests.operations
 
 import com.sevenreup.fhir.core.tests.Operation
-import com.sevenreup.fhir.core.tests.TestStatus
+import com.sevenreup.fhir.core.models.TestStatus
 import com.sevenreup.fhir.core.tests.inputs.PathResult
 import com.sevenreup.fhir.core.tests.inputs.testTypeNameMap
 import java.math.BigDecimal

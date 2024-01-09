@@ -1,9 +1,9 @@
 package com.sevenreup.fhir.core.tests.runner
 
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.sevenreup.fhir.core.config.ProjectConfig
-import com.sevenreup.fhir.core.tests.TestResult
+import com.sevenreup.fhir.core.models.MochaResults
+import com.sevenreup.fhir.core.models.TestResult
 import com.sevenreup.fhir.core.utilities.ThrowableTypeAdapter
 import com.sevenreup.fhir.core.utils.createFile
 import com.sevenreup.fhir.core.utils.verifyDirectories
@@ -37,6 +37,6 @@ fun generateTestReport(result: TestResult, config: ProjectConfig) {
         .registerTypeAdapter(Exception::class.java, ThrowableTypeAdapter())
         .create()
     config.reportPath.verifyDirectories()
-    val content = gson.toJson(result)
+    val content = gson.toJson(MochaResults.fromTestResult(result))
     content.createFile("${config.reportPath}/report.json")
 }

@@ -35,6 +35,7 @@ data class ProjectConfig(
     val basePath: String? = null,
     val compileMode: CompileMode = CompileMode.Silent,
     val generateReport: Boolean = false,
+    val generateReportMarkdown: Boolean = false,
     val reportPath: String = "./reports",
 )
 

@@ -2,7 +2,7 @@ package com.sevenreup.fhir.core.tests.runner
 
 import com.google.gson.GsonBuilder
 import com.sevenreup.fhir.core.config.ProjectConfig
-import com.sevenreup.fhir.core.models.MochaResults
+import com.sevenreup.fhir.core.tests.reports.MochaResults
 import com.sevenreup.fhir.core.models.TestResult
 import com.sevenreup.fhir.core.utilities.ThrowableTypeAdapter
 import com.sevenreup.fhir.core.utils.createFile

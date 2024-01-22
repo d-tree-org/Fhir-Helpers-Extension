@@ -11,8 +11,9 @@ import com.sevenreup.fhir.core.config.ProjectConfig
 import com.sevenreup.fhir.core.config.ProjectConfigManager
 import com.sevenreup.fhir.core.models.MapTestResult
 import com.sevenreup.fhir.core.models.TestResult
-import com.sevenreup.fhir.core.tests.StructureMapTests
 import com.sevenreup.fhir.core.models.TestStatus
+import com.sevenreup.fhir.core.tests.StructureMapTests
+import com.sevenreup.fhir.core.tests.reports.MarkdownResults
 import com.sevenreup.fhir.core.tests.runner.generateTestReport
 import com.sevenreup.fhir.core.utils.getParentPath
 import kotlinx.coroutines.flow.collect
@@ -43,20 +44,24 @@ private fun generateLogs(results: TestResult, config: ProjectConfig) {
     if (config.generateReport) {
         generateTestReport(results, config)
     }
-    printResults(results)
+    printResults(results, config)
 }
 
-private fun printResults(result: TestResult) {
+private fun printResults(result: TestResult, config: ProjectConfig) {
+    val md = MarkdownResults()
     val t = Terminal()
     val errStyle = (bold + red)
     val passStyle = (bold + green)
     var allPassedTests = 0
     var allFailedTests = 0
+
     for (map in result.list) {
         allPassedTests += map.allPassedTests
         allFailedTests += map.allFailedTests
-        printMapResults(map, errStyle, passStyle)
+        printMapResults(map, errStyle, passStyle, md)
     }
+
+    md.createHeader(result, allPassedTests, allFailedTests)
 
     if (result.list.size > 1) {
         t.println(errStyle("$DIVIDER$DIVIDER"))
@@ -87,13 +92,17 @@ private fun printResults(result: TestResult) {
             } (${allFailedTests + allPassedTests})"
         )
     }
+    if (config.generateReportMarkdown) {
+        md.save(config)
+    }
 }
 
-fun printMapResults(result: MapTestResult, errStyle: TextStyle, passStyle: TextStyle) {
+fun printMapResults(result: MapTestResult, errStyle: TextStyle, passStyle: TextStyle, md: MarkdownResults) {
 
     var allPassedTests = 0
     var allFailedTests = 0
     val failedTests = mutableListOf<TestStatus>()
+    val failedTestsMap = mutableMapOf<String, List<TestStatus>>()
     print("\n")
     result.fileResults.forEach { testFile ->
         val hasFailed = testFile.failed > 0
@@ -101,8 +110,16 @@ fun printMapResults(result: MapTestResult, errStyle: TextStyle, passStyle: TextS
         allFailedTests += testFile.failed
 
         println("${if (!hasFailed) "\u2705 ${passStyle("Passed")}" else "\u274C ${errStyle("Failed")}"} ${testFile.file} (${testFile.tests})")
-        failedTests.addAll(testFile.testResults.filter { !it.passed })
+        testFile.testResults.forEach {
+            if (!it.passed) {
+                val list = (failedTestsMap[testFile.file]?.toMutableList() ?: mutableListOf())
+                list.add(it)
+                failedTestsMap[testFile.file] = list
+                failedTests.add(it)
+            }
+        }
     }
+    md.printMapResults(failedTestsMap)
     if (failedTests.isNotEmpty()) {
         failedTests.forEachIndexed { i, testStatus ->
             if (!testStatus.passed) {

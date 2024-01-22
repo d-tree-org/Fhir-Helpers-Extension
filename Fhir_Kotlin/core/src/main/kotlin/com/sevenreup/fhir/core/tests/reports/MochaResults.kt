@@ -1,4 +1,6 @@
-package com.sevenreup.fhir.core.models
+package com.sevenreup.fhir.core.tests.reports
+
+import com.sevenreup.fhir.core.models.TestResult
 
 data class MochaResults(
     val stats: MochaStats,

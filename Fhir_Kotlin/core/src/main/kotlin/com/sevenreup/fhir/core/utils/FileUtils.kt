@@ -23,7 +23,7 @@ fun String.createFile(path: String) {
 }
 
 fun String.verifyDirectories() {
-    val directory: File = File(this)
+    val directory = File(this)
     if (!directory.exists()) {
         directory.mkdirs()
     }

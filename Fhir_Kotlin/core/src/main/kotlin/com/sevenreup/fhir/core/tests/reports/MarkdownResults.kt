@@ -4,6 +4,7 @@ import com.sevenreup.fhir.core.config.ProjectConfig
 import com.sevenreup.fhir.core.models.TestResult
 import com.sevenreup.fhir.core.models.TestStatus
 import com.sevenreup.fhir.core.utils.createFile
+import com.sevenreup.fhir.core.utils.verifyDirectories
 
 private const val DIVIDER = "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
 
@@ -11,6 +12,7 @@ class MarkdownResults {
     private val stringBuilder: StringBuilder = StringBuilder()
 
     fun save(config: ProjectConfig) {
+        config.reportPath.verifyDirectories()
         stringBuilder.toString().createFile("${config.reportPath}/report.md")
     }
 

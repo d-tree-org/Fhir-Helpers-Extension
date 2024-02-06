@@ -4,6 +4,7 @@ import { parseStructureMapFile } from "./parser";
 import { TestCaseData, TestResult } from "./parsers/types";
 import { JSONRPCClient } from "json-rpc-2.0";
 import { sendRunTest } from "../core/rpc/run";
+import { Diagnostic } from "vscode";
 
 const textDecoder = new TextDecoder("utf-8");
 
@@ -115,18 +116,49 @@ export class TestCase {
       return;
     }
     const result = res.result as TestResult;
+    console.log(JSON.stringify(result));
 
-    if (result.passed) {
+    this.updateDiagnostics(item, result);
+    if (result.status.passed) {
       options.passed(item, duration);
       return;
     } else {
       options.failed(
         item,
         new vscode.TestMessage(
-          (result.exception as any)?.message ?? result.exception
+          (result.status.exception as any)?.message ?? result.status.exception
         )
       );
       return;
+    }
+  }
+
+  updateDiagnostics(item: vscode.TestItem, result: TestResult): void {
+    const collection = vscode.languages.createDiagnosticCollection("test");
+    collection.clear();
+    if (
+      result.defaultTestsResults !== undefined &&
+      result.defaultTestsResults.length > 0
+    ) {
+      const results = result.defaultTestsResults?.[0].testResults ?? [];
+      collection.set(item.uri, [
+        {
+          code: result.status.path,
+          message: `Error: ${result.status.path}`,
+          range: item.range,
+          severity: vscode.DiagnosticSeverity.Error,
+          source: "",
+          relatedInformation: results
+            .filter((e) => !e.passed)
+            .map(
+              (result) =>
+                new vscode.DiagnosticRelatedInformation(
+                  new vscode.Location(item.uri, item.range),
+                  result.exception.message
+                )
+            ),
+        },
+      ]);
     }
   }
 }

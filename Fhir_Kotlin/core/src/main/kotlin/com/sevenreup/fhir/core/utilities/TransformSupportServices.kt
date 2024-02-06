@@ -54,6 +54,8 @@ class TransformSupportServices constructor(val simpleWorkerContext: SimpleWorker
 
     @Throws(FHIRException::class)
     override fun performSearch(appContext: Any, url: String): List<Base> {
-        throw FHIRException("performSearch is not supported yet")
+        return  listOf(Patient().apply {
+            id = "1"
+        })
     }
 }

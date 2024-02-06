@@ -64,6 +64,7 @@ export const parseYaml = (yamlContent: string): TestCaseData[] => {
           value: verifyItem.value,
           valueRange: verifyItem.valueRange,
           type: verifyItem.type,
+          defaultTests: parsedYaml.map.defaultTests,
         });
       }
     });

@@ -1,5 +1,7 @@
 package com.sevenreup.fhir.core.tests.inputs
 
+import com.sevenreup.fhir.core.models.DefaultTests
+
 
 data class TestCaseData @JvmOverloads constructor(
     val range: Range = Range(),
@@ -7,7 +9,8 @@ data class TestCaseData @JvmOverloads constructor(
     val path: String = "",
     val value: String? = null,
     val valueRange: ValueRange? = null,
-    val type: String = ""
+    val type: String = "",
+    val defaultTests: List<DefaultTests> = listOf()
 )
 
 data class Range @JvmOverloads constructor(

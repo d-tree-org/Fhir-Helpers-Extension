@@ -1,5 +1,15 @@
 export interface YamlData {
+  map: TestDataConfig;
   tests: TestItem[];
+}
+
+export interface TestDataConfig {
+  path: string;
+  name: string;
+  defaultTests: DefaultTests[];
+}
+export interface DefaultTests {
+  type: string;
 }
 
 export type Position = {
@@ -20,6 +30,7 @@ export type TestCaseData = {
   type: string;
   title?: string;
   parentTitle?: string;
+  defaultTests: DefaultTests[];
 };
 
 interface ValueRange {
@@ -42,9 +53,24 @@ export interface VerifySection {
 }
 
 export interface TestResult {
+  status: TestStatus;
+  defaultTestsResults: DefaultTestResult[];
+}
+
+export interface DefaultTestResult {
+  passed: boolean;
+  testResults: TestStatus[];
+}
+
+export interface TestStatus {
   passed: boolean;
   value?: any;
   expected?: any;
-  exception?: string;
+  exception?: {
+    cause?: any;
+    stackTrace?: any;
+    message?: string;
+    localizedMessage?: any;
+  };
   path?: string;
 }

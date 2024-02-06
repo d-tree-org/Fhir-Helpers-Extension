@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class JsonConfig(
-    val type: String = "", val map: MapConfig = MapConfig(), val tests: List<ResTest> = listOf()
+    val type: String = "", val map: MapConfig = MapConfig(), val tests: List<ResTest> = listOf(),
 )
 
 @Serializable

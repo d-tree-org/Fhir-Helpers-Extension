@@ -14,7 +14,7 @@ import com.sevenreup.fhir.core.models.TestResult
 import com.sevenreup.fhir.core.models.TestStatus
 import com.sevenreup.fhir.core.tests.StructureMapTests
 import com.sevenreup.fhir.core.tests.reports.MarkdownResults
-import com.sevenreup.fhir.core.tests.runner.generateTestReport
+import com.sevenreup.fhir.core.tests.reports.generateTestReport
 import com.sevenreup.fhir.core.utils.getParentPath
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking

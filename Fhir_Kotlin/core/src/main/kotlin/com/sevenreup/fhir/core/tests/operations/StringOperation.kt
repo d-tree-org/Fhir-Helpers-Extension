@@ -1,9 +1,7 @@
 package com.sevenreup.fhir.core.tests.operations
 
-import com.sevenreup.fhir.core.tests.Operation
 import com.sevenreup.fhir.core.models.TestStatus
 import com.sevenreup.fhir.core.tests.inputs.PathResult
-import com.sevenreup.fhir.core.tests.inputs.PathResultType
 import com.sevenreup.fhir.core.tests.inputs.testTypeNameMap
 
 open class StringOperation : Operation {

@@ -47,6 +47,10 @@ class MarkdownResults {
             }
         }
     }
+
+    fun printDefaultValidations() {
+
+    }
 }
 
 private fun errStyle(value: String): String {

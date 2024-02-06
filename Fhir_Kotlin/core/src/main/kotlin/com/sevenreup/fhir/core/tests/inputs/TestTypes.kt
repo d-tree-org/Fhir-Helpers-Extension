@@ -23,6 +23,10 @@ object TestTypes {
     const val EndsWithNoCase = "endsWithi"
 }
 
+object  DefaultTestTypes {
+    const val Validation = "validation"
+}
+
 val testTypeNameMap = mapOf(
     Pair(TestTypes.Equals, "Equal"),
     Pair(TestTypes.EqualsNoCase, "Equal (case-insensitive)"),
@@ -45,3 +49,5 @@ val testTypeNameMap = mapOf(
     Pair(TestTypes.EndsWith, "Ends with"),
     Pair(TestTypes.EndsWithNoCase, "Ends with (case-insensitive)"),
 )
+
+val defaultTypeNameMap = mapOf(Pair(DefaultTestTypes.Validation, "Resource Validation"))

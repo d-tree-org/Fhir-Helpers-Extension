@@ -31,6 +31,7 @@ dependencies {
     implementation("ca.uhn.hapi.fhir:hapi-fhir-structures-r4:5.3.0")
     implementation("org.opencds.cqf:cql-engine-fhir:1.3.14-SNAPSHOT")
     implementation("org.opencds.cqf:cql-engine:1.3.14-SNAPSHOT")
+    implementation ("ca.uhn.hapi.fhir:hapi-fhir-validation:6.0.1")
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.20")
 

@@ -2,27 +2,23 @@ package com.sevenreup.fhir.core.tests
 
 import ca.uhn.fhir.context.FhirContext
 import ca.uhn.fhir.context.FhirVersionEnum
+import ca.uhn.fhir.context.support.DefaultProfileValidationSupport
+import ca.uhn.fhir.context.support.IValidationSupport
 import ca.uhn.fhir.parser.IParser
-import com.charleskorn.kaml.Yaml
-import com.google.gson.Gson
-import com.jayway.jsonpath.Configuration
-import com.jayway.jsonpath.JsonPath
+import ca.uhn.fhir.validation.FhirValidator
 import com.sevenreup.fhir.core.compiler.parsing.ParseJsonCommands
-import com.sevenreup.fhir.core.config.CompileMode
-import com.sevenreup.fhir.core.config.ProjectConfig
 import com.sevenreup.fhir.core.config.ProjectConfigManager
 import com.sevenreup.fhir.core.models.*
-import com.sevenreup.fhir.core.tests.inputs.PathResult
-import com.sevenreup.fhir.core.tests.inputs.PathResultType
 import com.sevenreup.fhir.core.tests.inputs.TestCaseData
-import com.sevenreup.fhir.core.tests.inputs.TestTypes
-import com.sevenreup.fhir.core.tests.operations.*
-import com.sevenreup.fhir.core.tests.runner.getAllTestFiles
+import com.sevenreup.fhir.core.tests.runner.TestFileHelpers
+import com.sevenreup.fhir.core.tests.runner.TestRunner
 import com.sevenreup.fhir.core.utilities.TransformSupportServices
-import com.sevenreup.fhir.core.utils.*
+import com.sevenreup.fhir.core.utils.asWatchChannel
+import com.sevenreup.fhir.core.utils.toAbsolutePath
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.flow.flow
-import net.minidev.json.JSONArray
+import org.hl7.fhir.common.hapi.validation.support.*
+import org.hl7.fhir.common.hapi.validation.validator.FhirInstanceValidator
 import org.hl7.fhir.r4.context.SimpleWorkerContext
 import org.hl7.fhir.r4.model.Parameters
 import org.hl7.fhir.r4.utils.StructureMapUtilities
@@ -30,12 +26,13 @@ import org.hl7.fhir.utilities.npm.FilesystemPackageCacheManager
 import org.hl7.fhir.utilities.npm.ToolsVersion
 import java.io.File
 
+
 class StructureMapTests(private val configManager: ProjectConfigManager, private val parser: ParseJsonCommands) {
 
     private val iParser: IParser = FhirContext.forCached(FhirVersionEnum.R4).newJsonParser()
     private val scu: StructureMapUtilities
     private var contextR4: SimpleWorkerContext
-    private lateinit var configs: ProjectConfig
+    private var validator: FhirValidator
 
     init {
         val pcm = FilesystemPackageCacheManager(true, ToolsVersion.TOOLS_VERSION)
@@ -43,50 +40,12 @@ class StructureMapTests(private val configManager: ProjectConfigManager, private
         contextR4.setExpansionProfile(Parameters())
         contextR4.isCanRunWithoutTerminology = true
         scu = StructureMapUtilities(contextR4, TransformSupportServices(contextR4))
+        validator = provideFhirValidator()
     }
 
-    private fun readTestFile(path: String): JsonConfig {
-        return when (path.split(".").last()) {
-            "json" -> {
-                val rawJson = path.readFile()
-                val gson = Gson()
-                gson.fromJson(rawJson, JsonConfig::class.java)
-            }
-
-            "yml", "yaml" -> {
-                val rawJson = path.readFile()
-                Yaml.default.decodeFromString(JsonConfig.serializer(), rawJson)
-            }
-
-            else -> {
-                throw Exception("File format not supported")
-            }
-        }
-    }
-
-    fun targetTest(path: String, data: TestCaseData, projectRoot: String? = null): TestStatus {
-        try {
-            val testData = readTestFile(path)
-            configs = configManager.loadProjectConfig(projectRoot, path.getParentPath())
-
-            val bundle =
-                parser.parseBundle(iParser, contextR4, scu, path.getParentPath(), testData.map, data.response, configs)
-            val jsonString = iParser.encodeResourceToString(bundle.data)
-
-            if (configs.compileMode != CompileMode.Production) {
-                println("----- Response ------")
-                println(jsonString)
-                println("----- End Response ------")
-            }
-
-            val document = Configuration.defaultConfiguration().jsonProvider().parse(jsonString)
-            return startTestRun(
-                document,
-                TestVerify(type = data.type, path = data.path, value = data.value, valueRange = data.valueRange)
-            )
-        } catch (e: Exception) {
-            return TestStatus(false, null, null, e, path)
-        }
+    fun targetTest(path: String, data: TestCaseData, projectRoot: String? = null): TestStatusData {
+        val testRunner = TestRunner(configManager, parser, iParser, scu, contextR4, validator)
+        return testRunner.targetTest(path, data, data.defaultTests, projectRoot)
     }
 
     suspend fun watchTestChanges(path: String, projectRoot: String?) = flow<TestResult> {
@@ -106,7 +65,7 @@ class StructureMapTests(private val configManager: ProjectConfigManager, private
         val file = File(path)
 
         return if (file.isDirectory) {
-            val files = getAllTestFiles(path)
+            val files = TestFileHelpers.getAllTestFiles(path)
             startTestRun(files.map { it }, projectRoot)
         } else {
             startTestRun(listOf(file.absolutePath), projectRoot)
@@ -150,142 +109,27 @@ class StructureMapTests(private val configManager: ProjectConfigManager, private
     }
 
     private fun test(path: String, projectRoot: String?): MapTestResult {
-        val testData = readTestFile(path)
-
-        val responseTestResults = mutableListOf<ResponseTestResult>()
-
-        var passedFiles = 0
-        var failedFiles = 0
-
-        var passedTestCount = 0
-        var failedTestCount = 0
-
-        for (test in testData.tests) {
-            val parentPath = path.getParentPath()
-            configs = configManager.loadProjectConfig(projectRoot, parentPath)
-            val bundle =
-                parser.parseBundle(
-                    iParser,
-                    contextR4,
-                    scu,
-                    parentPath,
-                    testData.map,
-                    test.response,
-                    configs
-                )
-            val jsonString = iParser.encodeResourceToString(bundle.data)
-            println(jsonString)
-
-            val document = Configuration.defaultConfiguration().jsonProvider().parse(jsonString)
-            val status = mutableListOf<TestStatus>()
-
-            var passedTests = 0
-            var failedTests = 0
-
-            for (verify in test.verify) {
-                val testResult = startTestRun(document, verify)
-                if (testResult.passed) passedTests++ else failedTests++
-                status.add(
-                    testResult
-                )
-            }
-
-            if (failedTests > 0) {
-                failedFiles++
-            } else {
-                passedFiles++
-            }
-
-            passedTestCount += passedFiles
-            failedTestCount += failedFiles
-
-            responseTestResults.add(
-                ResponseTestResult(
-                    file = test.response,
-                    tests = test.verify.size,
-                    passed = passedTests,
-                    failed = failedTests,
-                    testResults = status
-                )
-            )
-        }
-
-        return MapTestResult(
-            responseTestResults,
-            failed = failedFiles,
-            passed = passedFiles,
-            files = testData.tests.size,
-            allFailedTests = failedTestCount,
-            allPassedTests = passedTestCount
-        )
+        val testRunner = TestRunner(configManager, parser, iParser, scu, contextR4, validator)
+        return testRunner.startTestList(path, projectRoot)
     }
 
+    private fun provideFhirValidator(): FhirValidator {
+        val fhirContext = FhirContext.forR4()
 
-    private fun startTestRun(document: Any, verify: TestVerify): TestStatus {
-        var testResult: TestStatus
-        var result: PathResult? = null
-
-        try {
-            var useRange = false
-            val resultRaw: Any = JsonPath.read(document, verify.path)
-            result = if (resultRaw is JSONArray) {
-                val array = resultRaw.map { it.toString() }
-                if (array.isEmpty()) {
-                    PathResult(PathResultType.STRING, null)
-                } else if (array.size == 1) {
-                    PathResult(PathResultType.STRING, array.singleOrNull())
-                } else {
-                    PathResult(PathResultType.ARRAY, array)
-                }
-            } else {
-                PathResult(PathResultType.STRING, resultRaw.toString())
-            }
-
-            val operation = when (verify.type) {
-                TestTypes.Equals -> EqualsTo()
-                TestTypes.EqualsNoCase -> EqualsToNoCase()
-                TestTypes.NotEquals -> NotEqualsTo()
-                TestTypes.LessThan -> LessThan()
-                TestTypes.LessThanOrEqual -> LessThanOrEqual()
-                TestTypes.GreaterThan -> GreaterThan()
-                TestTypes.GreaterThanOrEqual -> GreaterThanOrEqual()
-                TestTypes.Contains -> Contains()
-                TestTypes.NotContains -> NotContains()
-                TestTypes.ContainsNoCase -> ContainsNoCase()
-                TestTypes.NotContainsNoCase -> NotContainsNoCase()
-                TestTypes.Null -> Null()
-                TestTypes.NotNull -> NotNull()
-                TestTypes.Between -> {
-                    useRange = true
-                    Between()
-                }
-
-                TestTypes.StartsWith -> StartsWith()
-                TestTypes.StartsWithNoCase -> StartsWithNoCase()
-                TestTypes.EndsWith -> EndsWith()
-                TestTypes.EndsWithNoCase -> EndsWithNoCase()
-                else -> null
-            }
-
-            testResult = if (operation != null) {
-                operation.execute(value = result, expected = if (useRange) verify.valueRange else verify.value)
-                    .copy(path = verify.path)
-            } else {
-                val err = Exception("Assertion not supported")
-                TestStatus(
-                    passed = false, value = result, expected = verify.value, exception = err, path = verify.path
-                )
-            }
-
-        } catch (e: Exception) {
-            if (e is ClassCastException) {
-                val failedToCastToString = e.message?.contains("Array")
-                println(failedToCastToString)
-                // TODO: Work on array
-            }
-            testResult = TestStatus(false, value = result, expected = verify.value, exception = e, path = verify.path)
-        }
-
-        return testResult
+        val validationSupportChain =
+            ValidationSupportChain(
+                DefaultProfileValidationSupport(fhirContext),
+                InMemoryTerminologyServerValidationSupport(fhirContext),
+                CommonCodeSystemsTerminologyService(fhirContext),
+                UnknownCodeSystemWarningValidationSupport(fhirContext).apply {
+                    setNonExistentCodeSystemSeverity(IValidationSupport.IssueSeverity.WARNING)
+                },
+            )
+        val instanceValidator = FhirInstanceValidator(validationSupportChain)
+        instanceValidator.isAssumeValidRestReferences = true
+            instanceValidator.validatorResourceFetcher
+            instanceValidator.setCustomExtensionDomains()
+        instanceValidator.invalidateCaches()
+        return fhirContext.newValidator().apply { registerValidatorModule(instanceValidator) }
     }
 }

@@ -30,6 +30,7 @@ export const parseJson = (jsonContent: string): TestCaseData[] => {
           value: verifyItem.value || "",
           valueRange: verifyItem.valueRange,
           type: verifyItem.type,
+          defaultTests: jsonData.map.defaultTests,
         });
       }
     });

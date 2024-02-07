@@ -128,7 +128,7 @@ class StructureMapTests(private val configManager: ProjectConfigManager, private
         val instanceValidator = FhirInstanceValidator(validationSupportChain)
         instanceValidator.isAssumeValidRestReferences = true
             instanceValidator.validatorResourceFetcher
-            instanceValidator.setCustomExtensionDomains()
+            instanceValidator.setCustomExtensionDomains("d-tree.org")
         instanceValidator.invalidateCaches()
         return fhirContext.newValidator().apply { registerValidatorModule(instanceValidator) }
     }

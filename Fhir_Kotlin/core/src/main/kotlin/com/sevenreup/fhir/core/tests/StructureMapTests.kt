@@ -104,7 +104,6 @@ class StructureMapTests(private val configManager: ProjectConfigManager, private
                 )
             }
         }
-
         return TestResult(list = results, failed = failed, passed = passed, files = results.size)
     }
 

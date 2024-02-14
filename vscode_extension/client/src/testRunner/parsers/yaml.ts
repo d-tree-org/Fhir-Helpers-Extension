@@ -6,6 +6,7 @@ export const parseYaml = (yamlContent: string): TestCaseData[] => {
     prettyErrors: true,
     keepSourceTokens: true,
   });
+
   const lc = new yaml.LineCounter();
   const doc = yaml.parseDocument(yamlContent, {
     prettyErrors: true,
@@ -61,6 +62,7 @@ export const parseYaml = (yamlContent: string): TestCaseData[] => {
           parentTitle: testStep.title,
           response: testStep.response,
           path: verifyItem.path,
+          valueStringArray: verifyItem.valueStringArray,
           value: verifyItem.value,
           valueRange: verifyItem.valueRange,
           type: verifyItem.type,

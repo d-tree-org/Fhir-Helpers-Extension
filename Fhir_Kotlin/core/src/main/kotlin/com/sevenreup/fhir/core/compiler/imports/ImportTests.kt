@@ -22,11 +22,6 @@ fun handleImports(
     val main = scu.parse(path.readFile(), ParseJsonCommands.getSrcName(path))
 
     main?.let { structureMap ->
-        if (projectConfigs.compileMode == CompileMode.Debug) {
-            println("Original")
-            println(iParser.encodeResourceToString(main))
-            println("-------------")
-        }
         structureMap.import?.let { imports ->
             imports.forEach { import ->
                 val importedMap = handleImports(

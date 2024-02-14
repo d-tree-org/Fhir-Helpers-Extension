@@ -8,6 +8,7 @@ data class TestCaseData @JvmOverloads constructor(
     val response: String = "",
     val path: String = "",
     val value: String? = null,
+    val valueStringArray: List<String>? = null,
     val valueRange: ValueRange? = null,
     val type: String = "",
     val defaultTests: List<DefaultTests> = listOf()

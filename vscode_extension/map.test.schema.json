@@ -47,6 +47,7 @@
                   "description": "A string representing the verification type",
                   "enum": [
                     "eq",
+                    "arrayEq",
                     "eqi",
                     "ne",
                     "lt",
@@ -76,6 +77,10 @@
                   "description": "A string representing the JSON path for verification"
                 },
                 "value": {},
+                "valueStringArray": {
+                  "type": "array",
+                  "description": "Array values"
+                },
                 "valueRange": {
                   "type": "object",
                   "properties": {

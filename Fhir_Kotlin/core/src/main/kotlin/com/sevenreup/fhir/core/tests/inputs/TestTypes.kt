@@ -2,6 +2,7 @@ package com.sevenreup.fhir.core.tests.inputs
 
 object TestTypes {
     const val Equals = "eq"
+    const val ArrayEquals = "arrayEq"
     const val EqualsNoCase = "eqi"
     const val NotEquals = "ne"
     const val LessThan = "lt"
@@ -29,6 +30,7 @@ object  DefaultTestTypes {
 
 val testTypeNameMap = mapOf(
     Pair(TestTypes.Equals, "Equal"),
+    Pair(TestTypes.ArrayEquals, "Array Equals"),
     Pair(TestTypes.EqualsNoCase, "Equal (case-insensitive)"),
     Pair(TestTypes.NotEquals, "Not equal"),
     Pair(TestTypes.LessThan, "Less than"),

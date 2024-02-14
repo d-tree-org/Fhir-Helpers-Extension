@@ -32,6 +32,7 @@ class TransformSupportServices constructor(val simpleWorkerContext: SimpleWorker
             "PlanDefinition_Action" -> PlanDefinition.PlanDefinitionActionComponent()
             "Group_Characteristic" -> Group.GroupCharacteristicComponent()
             "Appointment_Participant" -> Appointment.AppointmentParticipantComponent()
+            "Observation_Component" -> Observation.ObservationComponentComponent()
             else -> ResourceFactory.createResourceOrType(name)
         }
     }

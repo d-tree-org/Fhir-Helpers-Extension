@@ -25,6 +25,7 @@ export type TestCaseData = {
   };
   response: string;
   path: string;
+  valueStringArray?: string[];
   value?: string;
   valueRange?: ValueRange;
   type: string;
@@ -48,6 +49,7 @@ export interface VerifySection {
   type: string;
   path: string;
   value?: string;
+  valueStringArray?: string[];
   valueRange?: ValueRange;
   title?: string;
 }

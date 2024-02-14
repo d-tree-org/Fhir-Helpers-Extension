@@ -92,9 +92,7 @@ class TestRunner(
     ): TestStatusData {
         val results = runTests(
             tests = listOf(
-                TestVerify(
-                    type = data.type, path = data.path, value = data.value, valueRange = data.valueRange
-                )
+                TestVerify.fromTestCaseData(data)
             ), path = path, response = data.response, defaultTests = defaultTests, projectRoot = projectRoot
         )
         return TestStatusData(
@@ -148,7 +146,8 @@ class TestRunner(
         var result: PathResult? = null
 
         try {
-            var useRange = false
+            var valueType: ValueTypes = ValueTypes.String
+
             val resultRaw: Any = JsonPath.read(document, verify.path)
             result = if (resultRaw is JSONArray) {
                 val array = resultRaw.map { it.toString() }
@@ -165,6 +164,10 @@ class TestRunner(
 
             val operation = when (verify.type) {
                 TestTypes.Equals -> EqualsTo()
+                TestTypes.ArrayEquals -> ArrayEquals().apply {
+                    valueType = ValueTypes.Array
+                }
+
                 TestTypes.EqualsNoCase -> EqualsToNoCase()
                 TestTypes.NotEquals -> NotEqualsTo()
                 TestTypes.LessThan -> LessThan()
@@ -178,7 +181,7 @@ class TestRunner(
                 TestTypes.Null -> Null()
                 TestTypes.NotNull -> NotNull()
                 TestTypes.Between -> {
-                    useRange = true
+                    valueType = ValueTypes.Range
                     Between()
                 }
 
@@ -190,7 +193,7 @@ class TestRunner(
             }
 
             testResult = if (operation != null) {
-                operation.execute(value = result, expected = if (useRange) verify.valueRange else verify.value)
+                operation.execute(value = result, expected = verify.actualValue(valueType))
                     .copy(path = verify.path)
             } else {
                 val err = Exception("Assertion not supported")
@@ -211,7 +214,11 @@ class TestRunner(
         return testResult
     }
 
-    private fun runDefaultTestSuite(bundle: Bundle, defaultTests: List<DefaultTests>, verify: TestVerify): List<DefaultTestResult> {
+    private fun runDefaultTestSuite(
+        bundle: Bundle,
+        defaultTests: List<DefaultTests>,
+        verify: TestVerify
+    ): List<DefaultTestResult> {
         val results = mutableListOf<DefaultTestResult>()
         for (test in defaultTests) {
             val result = when (test.type) {

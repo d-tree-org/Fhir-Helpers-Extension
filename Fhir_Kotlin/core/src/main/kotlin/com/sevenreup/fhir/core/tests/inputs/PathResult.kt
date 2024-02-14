@@ -7,3 +7,9 @@ enum class PathResultType {
 }
 
 data class PathResult(val type: PathResultType, val value: Any?)
+
+enum class ValueTypes {
+    String,
+    Array,
+    Range
+}

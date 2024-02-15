@@ -24,6 +24,7 @@ export function activate(context: ExtensionContext) {
         new TestRunner(context, serverManager),
       ];
     } else if (state == "failed") {
+      // TODO: Add retry logic
       window.showInformationMessage("Failed to connect to server");
     }
   });

@@ -1,7 +1,5 @@
-# Use the official Gradle image as the build image
 FROM gradle:jdk11 AS build
 
-# Set the working directory in the container
 WORKDIR /app
 
 COPY Fhir_Kotlin /app/Fhir_Kotlin

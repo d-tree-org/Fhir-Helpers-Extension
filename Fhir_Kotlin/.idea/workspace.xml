@@ -5,7 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c3237d43-2c58-4473-81bb-2ff6a2b9b529" name="Changes" comment="between works with dates">
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/uploader/FileUploader.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cli/src/main/kotlin/com/sevenreup/fhir/cli/Constants.kt" beforeDir="false" afterPath="$PROJECT_DIR$/cli/src/main/kotlin/com/sevenreup/fhir/cli/Constants.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cli/src/main/kotlin/com/sevenreup/fhir/cli/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/cli/src/main/kotlin/com/sevenreup/fhir/cli/Main.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/core/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/compiler/parsing/ParseJsonCommands.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/compiler/parsing/ParseJsonCommands.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/config/ProjectConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/config/ProjectConfig.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/utils/FileUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/kotlin/com/sevenreup/fhir/core/utils/FileUtils.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,7 +109,7 @@
       <recent name="com.sevenreup.fhir.core.tests.operations" />
     </key>
   </component>
-  <component name="RunManager" selected="Kotlin.Server">
+  <component name="RunManager" selected="Kotlin.Cli">
     <configuration name="AliasesTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -222,7 +229,7 @@
     <configuration name="Cli" type="JetRunConfigurationType">
       <option name="MAIN_CLASS_NAME" value="com.sevenreup.fhir.cli.MainKt" />
       <module name="FHIRCompiler.cli.main" />
-      <option name="PROGRAM_PARAMETERS" value="test &quot;D:\Work\dev\fhir-resources\structure_map&quot; -r &quot;./&quot;" />
+      <option name="PROGRAM_PARAMETERS" value="upload &quot;D:\Work\dev\fhir-resources&quot; -r &quot;./&quot; -s &quot;https://fhir-dev.d-tree.org/fhir&quot; -t &quot;&quot;" />
       <shortenClasspath name="NONE" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../fhir-resources" />
       <method v="2">
@@ -238,11 +245,11 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Gradle.Fhir_Kotlin:server [shadowJar]" />
-      <item itemvalue="Gradle.Fhir_Kotlin:cli [shadowJar]" />
       <item itemvalue="Gradle.AliasesTests" />
       <item itemvalue="Gradle.AliasesTests.replaceAliasesTestRelative" />
       <item itemvalue="Gradle.AliasesTests.replaceAliasesTestSymbol" />
+      <item itemvalue="Gradle.Fhir_Kotlin:cli [shadowJar]" />
+      <item itemvalue="Gradle.Fhir_Kotlin:server [shadowJar]" />
       <item itemvalue="Kotlin.Cli" />
       <item itemvalue="Kotlin.Server" />
     </list>

@@ -17,7 +17,7 @@ import org.hl7.fhir.r4.model.StructureMap
 import org.hl7.fhir.r4.utils.StructureMapUtilities
 
 class ParseJsonCommands {
-    val strCache: MutableMap<String, StructureMap> = mutableMapOf()
+    private val strCache: MutableMap<String, StructureMap> = mutableMapOf()
 
     fun parseSingle(
         path: String,
@@ -27,6 +27,12 @@ class ParseJsonCommands {
     ): CoreResponse<String> {
         val map = handleImports(path, iParser, scu, projectConfig)
         return CoreResponse(data = iParser.encodeResourceToString(map))
+    }
+
+    fun parseStructureMap(path: String,
+                          iParser: IParser,
+                          scu: StructureMapUtilities, projectConfig: ProjectConfig): StructureMap? {
+        return handleImports(path, iParser, scu, projectConfig)
     }
 
     fun parseFromConfig(

@@ -4,8 +4,10 @@ import com.sevenreup.fhir.cli.commands.runTests
 import com.sevenreup.fhir.core.compiler.ResourceParser
 import com.sevenreup.fhir.core.config.ProjectConfigManager
 import com.sevenreup.fhir.core.parseBundle
+import com.sevenreup.fhir.core.uploader.FileUploader
 import com.sevenreup.fhir.core.utils.formatStructureMap
 import com.sevenreup.fhir.core.utils.verifyQuestionnaire
+import kotlinx.coroutines.runBlocking
 import picocli.CommandLine
 import picocli.CommandLine.*
 import java.util.concurrent.Callable
@@ -43,6 +45,28 @@ class TestCommand : Callable<Int> {
 
     override fun call(): Int {
         runTests(path, watch, projectRoot)
+        return 0
+    }
+}
+
+@Command(name = "upload")
+class UploaderCommand : Callable<Int> {
+    @Parameters(index = "0", description = ["Path to the test file"])
+    lateinit var path: String
+
+    @Option(names = ["-r", "--root"], description = [Constants.rootDescription])
+    lateinit var projectRoot: String
+
+    @Option(names = ["-s", "--server"], description = [Constants.server])
+    lateinit var fhirServerUrl: String
+
+    @Option(names = ["-t", "--apiKey"], description = [Constants.rootDescription])
+    lateinit var fhirServerUrlApiKey: String
+
+    override fun call(): Int {
+        runBlocking {
+            FileUploader(fhirServerUrl, fhirServerUrlApiKey).batchUpload(path, projectRoot)
+        }
         return 0
     }
 }
@@ -105,8 +129,10 @@ class TransFormBatchCommand : Callable<Int> {
 }
 
 @Command(
-    subcommands = [TestCommand::class, CompileCommand::class, TransformCommand::class,
-        TransFormBatchCommand::class, QuestVerifyCommand::class, FmtStrCommand::class,]
+    subcommands = [
+        TestCommand::class, CompileCommand::class, TransformCommand::class,
+        TransFormBatchCommand::class, QuestVerifyCommand::class, FmtStrCommand::class,
+        UploaderCommand::class]
 )
 class RunCommand : Callable<Int> {
     override fun call(): Int {

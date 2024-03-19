@@ -7,6 +7,7 @@ import com.sevenreup.fhir.core.compiler.parsing.ParseJsonCommands
 import com.sevenreup.fhir.core.config.ProjectConfig
 import com.sevenreup.fhir.core.config.ProjectConfigManager
 import com.sevenreup.fhir.core.utilities.TransformSupportServices
+import com.sevenreup.fhir.core.utils.Logger
 import com.sevenreup.fhir.core.utils.readFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -58,7 +59,7 @@ class FileUploader(private val fhirServerUrl: String, private val fhirServerUrlA
                 Pair(projectConfig.questionnaireMapLocation, "json")
             )
         )
-        println("Found ${uploadList.size} files")
+        Logger.info("Found ${uploadList.size} files")
         uploadToFhirServer(uploadList)
     }
 
@@ -70,7 +71,7 @@ class FileUploader(private val fhirServerUrl: String, private val fhirServerUrlA
             if (baseDirectory.exists() && baseDirectory.isDirectory) {
                 processFiles(baseDirectory, map.value)
             } else {
-                println("Directory does not exist or is not a directory")
+                Logger.error("Directory does not exist or is not a directory")
             }
         }
     }
@@ -83,7 +84,7 @@ class FileUploader(private val fhirServerUrl: String, private val fhirServerUrlA
         return try {
             return iParser.parseResource(Questionnaire::class.java, file.readFile())
         } catch (e: Exception) {
-            println("Path: ${file.path} Error: $e")
+            Logger.error("Path: ${file.path} Error: $e")
             null
         }
     }
@@ -146,13 +147,13 @@ class FileUploader(private val fhirServerUrl: String, private val fhirServerUrlA
             try {
                 val response = call.execute()
                 if (!response.isSuccessful) {
-                    println("Failed to upload batch ${batchIndex + 1}/$totalBatches: ${response.code} - ${response.message.ifEmpty { response.body?.string() }}")
+                    Logger.error("Failed to upload batch ${batchIndex + 1}/$totalBatches: ${response.code} - ${response.message.ifEmpty { response.body?.string() }}")
                 } else {
-                    println("Batch ${batchIndex + 1}/$totalBatches uploaded successfully")
+                    Logger.info("Batch ${batchIndex + 1}/$totalBatches uploaded successfully")
                 }
                 response.close()
             } catch (e: IOException) {
-                println("Failed to upload batch ${batchIndex + 1}/$totalBatches: ${e.message}")
+                Logger.error("Failed to upload batch ${batchIndex + 1}/$totalBatches: ${e.message}")
             }
         }
         delay(delayMillis)

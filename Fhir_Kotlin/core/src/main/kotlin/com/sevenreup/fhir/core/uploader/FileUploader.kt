@@ -6,6 +6,7 @@ import ca.uhn.fhir.parser.IParser
 import com.sevenreup.fhir.core.compiler.parsing.ParseJsonCommands
 import com.sevenreup.fhir.core.config.ProjectConfig
 import com.sevenreup.fhir.core.config.ProjectConfigManager
+import com.sevenreup.fhir.core.fhir.FhirConfigs
 import com.sevenreup.fhir.core.utilities.TransformSupportServices
 import com.sevenreup.fhir.core.utils.Logger
 import com.sevenreup.fhir.core.utils.readFile
@@ -34,16 +35,12 @@ import java.nio.file.Paths
 class FileUploader(private val fhirServerUrl: String, private val fhirServerUrlApiKey: String) {
     private val iParser: IParser = FhirContext.forCached(FhirVersionEnum.R4).newJsonParser()
     private val scu: StructureMapUtilities
-    private var contextR4: SimpleWorkerContext
+    private var contextR4: SimpleWorkerContext = FhirConfigs.createWorkerContext()
     private lateinit var projectConfig: ProjectConfig
     private val uploadList = mutableListOf<File>()
     private val excludeList = mutableSetOf<String>()
 
     init {
-        val pcm = FilesystemPackageCacheManager(true, ToolsVersion.TOOLS_VERSION)
-        contextR4 = SimpleWorkerContext.fromPackage(pcm.loadPackage("hl7.fhir.r4.core", "4.0.1"))
-        contextR4.setExpansionProfile(Parameters())
-        contextR4.isCanRunWithoutTerminology = true
         scu = StructureMapUtilities(contextR4, TransformSupportServices(contextR4))
     }
 

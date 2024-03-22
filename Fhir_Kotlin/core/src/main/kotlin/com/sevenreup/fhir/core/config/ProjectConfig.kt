@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.sevenreup.fhir.core.utils.getParentPath
 import com.sevenreup.fhir.core.utils.readFileOrNull
 import com.sevenreup.fhir.core.utils.toAbsolutePath
+import org.hl7.fhir.r4.model.Questionnaire
 import java.nio.file.Paths
 
 class ProjectConfigManager {
@@ -37,6 +38,9 @@ data class ProjectConfig(
     val generateReport: Boolean = false,
     val generateReportMarkdown: Boolean = false,
     val reportPath: String = "./reports",
+    val structureMapLocation: String = "structure_map",
+    val questionnaireMapLocation: String = "questionnaire",
+    val uploadExclude: List<String> = listOf()
 )
 
 

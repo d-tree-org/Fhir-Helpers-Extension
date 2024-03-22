@@ -8,6 +8,7 @@ import ca.uhn.fhir.parser.IParser
 import ca.uhn.fhir.validation.FhirValidator
 import com.sevenreup.fhir.core.compiler.parsing.ParseJsonCommands
 import com.sevenreup.fhir.core.config.ProjectConfigManager
+import com.sevenreup.fhir.core.fhir.FhirConfigs
 import com.sevenreup.fhir.core.models.*
 import com.sevenreup.fhir.core.tests.inputs.TestCaseData
 import com.sevenreup.fhir.core.tests.runner.TestFileHelpers
@@ -35,10 +36,7 @@ class StructureMapTests(private val configManager: ProjectConfigManager, private
     private var validator: FhirValidator
 
     init {
-        val pcm = FilesystemPackageCacheManager(true, ToolsVersion.TOOLS_VERSION)
-        contextR4 = SimpleWorkerContext.fromPackage(pcm.loadPackage("hl7.fhir.r4.core", "4.0.1"))
-        contextR4.setExpansionProfile(Parameters())
-        contextR4.isCanRunWithoutTerminology = true
+        contextR4 = FhirConfigs.createWorkerContext()
         scu = StructureMapUtilities(contextR4, TransformSupportServices(contextR4))
         validator = provideFhirValidator()
     }

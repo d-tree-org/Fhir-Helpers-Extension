@@ -10,6 +10,10 @@ fun String.readFile(): String {
     return FileUtils.readFileToString(FileUtils.getFile(this), "UTF-8")
 }
 
+fun File.readFile(): String {
+    return FileUtils.readFileToString(this, "UTF-8")
+}
+
 fun String.createFile(path: String) {
     try {
         val file = File(path)

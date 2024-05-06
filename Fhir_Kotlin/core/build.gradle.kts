@@ -151,7 +151,7 @@ dependencies {
     implementation("org.yaml:snakeyaml:2.2")
     implementation("com.google.code.gson:gson:2.10.1")
 
-    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.11.2")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.17.0")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.1")
 
     implementation("com.charleskorn.kaml:kaml:0.47.0")

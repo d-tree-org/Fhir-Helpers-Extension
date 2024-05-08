@@ -74,3 +74,8 @@ fun String.toAbsolutePath(): String {
     }
     return cP.normalize().toString()
 }
+
+fun String.getFileNameWithoutExtension(): String {
+    val fileNameWithExtension = this.substringAfterLast("/")
+    return fileNameWithExtension.substringBeforeLast(".")
+}

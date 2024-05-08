@@ -1,10 +1,7 @@
 package com.sevenreup.fhir.core.config
 
 import com.google.gson.Gson
-import com.sevenreup.fhir.core.utils.getParentPath
-import com.sevenreup.fhir.core.utils.readFileOrNull
-import com.sevenreup.fhir.core.utils.toAbsolutePath
-import org.hl7.fhir.r4.model.Questionnaire
+import com.sevenreup.fhir.core.utils.*
 import java.nio.file.Paths
 
 class ProjectConfigManager {
@@ -19,6 +16,12 @@ class ProjectConfigManager {
             }
         }
         return ProjectConfig()
+    }
+
+    fun loadUploaderConfigs(projectConfig: ProjectConfig,projectRoot: String): AppConfig {
+        val configs = projectConfig.appConfigs.getAbsolutePath(projectRoot).readFile()
+        val gson = Gson()
+        return gson.fromJson(configs, AppConfig::class.java)
     }
 
     private fun searchForConfig(path: String): ProjectConfig {
@@ -40,7 +43,8 @@ data class ProjectConfig(
     val reportPath: String = "./reports",
     val structureMapLocation: String = "structure_map",
     val questionnaireMapLocation: String = "questionnaire",
-    val uploadExclude: List<String> = listOf()
+    val uploadExclude: List<String> = listOf(),
+    val appConfigs: String = "./app_config/uploader.json",
 )
 
 

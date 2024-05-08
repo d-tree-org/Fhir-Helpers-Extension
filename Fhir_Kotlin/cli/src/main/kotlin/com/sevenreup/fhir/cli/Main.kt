@@ -4,6 +4,7 @@ import com.sevenreup.fhir.cli.commands.runTests
 import com.sevenreup.fhir.core.compiler.ResourceParser
 import com.sevenreup.fhir.core.config.ProjectConfigManager
 import com.sevenreup.fhir.core.parseBundle
+import com.sevenreup.fhir.core.uploader.ConfigUploader
 import com.sevenreup.fhir.core.uploader.FileUploader
 import com.sevenreup.fhir.core.utils.formatStructureMap
 import com.sevenreup.fhir.core.utils.verifyQuestionnaire
@@ -60,12 +61,34 @@ class UploaderCommand : Callable<Int> {
     @Option(names = ["-s", "--server"], description = [Constants.server])
     lateinit var fhirServerUrl: String
 
-    @Option(names = ["-t", "--apiKey"], description = [Constants.rootDescription])
+    @Option(names = ["-k", "--apiKey"], description = [Constants.rootDescription])
     lateinit var fhirServerUrlApiKey: String
 
     override fun call(): Int {
         runBlocking {
             FileUploader(fhirServerUrl, fhirServerUrlApiKey).batchUpload(path, projectRoot)
+        }
+        return 0
+    }
+}
+
+@Command(name = "configUploader")
+class AppConfigUploaderCommand : Callable<Int> {
+    @Parameters(index = "0", description = ["The environment"])
+    lateinit var environment: String
+
+    @Option(names = ["-r", "--root"], description = [Constants.rootDescription])
+    lateinit var projectRoot: String
+
+    @Option(names = ["-s", "--server"], description = [Constants.server])
+    lateinit var fhirServerUrl: String
+
+    @Option(names = ["-k", "--apiKey"], description = [Constants.rootDescription])
+    lateinit var fhirServerUrlApiKey: String
+
+    override fun call(): Int {
+        runBlocking {
+            ConfigUploader(fhirServerUrl, fhirServerUrlApiKey).upload(environment, projectRoot, projectRoot)
         }
         return 0
     }
@@ -132,7 +155,7 @@ class TransFormBatchCommand : Callable<Int> {
     subcommands = [
         TestCommand::class, CompileCommand::class, TransformCommand::class,
         TransFormBatchCommand::class, QuestVerifyCommand::class, FmtStrCommand::class,
-        UploaderCommand::class]
+        UploaderCommand::class, AppConfigUploaderCommand::class]
 )
 class RunCommand : Callable<Int> {
     override fun call(): Int {

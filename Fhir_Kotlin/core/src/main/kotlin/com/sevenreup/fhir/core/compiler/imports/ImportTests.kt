@@ -18,7 +18,9 @@ fun handleImports(
     scu: StructureMapUtilities,
     projectConfigs: ProjectConfig
 ): StructureMap? {
-    println("Import Data -${projectConfigs}_$path")
+    if (projectConfigs.compileMode == CompileMode.Debug) {
+        println("Import Data -${projectConfigs}_$path")
+    }
     val main = scu.parse(path.readFile(), ParseJsonCommands.getSrcName(path))
 
     main?.let { structureMap ->

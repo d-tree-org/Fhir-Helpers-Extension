@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "com.sevenreup.fhir.cli"
-version = "0.0.7-SNAPSHOT"
+version = "0.0.8-SNAPSHOT"
 
 repositories {
     google()

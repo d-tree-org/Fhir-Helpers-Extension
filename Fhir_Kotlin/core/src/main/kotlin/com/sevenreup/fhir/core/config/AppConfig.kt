@@ -1,8 +1,9 @@
 package com.sevenreup.fhir.core.config
 
 data class AppConfig(
-    val environments:Environments,
-    val configs: List<AppConfigSetup> = listOf()
+    val environments: Environments,
+    val configs: List<AppConfigSetup> = listOf(),
+    val baseAppId: String = ""
 )
 
 data class Environments(
@@ -18,6 +19,7 @@ data class EnvironmentData(
 
 data class AppConfigSetup(
     val main: String,
+    val appendEnv: Boolean = false,
     val composition: String,
     val variables: Map<String, String> = mapOf()
 )

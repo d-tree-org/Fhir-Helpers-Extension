@@ -42,7 +42,8 @@ class ConfigUploader(private val fhirServerUrl: String, private val fhirServerUr
 
     private suspend fun uploadConfig(
         client: OkHttpClient,
-        environment: String, config: AppConfigSetup,
+        environment: String,
+        config: AppConfigSetup,
         envData: EnvironmentData,
         projectRoot: String,
         delayMillis: Long = 1000
@@ -71,7 +72,8 @@ class ConfigUploader(private val fhirServerUrl: String, private val fhirServerUr
                 section
             }
 
-            val combinedConfig = getConfigBinary(variables["appId"] ?: "", variables, currentPath)
+            val combinedId = if (config.appendEnv) "${appConfig.baseAppId}${environment}" else variables["appId"] ?: ""
+            val combinedConfig = getConfigBinary(combinedId, variables, currentPath)
 
             resources.add(composition)
             resources.add(combinedConfig)

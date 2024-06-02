@@ -123,12 +123,16 @@ class FileUploader(private val fhirServerUrl: String, private val fhirServerUrlA
         bundle.type = Bundle.BundleType.TRANSACTION
 
         for (file in batchFiles) {
-            if (file.extension == "map") {
-                val map = compileMapToJson(file) ?: continue
-                bundle.addEntry(createBundleEntry(map))
-            } else {
-                val quest = compileQuestionnaire(file) ?: continue
-                bundle.addEntry(createBundleEntry(quest))
+            try {
+                if (file.extension == "map") {
+                    val map = compileMapToJson(file) ?: continue
+                    bundle.addEntry(createBundleEntry(map))
+                } else {
+                    val quest = compileQuestionnaire(file) ?: continue
+                    bundle.addEntry(createBundleEntry(quest))
+                }
+            } catch (e: Exception) {
+             e.printStackTrace()
             }
         }
 

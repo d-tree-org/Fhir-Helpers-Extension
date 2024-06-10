@@ -4,7 +4,15 @@ data class AppConfig(
     val environments: Environments,
     val configs: List<AppConfigSetup> = listOf(),
     val baseAppId: String = ""
-)
+) {
+    fun getEnvironmentConfig(environment: String): EnvironmentData {
+        return when (environment) {
+            "staging" -> environments.staging
+            "production" -> environments.production
+            else -> environments.development
+        }
+    }
+}
 
 data class Environments(
     val development: EnvironmentData,

@@ -7,6 +7,7 @@ import com.sevenreup.fhir.core.structureMaps.createStructureMapFromFile
 import org.hl7.fhir.r4.context.SimpleWorkerContext
 import org.hl7.fhir.r4.model.Questionnaire
 import org.hl7.fhir.r4.model.Reference
+import org.hl7.fhir.r4.model.Resource
 import org.hl7.fhir.utilities.npm.FilesystemPackageCacheManager
 import org.hl7.fhir.utilities.npm.ToolsVersion
 
@@ -29,3 +30,9 @@ fun Reference.extractId(): String =
     if (this.reference.isNullOrEmpty()) {
         ""
     } else this.reference.substringAfterLast(delimiter = '/', missingDelimiterValue = "")
+
+
+val Resource.logicalId: String
+    get() {
+        return this.idElement?.idPart.orEmpty()
+    }

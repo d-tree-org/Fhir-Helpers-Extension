@@ -6,6 +6,7 @@ import com.sevenreup.fhir.core.config.ProjectConfigManager
 import com.sevenreup.fhir.core.parseBundle
 import com.sevenreup.fhir.core.uploader.ConfigUploader
 import com.sevenreup.fhir.core.uploader.FileUploader
+import com.sevenreup.fhir.core.uploader.LocationHierarchyUploader
 import com.sevenreup.fhir.core.utils.formatStructureMap
 import com.sevenreup.fhir.core.utils.verifyQuestionnaire
 import kotlinx.coroutines.runBlocking
@@ -94,6 +95,31 @@ class AppConfigUploaderCommand : Callable<Int> {
     }
 }
 
+@Command(name = "locationUploader")
+class LocationHierarchyUploaderCommand : Callable<Int> {
+    @Parameters(index = "0", description = ["The environment"])
+    lateinit var environment: String
+
+    @Option(names = ["-r", "--root"], description = [Constants.rootDescription])
+    lateinit var projectRoot: String
+
+    @Option(names = ["-p", "--path"], description = [Constants.rootDescription])
+    lateinit var path: String
+
+    @Option(names = ["-s", "--server"], description = [Constants.server])
+    lateinit var fhirServerUrl: String
+
+    @Option(names = ["-k", "--apiKey"], description = [Constants.rootDescription])
+    lateinit var fhirServerUrlApiKey: String
+
+    override fun call(): Int {
+        runBlocking {
+            LocationHierarchyUploader(fhirServerUrl, fhirServerUrlApiKey).upload(environment, path, projectRoot)
+        }
+        return 0
+    }
+}
+
 @Command(name = "qst_verify")
 class QuestVerifyCommand : Callable<Int> {
     @Parameters(index = "0", description = ["Path to the questionnaire"])
@@ -155,7 +181,7 @@ class TransFormBatchCommand : Callable<Int> {
     subcommands = [
         TestCommand::class, CompileCommand::class, TransformCommand::class,
         TransFormBatchCommand::class, QuestVerifyCommand::class, FmtStrCommand::class,
-        UploaderCommand::class, AppConfigUploaderCommand::class]
+        UploaderCommand::class, AppConfigUploaderCommand::class, LocationHierarchyUploaderCommand::class]
 )
 class RunCommand : Callable<Int> {
     override fun call(): Int {

@@ -33,7 +33,7 @@ class ConfigUploader(private val fhirServerUrl: String, private val fhirServerUr
         projectConfig = configManager.loadProjectConfig(projectRoot, directoryPath)
         appConfig = configManager.loadUploaderConfigs(projectConfig, projectRoot)
 
-        val envData = getEnvironmentConfig(environment)
+        val envData = appConfig.getEnvironmentConfig(environment)
 
         appConfig.configs.forEach { config ->
             uploadConfig(client, environment, config, envData, projectRoot)
@@ -72,7 +72,7 @@ class ConfigUploader(private val fhirServerUrl: String, private val fhirServerUr
                 section
             }
 
-            val combinedId = if (config.appendEnv) "${appConfig.baseAppId}${environment}" else variables["appId"] ?: ""
+            val combinedId = if (config.appendEnv) "${appConfig.baseAppId}${envData.binaryAppend}" else variables["appId"] ?: ""
             val combinedConfig = getConfigBinary(combinedId, variables, currentPath)
 
             resources.add(composition)
@@ -116,14 +116,6 @@ class ConfigUploader(private val fhirServerUrl: String, private val fhirServerUr
             contentType = "application/json"
             id = resId
             data = raw.toByteArray()
-        }
-    }
-
-    private fun getEnvironmentConfig(environment: String): EnvironmentData {
-        return when (environment) {
-            "staging" -> appConfig.environments.staging
-            "production" -> appConfig.environments.production
-            else -> appConfig.environments.development
         }
     }
 

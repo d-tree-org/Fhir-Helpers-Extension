@@ -2,6 +2,7 @@ package com.sevenreup.fhir.core.uploader
 
 import ca.uhn.fhir.parser.IParser
 import com.sevenreup.fhir.core.utils.Logger
+import com.sevenreup.fhir.core.utils.createFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.Headers.Companion.toHeaders
@@ -13,16 +14,21 @@ import okhttp3.Response
 import org.hl7.fhir.r4.model.Bundle
 import org.hl7.fhir.r4.model.Resource
 import java.io.IOException
+import kotlin.io.path.Path
 
 object Uploader {
-  fun upload(client: OkHttpClient, iParser: IParser, fhirServerUrl: String, fhirServerUrlApiKey: String, transform: Bundle.() -> Unit): Response {
+  fun upload(client: OkHttpClient, iParser: IParser, fhirServerUrl: String, fhirServerUrlApiKey: String, cacheBundle: Boolean, requestID: String, baseFilePath: String, transform: Bundle.() -> Unit): Response {
         val mediaType = "application/json".toMediaTypeOrNull()
         val bundle = Bundle()
         bundle.type = Bundle.BundleType.TRANSACTION
         bundle.apply {
             transform()
         }
-        val requestBody = iParser.encodeResourceToString(bundle).toRequestBody(mediaType)
+      val requestString = iParser.encodeResourceToString(bundle)
+      if (cacheBundle) {
+          requestString.createFile(Path(baseFilePath).resolve("out/${requestID}.json").toString())
+      }
+        val requestBody = requestString.toRequestBody(mediaType)
 
         val request = Request.Builder()
             .url(fhirServerUrl)

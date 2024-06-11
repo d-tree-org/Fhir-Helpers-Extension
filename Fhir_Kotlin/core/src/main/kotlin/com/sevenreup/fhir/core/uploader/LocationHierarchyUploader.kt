@@ -50,8 +50,11 @@ class LocationHierarchyUploader(private val fhirServerUrl: String, private val f
             }
         }
 
-       val loc = buildHierarchy(list)
+       var loc = buildHierarchy(list)
         printHierarchy(loc)
+        if (loc.children.size == 1) {
+            loc = loc.children.first()
+        }
         val gson = Gson()
         val json = gson.toJson(loc)
         val file = "${path.getParentPath()}/computed_location.json"
@@ -59,7 +62,6 @@ class LocationHierarchyUploader(private val fhirServerUrl: String, private val f
     }
 
     private fun buildHierarchy(locations: List<Location>): LocationHierarchy {
-        val locationMap = locations.associateBy { it.logicalId }
         val hierarchyMap = mutableMapOf<String, MutableList<Location>>()
 
         locations.forEach { location ->

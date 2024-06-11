@@ -45,6 +45,7 @@ data class ProjectConfig(
     val questionnaireMapLocation: String = "questionnaire",
     val uploadExclude: List<String> = listOf(),
     val appConfigs: String = "./app_config/uploader.json",
+    val cacheConfig: Boolean = false
 )
 
 

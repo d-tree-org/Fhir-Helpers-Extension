@@ -36,7 +36,14 @@ class ConfigUploader(private val fhirServerUrl: String, private val fhirServerUr
         val envData = appConfig.getEnvironmentConfig(environment)
 
         appConfig.configs.forEach { config ->
-            uploadConfig(client, environment, config, envData, projectRoot)
+            uploadConfig(
+                client = client,
+                environment = environment,
+                config = config,
+                envData = envData,
+                projectRoot = projectRoot,
+                cacheConfig = projectConfig.cacheConfig
+            )
         }
     }
 
@@ -46,7 +53,8 @@ class ConfigUploader(private val fhirServerUrl: String, private val fhirServerUr
         config: AppConfigSetup,
         envData: EnvironmentData,
         projectRoot: String,
-        delayMillis: Long = 1000
+        cacheConfig: Boolean,
+        delayMillis: Long = 1000,
     ) {
         try {
             val variables = combineValues(config, envData)
@@ -74,15 +82,25 @@ class ConfigUploader(private val fhirServerUrl: String, private val fhirServerUr
 
             val combinedId = if (config.appendEnv) "${appConfig.baseAppId}${envData.binaryAppend}" else variables["appId"] ?: ""
             val combinedConfig = getConfigBinary(combinedId, variables, currentPath)
-
+            composition.id = combinedId
             resources.add(composition)
             resources.add(combinedConfig)
 
             withContext(Dispatchers.IO) {
                 try {
-                    val response = Uploader.upload(client, iParser, fhirServerUrl, fhirServerUrlApiKey) {
+                    val response = Uploader.upload(
+                        client = client,
+                        iParser = iParser,
+                        fhirServerUrl = fhirServerUrl,
+                        cacheBundle = cacheConfig,
+                        fhirServerUrlApiKey = fhirServerUrlApiKey,
+                        requestID = combinedId,
+                        baseFilePath = projectRoot
+                    ) {
                         resources.forEach { resource ->
-                            addEntry(Uploader.createBundleEntry(resource))
+                            val entryComp = Uploader.createBundleEntry(resource)
+                            Logger.info("${entryComp.request.method} ${entryComp.fullUrl}")
+                            addEntry(entryComp)
                         }
                     }
                     if (!response.isSuccessful) {

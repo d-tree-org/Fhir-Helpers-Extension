@@ -7,6 +7,7 @@ import com.sevenreup.fhir.core.parseBundle
 import com.sevenreup.fhir.core.uploader.ConfigUploader
 import com.sevenreup.fhir.core.uploader.FileUploader
 import com.sevenreup.fhir.core.uploader.LocationHierarchyUploader
+import com.sevenreup.fhir.core.uploader.localChanges.LocalChangesUploader
 import com.sevenreup.fhir.core.utils.formatStructureMap
 import com.sevenreup.fhir.core.utils.verifyQuestionnaire
 import kotlinx.coroutines.runBlocking
@@ -72,6 +73,26 @@ class UploaderCommand : Callable<Int> {
         return 0
     }
 }
+
+@Command(name = "uploadChanges")
+class LocalChangesUploaderCommand : Callable<Int> {
+    @Parameters(index = "0", description = ["Path to the test file"])
+    lateinit var path: String
+
+    @Option(names = ["-r", "--root"], description = [Constants.rootDescription])
+    lateinit var projectRoot: String
+
+    @Option(names = ["-b", "--batchSize"], description = [Constants.rootDescription])
+    var batchSize: Int = 10
+
+    override fun call(): Int {
+        runBlocking {
+            LocalChangesUploader(batchSize).work(path, projectRoot)
+        }
+        return 0
+    }
+}
+
 
 @Command(name = "configUploader")
 class AppConfigUploaderCommand : Callable<Int> {
@@ -181,7 +202,9 @@ class TransFormBatchCommand : Callable<Int> {
     subcommands = [
         TestCommand::class, CompileCommand::class, TransformCommand::class,
         TransFormBatchCommand::class, QuestVerifyCommand::class, FmtStrCommand::class,
-        UploaderCommand::class, AppConfigUploaderCommand::class, LocationHierarchyUploaderCommand::class]
+        UploaderCommand::class, AppConfigUploaderCommand::class, LocationHierarchyUploaderCommand::class,
+        LocalChangesUploaderCommand::class,
+    ]
 )
 class RunCommand : Callable<Int> {
     override fun call(): Int {

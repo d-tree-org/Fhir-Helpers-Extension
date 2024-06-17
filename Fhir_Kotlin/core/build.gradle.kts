@@ -1,6 +1,7 @@
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.DependencyConstraint
 import org.gradle.kotlin.dsl.exclude
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.7.10"
@@ -17,6 +18,12 @@ repositories {
     maven ("https://oss.sonatype.org/content/repositories/snapshots/")
 
 }
+
+//val compileKotlin: KotlinCompile by tasks
+//
+//compileKotlin.kotlinOptions {
+//    languageVersion = "1.9"
+//}
 
 object CoreDependencies {
 
@@ -172,6 +179,7 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.9.1")
 
     implementation("io.github.oshai:kotlin-logging-jvm:5.1.0")
+    implementation("io.github.cdimascio:dotenv-kotlin:6.3.1")
 
     testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")

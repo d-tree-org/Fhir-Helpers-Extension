@@ -10,6 +10,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/cli" />
             <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/fhir" />
             <option value="$PROJECT_DIR$/server" />
           </set>
         </option>

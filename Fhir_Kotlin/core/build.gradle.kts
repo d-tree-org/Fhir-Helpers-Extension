@@ -180,6 +180,7 @@ dependencies {
 
     implementation("io.github.oshai:kotlin-logging-jvm:5.1.0")
     implementation("io.github.cdimascio:dotenv-kotlin:6.3.1")
+    implementation(project(mapOf("path" to ":fhir")))
 
     testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")

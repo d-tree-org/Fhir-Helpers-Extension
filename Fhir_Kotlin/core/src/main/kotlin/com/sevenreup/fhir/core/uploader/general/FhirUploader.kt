@@ -13,6 +13,7 @@ import okhttp3.Response
 import org.hl7.fhir.r4.model.Bundle
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 class FhirUploader(private val dotenv: Dotenv, private val iParser: IParser) {
     private val client: OkHttpClient
@@ -23,6 +24,7 @@ class FhirUploader(private val dotenv: Dotenv, private val iParser: IParser) {
 
         client = OkHttpClient.Builder()
             .addInterceptor(authInterceptor)
+            .readTimeout(2, TimeUnit.MINUTES)
             .build()
     }
 

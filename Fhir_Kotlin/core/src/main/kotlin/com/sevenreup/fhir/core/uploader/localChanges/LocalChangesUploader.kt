@@ -3,10 +3,14 @@ package com.sevenreup.fhir.core.uploader.localChanges
 import ca.uhn.fhir.context.FhirContext
 import ca.uhn.fhir.context.FhirVersionEnum
 import ca.uhn.fhir.parser.IParser
+import com.google.android.fhir.LocalChange
+import com.google.android.fhir.sync.upload.patch.PatchOrdering
+import com.google.android.fhir.sync.upload.patch.PatchOrdering.sccOrderByReferences
 import com.google.gson.Gson
 import com.sevenreup.fhir.core.config.ProjectConfig
 import com.sevenreup.fhir.core.config.ProjectConfigManager
 import com.sevenreup.fhir.core.fhir.FhirConfigs
+import com.sevenreup.fhir.core.fhir.FhirResourceHelper
 import com.sevenreup.fhir.core.uploader.ContentTypes
 import com.sevenreup.fhir.core.uploader.general.FhirUploader
 import com.sevenreup.fhir.core.utilities.TransformSupportServices
@@ -31,6 +35,7 @@ class LocalChangesUploader(private val batchSize: Int = 10) {
     private lateinit var uploader: FhirUploader
     val gson: Gson
     private var currentDir = ""
+    private val resourceHelper = FhirResourceHelper()
 
     init {
         scu = StructureMapUtilities(contextR4, TransformSupportServices(contextR4))
@@ -65,6 +70,13 @@ class LocalChangesUploader(private val batchSize: Int = 10) {
                 groups[change.type] = listOf(change)
             }
         }
+
+        if (groups.containsKey(LocalChange.Type.INSERT)) {
+            groups[LocalChange.Type.INSERT] = handleCreateResources(groups[LocalChange.Type.INSERT] ?: listOf())
+        } else if(groups.containsKey(LocalChange.Type.UPDATE)) {
+            groups[LocalChange.Type.UPDATE] = resourceHelper.generateSquashedChangesMapping(groups[LocalChange.Type.UPDATE] ?: listOf())
+        }
+
         val entries = groups.entries.toList()
         for ((index, group) in entries.withIndex()) {
             try {
@@ -75,6 +87,15 @@ class LocalChangesUploader(private val batchSize: Int = 10) {
                 throw e
             }
         }
+    }
+
+    private fun handleCreateResources(changes: List<LocalChange>): List<LocalChange> {
+      val refs = changes.flatMap {
+          val resource =  iParser.parseResource(it.payload) as Resource
+          resourceHelper.extractLocalChangeWithRefs(it,resource)
+        }
+       val ordered = refs.sccOrderByReferences()
+        return ordered.flatMap { it.patchMappings.map { it.localChange } }
     }
 
     private fun saveFailed(exception: java.lang.Exception, changes: List<Map.Entry<LocalChange.Type, List<LocalChange>>>) {
@@ -112,7 +133,8 @@ class LocalChangesUploader(private val batchSize: Int = 10) {
             request = Bundle.BundleEntryRequestComponent().apply {
                 url = "${change.resourceType}/${change.resourceId}"
                 method = when (change.type) {
-                    LocalChange.Type.UPDATE, LocalChange.Type.INSERT -> Bundle.HTTPVerb.PUT
+                    LocalChange.Type.INSERT -> Bundle.HTTPVerb.PUT
+                    LocalChange.Type.UPDATE -> Bundle.HTTPVerb.PATCH
                     LocalChange.Type.DELETE -> Bundle.HTTPVerb.DELETE
                 }
             }

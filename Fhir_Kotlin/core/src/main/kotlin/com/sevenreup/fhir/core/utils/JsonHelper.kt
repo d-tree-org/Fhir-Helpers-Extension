@@ -12,7 +12,7 @@ fun createGson(): Gson {
 class InstantDeserializer : JsonDeserializer<Instant?>, JsonSerializer<Instant?> {
     @Throws(JsonParseException::class)
     override fun deserialize(json: JsonElement, typeOfT: Type?, context: JsonDeserializationContext?): Instant? {
-        return null
+        return Instant.now()
     }
 
     override fun serialize(src: Instant?, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement {

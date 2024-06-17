@@ -100,9 +100,13 @@ class LocalChangesUploader(private val batchSize: Int = 10) {
 
     private fun saveFailed(exception: java.lang.Exception, changes: List<Map.Entry<LocalChange.Type, List<LocalChange>>>) {
         val items = changes.flatMap { it.value }
-        val data = ChangeErrorData(items,  exception)
+        val data = ChangeErrorData(changes = items, exception = exception)
         val json = gson.toJson(data)
         json.createFile(Path(currentDir).resolve("upload-errors.json").toString())
+    }
+
+    private fun clearErrorFile() {
+        
     }
 
     private suspend fun uploadChanges(changeType: LocalChange.Type, changes: List<LocalChange>) {
@@ -143,6 +147,6 @@ class LocalChangesUploader(private val batchSize: Int = 10) {
 }
 
 data class ChangeErrorData(
-     val items: List<LocalChange>,
+     val changes: List<LocalChange>,
      val exception: Exception
 )

@@ -77,7 +77,7 @@ class LocalChangesUploader(private val batchSize: Int = 10) {
             groups[LocalChange.Type.UPDATE] = resourceHelper.generateSquashedChangesMapping(groups[LocalChange.Type.UPDATE] ?: listOf())
         }
 
-        val entries = groups.entries.toList()
+        val entries = groups.entries.sortedBy { it.key }.toList()
         for ((index, group) in entries.withIndex()) {
             try {
                 uploadChanges(group.key, group.value)
@@ -87,6 +87,8 @@ class LocalChangesUploader(private val batchSize: Int = 10) {
                 throw e
             }
         }
+        Logger.info("Finished upload, clearing log data")
+        clearErrorFile()
     }
 
     private fun handleCreateResources(changes: List<LocalChange>): List<LocalChange> {
@@ -106,7 +108,7 @@ class LocalChangesUploader(private val batchSize: Int = 10) {
     }
 
     private fun clearErrorFile() {
-        
+       saveFailed(Exception(""), listOf())
     }
 
     private suspend fun uploadChanges(changeType: LocalChange.Type, changes: List<LocalChange>) {

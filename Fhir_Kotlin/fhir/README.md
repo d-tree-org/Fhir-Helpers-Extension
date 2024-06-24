@@ -1,0 +1,2 @@
+This module contains code from [Android fhir](https://github.com/google/android-fhir).
+Using this module to get some functionalities that are in the sdk(which is for android) without the dependency on android libraries and the FhirEngine.

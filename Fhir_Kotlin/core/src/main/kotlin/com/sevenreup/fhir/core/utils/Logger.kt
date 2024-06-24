@@ -1,6 +1,7 @@
 package com.sevenreup.fhir.core.utils
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import java.lang.Exception
 
 private val logger = KotlinLogging.logger {}
 
@@ -20,6 +21,10 @@ object Logger {
 
     fun error(message: String) {
         logger.error { formatMessage(LogLevel.ERROR, message) }
+    }
+
+    fun error(exception: Exception) {
+        logger.error { formatMessage(LogLevel.ERROR, exception.message ?: exception.toString()) }
     }
 
     private fun formatMessage(level: LogLevel, message: String): String {

@@ -5,6 +5,8 @@ import com.sevenreup.fhir.core.utils.Logger
 import io.github.cdimascio.dotenv.Dotenv
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -12,11 +14,12 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import org.hl7.fhir.r4.model.Bundle
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent
-import java.io.IOException
+import java.net.URL
 import java.util.concurrent.TimeUnit
 
-class FhirUploader(private val dotenv: Dotenv, private val iParser: IParser) {
-    private val client: OkHttpClient
+
+class FhirClient(private val dotenv: Dotenv, private val iParser: IParser) {
+     val client: OkHttpClient
 
     init {
         val tokenAuthenticator = TokenAuthenticator.createAuthenticator(dotenv)
@@ -26,6 +29,37 @@ class FhirUploader(private val dotenv: Dotenv, private val iParser: IParser) {
             .addInterceptor(authInterceptor)
             .readTimeout(2, TimeUnit.MINUTES)
             .build()
+    }
+
+    suspend fun fetchBundle(path: String = "",query: Map<String, String> = mapOf()): DataResponseState<Bundle> {
+        val base = URL(dotenv["FHIR_BASE_URL"]).toHttpUrlOrNull()!!
+        val url = base.newBuilder()
+        url.addPathSegments(path)
+        query.forEach {
+            url.addQueryParameter(it.key, it.value)
+        }
+        val request = Request.Builder()
+            .url(url.build())
+            .get()
+            .build()
+        val call = client.newCall(request)
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = call.execute()
+                if (!response.isSuccessful) {
+                    Logger.error("Failed to upload batch: ${response.code} - ${response.message}")
+                    return@withContext DataResponseState.Error(exceptionFromResponse(response))
+                } else {
+                    Logger.info("Uploaded successfully")
+                }
+                response.close()
+               val rawStr = response.body?.string() ?: return@withContext DataResponseState.Error(Exception("Response empty"))
+                DataResponseState.Success(iParser.parseResource(Bundle::class.java,rawStr))
+            } catch (e: Exception) {
+                Logger.error("Failed to upload batch: ${e.message}")
+                DataResponseState.Error(e)
+            }
+        }
     }
 
     suspend fun bundleUpload(
@@ -79,6 +113,7 @@ class FhirUploader(private val dotenv: Dotenv, private val iParser: IParser) {
             }
         }
     }
+
     private fun exceptionFromResponse(response: Response): Exception {
         return Exception("Status: ${response.code},message: ${response.message}, body: ${response.body?.string()} ")
     }

@@ -174,6 +174,7 @@ dependencies {
         exclude(module = "commons-logging")
         exclude(module = "httpclient")
     }
+    implementation("ca.uhn.hapi.fhir:hapi-fhir-client-okhttp:${CoreDependencies.Versions.hapiFhir}")
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.20")
     implementation("com.squareup.okhttp3:okhttp:4.9.1")

@@ -3,6 +3,7 @@ package com.sevenreup.fhir.cli
 import com.sevenreup.fhir.cli.commands.runTests
 import com.sevenreup.fhir.core.compiler.ResourceParser
 import com.sevenreup.fhir.core.config.ProjectConfigManager
+import com.sevenreup.fhir.core.fixes.CarePlanFixes
 import com.sevenreup.fhir.core.parseBundle
 import com.sevenreup.fhir.core.uploader.ConfigUploader
 import com.sevenreup.fhir.core.uploader.FileUploader
@@ -88,6 +89,22 @@ class LocalChangesUploaderCommand : Callable<Int> {
     override fun call(): Int {
         runBlocking {
             LocalChangesUploader(batchSize).work(path, projectRoot)
+        }
+        return 0
+    }
+}
+
+@Command(name = "fixCarePlan")
+class FixCarePlanStatusCommand : Callable<Int> {
+    @Option(names = ["-r", "--root"], description = [Constants.rootDescription])
+    lateinit var projectRoot: String
+
+    @Option(names = ["-b", "--batchSize"], description = [Constants.rootDescription])
+    var batchSize: Int = 10
+
+    override fun call(): Int {
+        runBlocking {
+            CarePlanFixes().fixCarePlan(projectRoot)
         }
         return 0
     }
@@ -203,7 +220,7 @@ class TransFormBatchCommand : Callable<Int> {
         TestCommand::class, CompileCommand::class, TransformCommand::class,
         TransFormBatchCommand::class, QuestVerifyCommand::class, FmtStrCommand::class,
         UploaderCommand::class, AppConfigUploaderCommand::class, LocationHierarchyUploaderCommand::class,
-        LocalChangesUploaderCommand::class,
+        LocalChangesUploaderCommand::class, FixCarePlanStatusCommand::class
     ]
 )
 class RunCommand : Callable<Int> {

@@ -4,7 +4,6 @@ import ca.uhn.fhir.context.FhirContext
 import ca.uhn.fhir.context.FhirVersionEnum
 import ca.uhn.fhir.parser.IParser
 import com.google.android.fhir.LocalChange
-import com.google.android.fhir.sync.upload.patch.PatchOrdering
 import com.google.android.fhir.sync.upload.patch.PatchOrdering.sccOrderByReferences
 import com.google.gson.Gson
 import com.sevenreup.fhir.core.config.ProjectConfig
@@ -12,7 +11,7 @@ import com.sevenreup.fhir.core.config.ProjectConfigManager
 import com.sevenreup.fhir.core.fhir.FhirConfigs
 import com.sevenreup.fhir.core.fhir.FhirResourceHelper
 import com.sevenreup.fhir.core.uploader.ContentTypes
-import com.sevenreup.fhir.core.uploader.general.FhirUploader
+import com.sevenreup.fhir.core.uploader.general.FhirClient
 import com.sevenreup.fhir.core.utilities.TransformSupportServices
 import com.sevenreup.fhir.core.utils.*
 import io.github.cdimascio.dotenv.Dotenv
@@ -32,7 +31,7 @@ class LocalChangesUploader(private val batchSize: Int = 10) {
     private var contextR4: SimpleWorkerContext = FhirConfigs.createWorkerContext()
     private lateinit var projectConfig: ProjectConfig
     private lateinit var dotenv: Dotenv
-    private lateinit var uploader: FhirUploader
+    private lateinit var uploader: FhirClient
     val gson: Gson
     private var currentDir = ""
     private val resourceHelper = FhirResourceHelper()
@@ -50,7 +49,7 @@ class LocalChangesUploader(private val batchSize: Int = 10) {
             currentDir = filePath.getParentPath()
             val configManager = ProjectConfigManager()
             projectConfig = configManager.loadProjectConfig(projectRoot, filePath)
-            uploader = FhirUploader(dotenv, iParser)
+            uploader = FhirClient(dotenv, iParser)
             val data = filePath.readFile()
             val localChanges = gson.fromJson(data, LocalChangesModel::class.java)
             if (localChanges.changes.isNotEmpty()) {

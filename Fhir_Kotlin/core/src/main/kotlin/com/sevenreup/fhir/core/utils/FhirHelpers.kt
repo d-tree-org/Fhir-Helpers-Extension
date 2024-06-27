@@ -5,9 +5,7 @@ import ca.uhn.fhir.context.FhirVersionEnum
 import ca.uhn.fhir.parser.IParser
 import com.sevenreup.fhir.core.structureMaps.createStructureMapFromFile
 import org.hl7.fhir.r4.context.SimpleWorkerContext
-import org.hl7.fhir.r4.model.Questionnaire
-import org.hl7.fhir.r4.model.Reference
-import org.hl7.fhir.r4.model.Resource
+import org.hl7.fhir.r4.model.*
 import org.hl7.fhir.utilities.npm.FilesystemPackageCacheManager
 import org.hl7.fhir.utilities.npm.ToolsVersion
 
@@ -36,3 +34,36 @@ val Resource.logicalId: String
     get() {
         return this.idElement?.idPart.orEmpty()
     }
+
+fun CarePlan.isCompleted(): Boolean {
+    val tasks = fetchCarePlanActivities(this)
+    return tasks.isNotEmpty() &&  tasks.all { it.detail.status == CarePlan.CarePlanActivityStatus.COMPLETED }
+}
+
+fun CarePlan.CarePlanActivityComponent.shouldShowOnProfile(): Boolean {
+    return (this.detail.status == CarePlan.CarePlanActivityStatus.SCHEDULED ||
+            this.detail.status == CarePlan.CarePlanActivityStatus.ONHOLD ||
+            this.detail.status == CarePlan.CarePlanActivityStatus.CANCELLED)
+        .not()
+}
+
+private fun fetchCarePlanActivities(
+    carePlan: CarePlan?,
+): List<CarePlan.CarePlanActivityComponent> {
+    if (carePlan == null) return emptyList()
+    val activityOnList = mutableMapOf<String, CarePlan.CarePlanActivityComponent>()
+    val tasksToFetch = mutableListOf<String>()
+    for (planActivity in carePlan.activity) {
+        if (!planActivity.shouldShowOnProfile()) {
+            continue
+        }
+        val taskId = planActivity.outcomeReference.firstOrNull()?.extractId()
+        if (taskId != null) {
+            tasksToFetch.add(taskId)
+            activityOnList[taskId] = planActivity
+        }
+    }
+    return activityOnList.values.sortedWith(
+        compareBy(nullsLast()) { it.detail?.code?.text?.toBigIntegerOrNull() },
+    )
+}

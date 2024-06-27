@@ -5,7 +5,8 @@ import com.google.android.fhir.LocalChange
 data class LocalChangesModel(
     val changes: List<LocalChange>,
     val size: Int,
-    val type: String,
+    val type: String = "LocalChanges",
+    val exception: Exception? = null
 )
 
 data class GeneralReportItem(

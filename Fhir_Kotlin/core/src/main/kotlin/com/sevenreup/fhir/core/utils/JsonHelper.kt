@@ -6,7 +6,7 @@ import java.time.Instant
 
 
 fun createGson(): Gson {
-    return GsonBuilder().registerTypeAdapter(Instant::class.java, InstantDeserializer()).registerTypeAdapter(Exception::class.java, ExceptionSerializer()).create()
+    return GsonBuilder().registerTypeAdapter(Instant::class.java, InstantDeserializer()).registerTypeAdapter(Exception::class.java, ExceptionSerializer()).registerTypeAdapter(Exception::class.java, ExceptionDeserializer()).create()
 }
 
 class InstantDeserializer : JsonDeserializer<Instant?>, JsonSerializer<Instant?> {
@@ -20,6 +20,11 @@ class InstantDeserializer : JsonDeserializer<Instant?>, JsonSerializer<Instant?>
     }
 }
 
+class ExceptionDeserializer : JsonDeserializer<Exception?> {
+    override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): Exception? {
+        return null
+    }
+}
 
 class ExceptionSerializer : JsonSerializer<Exception?> {
     override fun serialize(src: Exception?, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement {

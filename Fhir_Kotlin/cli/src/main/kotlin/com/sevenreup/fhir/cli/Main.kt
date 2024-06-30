@@ -135,24 +135,15 @@ class AppConfigUploaderCommand : Callable<Int> {
 
 @Command(name = "locationUploader")
 class LocationHierarchyUploaderCommand : Callable<Int> {
-    @Parameters(index = "0", description = ["The environment"])
-    lateinit var environment: String
-
     @Option(names = ["-r", "--root"], description = [Constants.rootDescription])
     lateinit var projectRoot: String
 
-    @Option(names = ["-p", "--path"], description = [Constants.rootDescription])
-    lateinit var path: String
-
-    @Option(names = ["-s", "--server"], description = [Constants.server])
-    lateinit var fhirServerUrl: String
-
-    @Option(names = ["-k", "--apiKey"], description = [Constants.rootDescription])
-    lateinit var fhirServerUrlApiKey: String
+    @Option(names = ["-b", "--batchSize"], description = [Constants.rootDescription])
+    var batchSize: Int = 100
 
     override fun call(): Int {
         runBlocking {
-            LocationHierarchyUploader(fhirServerUrl, fhirServerUrlApiKey).upload(environment, path, projectRoot)
+            LocationHierarchyUploader().createHierarchy(projectRoot, batchSize)
         }
         return 0
     }

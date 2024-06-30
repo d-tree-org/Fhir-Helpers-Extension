@@ -4,61 +4,50 @@ import ca.uhn.fhir.context.FhirContext
 import ca.uhn.fhir.context.FhirVersionEnum
 import ca.uhn.fhir.parser.IParser
 import com.google.gson.Gson
-import com.sevenreup.fhir.core.config.AppConfig
-import com.sevenreup.fhir.core.config.ProjectConfig
-import com.sevenreup.fhir.core.config.ProjectConfigManager
 import com.sevenreup.fhir.core.fhir.FhirConfigs
+import com.sevenreup.fhir.core.uploader.general.FhirClient
 import com.sevenreup.fhir.core.utilities.TransformSupportServices
 import com.sevenreup.fhir.core.utils.*
+import io.github.cdimascio.dotenv.Dotenv
+import io.github.cdimascio.dotenv.dotenv
+import kotlinx.coroutines.runBlocking
 import org.hl7.fhir.r4.context.SimpleWorkerContext
-import org.hl7.fhir.r4.model.Bundle
 import org.hl7.fhir.r4.model.Location
-import org.hl7.fhir.r4.model.ResourceType
 import org.hl7.fhir.r4.utils.StructureMapUtilities
+import kotlin.io.path.Path
 
-class LocationHierarchyUploader(private val fhirServerUrl: String, private val fhirServerUrlApiKey: String) {
-    private lateinit var projectConfig: ProjectConfig
-    private lateinit var appConfig: AppConfig
-
+class LocationHierarchyUploader {
     private val iParser: IParser = FhirContext.forCached(FhirVersionEnum.R4).newJsonParser()
     private val scu: StructureMapUtilities
     private var contextR4: SimpleWorkerContext = FhirConfigs.createWorkerContext()
+
+    private lateinit var dotenv: Dotenv
+    private lateinit var fhirClient: FhirClient
 
     init {
         scu = StructureMapUtilities(contextR4, TransformSupportServices(contextR4))
     }
 
 
-    fun upload(environment: String,directoryPath: String, projectRoot: String) {
-        val configManager = ProjectConfigManager()
-        projectConfig = configManager.loadProjectConfig(projectRoot, directoryPath)
-        appConfig = configManager.loadUploaderConfigs(projectConfig, projectRoot)
-
-        val envData = appConfig.getEnvironmentConfig(environment)
-        getBundle(directoryPath)
-    }
-
-    fun getBundle(path: String) {
-        val content = path.readFile()
-        val bundle: Bundle = iParser.parseResource(Bundle::class.java, content)
-        val roots = mutableListOf<LocationHierarchy>()
-        val list = mutableListOf<Location>()
-        for (entry in bundle.entry) {
-            if (entry.resource.resourceType == ResourceType.Location) {
-                val location = entry.resource as Location
-                list.add(location)
+    fun createHierarchy(projectRoot: String, batchSize: Int) {
+        runBlocking {
+            dotenv = dotenv {
+                directory = projectRoot
             }
-        }
+            fhirClient = FhirClient(dotenv, iParser)
+            val list = fhirClient.searchResources<Location>(count = batchSize) {
 
-       var loc = buildHierarchy(list)
-        printHierarchy(loc)
-        if (loc.children.size == 1) {
-            loc = loc.children.first()
+            }
+            var loc = buildHierarchy(list)
+            printHierarchy(loc)
+            if (loc.children.size == 1) {
+                loc = loc.children.first()
+            }
+            val gson = Gson()
+            val json = gson.toJson(loc)
+            val file = Path(projectRoot).resolve("out/locations/computed_location.json").toString()
+            json.createFile(file)
         }
-        val gson = Gson()
-        val json = gson.toJson(loc)
-        val file = "${path.getParentPath()}/computed_location.json"
-        json.createFile(file)
     }
 
     private fun buildHierarchy(locations: List<Location>): LocationHierarchy {

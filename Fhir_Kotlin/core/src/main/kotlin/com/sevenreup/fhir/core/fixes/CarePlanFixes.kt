@@ -25,7 +25,6 @@ class CarePlanFixes {
     private lateinit var dotenv: Dotenv
     private lateinit var fhirClient: FhirClient
     val gson: Gson
-    private lateinit var resourceHelper: FhirClient
     private val brokenCarePlans = mutableListOf<String>()
 
     init {
@@ -39,8 +38,7 @@ class CarePlanFixes {
                 directory = projectRoot
             }
             fhirClient = FhirClient(dotenv, iParser)
-            resourceHelper = FhirClient(dotenv, iParser)
-            val carePlans = resourceHelper.searchResources<CarePlan>(count = 120) {
+            val carePlans = fhirClient.searchResources<CarePlan>(count = 120) {
                 where(CarePlan.STATUS.exactly().code(CarePlan.CarePlanStatus.ENTEREDINERROR.toCode()))
             }
             handleCarePlans(carePlans)
@@ -117,7 +115,7 @@ class CarePlanFixes {
                 ?: "1").toInt()
         val patient = carePlan.subject
         val baseUrl = "CarePlan?subject=${patient.extractId()}"
-        val currentAndNextBundles = resourceHelper.transaction<Bundle>(listOf(
+        val currentAndNextBundles = fhirClient.transaction<Bundle>(listOf(
             Bundle.BundleEntryRequestComponent().apply {
                 method = Bundle.HTTPVerb.GET
                 url = "${baseUrl}&category=${visit}"

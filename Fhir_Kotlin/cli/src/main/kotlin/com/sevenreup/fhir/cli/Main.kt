@@ -61,15 +61,9 @@ class UploaderCommand : Callable<Int> {
     @Option(names = ["-r", "--root"], description = [Constants.rootDescription])
     lateinit var projectRoot: String
 
-    @Option(names = ["-s", "--server"], description = [Constants.server])
-    lateinit var fhirServerUrl: String
-
-    @Option(names = ["-k", "--apiKey"], description = [Constants.rootDescription])
-    lateinit var fhirServerUrlApiKey: String
-
     override fun call(): Int {
         runBlocking {
-            FileUploader(fhirServerUrl, fhirServerUrlApiKey).batchUpload(path, projectRoot)
+            FileUploader().batchUpload(path, projectRoot)
         }
         return 0
     }

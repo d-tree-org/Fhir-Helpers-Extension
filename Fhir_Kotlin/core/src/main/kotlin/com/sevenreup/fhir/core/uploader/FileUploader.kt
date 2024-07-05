@@ -7,9 +7,13 @@ import com.sevenreup.fhir.core.compiler.parsing.ParseJsonCommands
 import com.sevenreup.fhir.core.config.ProjectConfig
 import com.sevenreup.fhir.core.config.ProjectConfigManager
 import com.sevenreup.fhir.core.fhir.FhirConfigs
+import com.sevenreup.fhir.core.uploader.general.DataResponseState
+import com.sevenreup.fhir.core.uploader.general.FhirClient
 import com.sevenreup.fhir.core.utilities.TransformSupportServices
 import com.sevenreup.fhir.core.utils.Logger
 import com.sevenreup.fhir.core.utils.readFile
+import io.github.cdimascio.dotenv.Dotenv
+import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -32,7 +36,7 @@ import java.io.IOException
 import java.nio.file.Paths
 
 
-class FileUploader(private val fhirServerUrl: String, private val fhirServerUrlApiKey: String) {
+class FileUploader() {
     private val iParser: IParser = FhirContext.forCached(FhirVersionEnum.R4).newJsonParser()
     private val scu: StructureMapUtilities
     private var contextR4: SimpleWorkerContext = FhirConfigs.createWorkerContext()
@@ -40,12 +44,21 @@ class FileUploader(private val fhirServerUrl: String, private val fhirServerUrlA
     private val uploadList = mutableListOf<File>()
     private val excludeList = mutableSetOf<String>()
 
+    private lateinit var dotenv: Dotenv
+    private lateinit var fhirClient: FhirClient
+
+
     init {
         scu = StructureMapUtilities(contextR4, TransformSupportServices(contextR4))
     }
 
 
     suspend fun batchUpload(directoryPath: String, projectRoot: String) {
+        dotenv = dotenv {
+            directory = projectRoot
+        }
+        fhirClient = FhirClient(dotenv, iParser)
+
         val configManager = ProjectConfigManager()
         projectConfig = configManager.loadProjectConfig(projectRoot, directoryPath)
         processExcludedPaths(projectRoot)
@@ -99,7 +112,6 @@ class FileUploader(private val fhirServerUrl: String, private val fhirServerUrlA
     }
 
     private suspend fun uploadToFhirServer(files: List<File>, batchSize: Int = 10) {
-        val client = OkHttpClient()
         val totalBatches = if (files.size % batchSize == 0) files.size / batchSize else files.size / batchSize + 1
 
         for (batchIndex in 0 until totalBatches) {
@@ -107,55 +119,36 @@ class FileUploader(private val fhirServerUrl: String, private val fhirServerUrlA
             val end = minOf((batchIndex + 1) * batchSize, files.size)
             val batchFiles = files.subList(start, end)
 
-            uploadBatch(client, batchFiles, batchIndex, totalBatches)
+            uploadBatch(batchFiles, batchIndex, totalBatches)
         }
     }
 
     private suspend fun uploadBatch(
-        client: OkHttpClient,
         batchFiles: List<File>,
         batchIndex: Int,
         totalBatches: Int,
         delayMillis: Long = 1000
     ) {
-        val mediaType = "application/json".toMediaTypeOrNull()
-        val bundle = Bundle()
-        bundle.type = Bundle.BundleType.TRANSACTION
+        val entries = mutableListOf<BundleEntryComponent>()
 
         for (file in batchFiles) {
             try {
                 if (file.extension == "map") {
                     val map = compileMapToJson(file) ?: continue
-                    bundle.addEntry(createBundleEntry(map))
+                    entries.add(createBundleEntry(map))
                 } else {
                     val quest = compileQuestionnaire(file) ?: continue
-                    bundle.addEntry(createBundleEntry(quest))
+                    entries.add(createBundleEntry(quest))
                 }
             } catch (e: Exception) {
-             e.printStackTrace()
+                e.printStackTrace()
             }
         }
-
-        val requestBody = iParser.encodeResourceToString(bundle).toRequestBody(mediaType)
-
-        val request = Request.Builder()
-            .url(fhirServerUrl)
-            .headers(mapOf(Pair("Authorization", "Bearer $fhirServerUrlApiKey")).toHeaders())
-            .post(requestBody)
-            .build()
-        val call = client.newCall(request)
-        withContext(Dispatchers.IO) {
-            try {
-                val response = call.execute()
-                if (!response.isSuccessful) {
-                    Logger.error("Failed to upload batch ${batchIndex + 1}/$totalBatches: ${response.code} - ${response.message.ifEmpty { response.body?.string() }}")
-                } else {
-                    Logger.info("Batch ${batchIndex + 1}/$totalBatches uploaded successfully")
-                }
-                response.close()
-            } catch (e: IOException) {
-                Logger.error("Failed to upload batch ${batchIndex + 1}/$totalBatches: ${e.message}")
-            }
+        val response = fhirClient.uploadBatchUpload(entries)
+        if (response is DataResponseState.Error) {
+            Logger.error("Failed to upload batch ${batchIndex + 1}/$totalBatches: ${response.exception}")
+        } else {
+            Logger.info("Batch ${batchIndex + 1}/$totalBatches uploaded successfully")
         }
         delay(delayMillis)
     }

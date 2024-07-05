@@ -158,7 +158,7 @@ class FhirClient(private val dotenv: Dotenv, private val iParser: IParser) {
         } }, batchSize)
     }
 
-    private suspend fun uploadBatchUpload(list: List<Bundle.BundleEntryComponent>): DataResponseState<Boolean> {
+    suspend fun uploadBatchUpload(list: List<Bundle.BundleEntryComponent>): DataResponseState<Boolean> {
         val bundle = Bundle().apply {
             entry = list
             type = Bundle.BundleType.TRANSACTION

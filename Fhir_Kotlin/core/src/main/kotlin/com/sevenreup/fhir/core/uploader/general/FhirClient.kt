@@ -46,7 +46,8 @@ class FhirClient(private val dotenv: Dotenv, private val iParser: IParser) {
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BASIC)
 
-        return OkHttpClient.Builder().addInterceptor(logging)
+        return OkHttpClient.Builder()
+            .addInterceptor(logging)
             .addInterceptor(authInterceptor)
             .readTimeout(2, TimeUnit.MINUTES)
             .build()

@@ -40,6 +40,11 @@ fun CarePlan.isCompleted(): Boolean {
     return tasks.isNotEmpty() &&  tasks.all { it.detail.status == CarePlan.CarePlanActivityStatus.COMPLETED }
 }
 
+fun CarePlan.isStarted(): Boolean {
+    val statuses = listOf(CarePlan.CarePlanActivityStatus.CANCELLED, CarePlan.CarePlanActivityStatus.COMPLETED)
+   return this.activity.firstOrNull {  statuses.contains(it.detail.status) } != null
+}
+
 fun CarePlan.CarePlanActivityComponent.shouldShowOnProfile(): Boolean {
     return (this.detail.status == CarePlan.CarePlanActivityStatus.SCHEDULED ||
             this.detail.status == CarePlan.CarePlanActivityStatus.ONHOLD ||

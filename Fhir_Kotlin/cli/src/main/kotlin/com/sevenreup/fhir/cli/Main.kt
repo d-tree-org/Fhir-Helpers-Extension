@@ -90,15 +90,26 @@ class LocalChangesUploaderCommand : Callable<Int> {
 
 @Command(name = "fixCarePlan")
 class FixCarePlanStatusCommand : Callable<Int> {
+    @Parameters(index = "0", description = ["Path to the test file"])
+    lateinit var type: String
+
     @Option(names = ["-r", "--root"], description = [Constants.rootDescription])
     lateinit var projectRoot: String
 
     @Option(names = ["-b", "--batchSize"], description = [Constants.rootDescription])
     var batchSize: Int = 10
 
+    @Option(names = ["-f", "--facility"], description = [Constants.rootDescription])
+    var facility: String = ""
+
     override fun call(): Int {
         runBlocking {
-            CarePlanFixes().fixCarePlan(projectRoot)
+            val fixes = CarePlanFixes()
+            if (type == "error") {
+                fixes.fixEnteredInErrorCarePlan(projectRoot)
+            } else {
+                fixes.fixCarePlanStatuses(projectRoot, facility)
+            }
         }
         return 0
     }

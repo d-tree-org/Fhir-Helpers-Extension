@@ -13,6 +13,7 @@ class ValidationDefaultTestsCase(private val validator: FhirValidator) {
         var passed = true
         val testResults = mutableListOf<TestStatus>()
         for (entry in bundle.entry) {
+            if (entry.resource == null) continue
             val result = validator.validateWithResult(entry.resource)
             if (!result.isSuccessful) passed = false
             testResults.add(

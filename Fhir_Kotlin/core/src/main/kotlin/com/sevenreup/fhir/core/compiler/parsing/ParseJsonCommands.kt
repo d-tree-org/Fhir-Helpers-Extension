@@ -3,6 +3,7 @@ package com.sevenreup.fhir.core.compiler.parsing
 import ca.uhn.fhir.parser.IParser
 import com.google.gson.Gson
 import com.sevenreup.fhir.core.compiler.imports.handleImports
+import com.sevenreup.fhir.core.config.CompileMode
 import com.sevenreup.fhir.core.config.ProjectConfig
 import com.sevenreup.fhir.core.models.MapConfig
 import com.sevenreup.fhir.core.utils.CoreResponse
@@ -74,6 +75,12 @@ class ParseJsonCommands {
         } else {
             strMap = handleImports(map.path.getAbsolutePath(parentPath), iParser, scu, projectConfig)
             strMap?.also { strCache[map.path] = it }
+        }
+
+        if (projectConfig.compileMode == CompileMode.Debug) {
+            println("\n\n----------FULL STRUCTURE MAP--------")
+            println(StructureMapUtilities.render(strMap))
+            println("\n\n----------END STRUCTURE MAP--------")
         }
 
         scu.transform(contextR4, baseElement, strMap, targetResource)

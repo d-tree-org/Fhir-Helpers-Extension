@@ -3,8 +3,8 @@ package com.sevenreup.fhir.core.fixes
 import ca.uhn.fhir.context.FhirContext
 import ca.uhn.fhir.context.FhirVersionEnum
 import ca.uhn.fhir.parser.IParser
+import ca.uhn.fhir.rest.gclient.TokenClientParam
 import com.google.gson.Gson
-import com.sevenreup.fhir.core.config.ProjectConfig
 import com.sevenreup.fhir.core.fhir.FhirConfigs
 import com.sevenreup.fhir.core.uploader.general.FhirClient
 import com.sevenreup.fhir.core.utilities.TransformSupportServices
@@ -15,6 +15,8 @@ import kotlinx.coroutines.runBlocking
 import org.hl7.fhir.r4.context.SimpleWorkerContext
 import org.hl7.fhir.r4.model.Bundle
 import org.hl7.fhir.r4.model.CarePlan
+import org.hl7.fhir.r4.model.ResourceType
+import org.hl7.fhir.r4.model.Task
 import org.hl7.fhir.r4.utils.StructureMapUtilities
 import kotlin.io.path.Path
 
@@ -32,16 +34,20 @@ class CarePlanFixes {
         gson = createGson()
     }
 
-    fun fixCarePlan(projectRoot: String) {
+    private fun initValues(projectRoot: String) {
+        dotenv = dotenv {
+            directory = projectRoot
+        }
+        fhirClient = FhirClient(dotenv, iParser)
+    }
+
+    fun fixEnteredInErrorCarePlan(projectRoot: String) {
         runBlocking() {
-            dotenv = dotenv {
-                directory = projectRoot
-            }
-            fhirClient = FhirClient(dotenv, iParser)
+            initValues(projectRoot)
             val carePlans = fhirClient.searchResources<CarePlan>(count = 120) {
                 where(CarePlan.STATUS.exactly().code(CarePlan.CarePlanStatus.ENTEREDINERROR.toCode()))
             }
-            handleCarePlans(carePlans)
+            handleEnteredInErrorCarePlans(carePlans)
             if (brokenCarePlans.isNotEmpty()) {
                 gson.toJson(brokenCarePlans).createFile(Path(projectRoot).resolve("out/broken-carePlans").toString())
             }
@@ -49,7 +55,73 @@ class CarePlanFixes {
         }
     }
 
+    fun fixCarePlanStatuses(projectRoot: String, facility: String) {
+        runBlocking {
+            initValues(projectRoot)
+            val carePlans = fhirClient.searchResources<CarePlan>(count = 100) {
+                where(
+                    TokenClientParam("_tag").exactly()
+                        .systemAndCode("http://smartregister.org/fhir/location-tag", facility)
+                )
+            }
+            handleCarePlans(carePlans)
+        }
+    }
+
     private suspend fun handleCarePlans(carePlans: List<CarePlan>) {
+        val carePlansWithoutPatients = mutableListOf<CarePlan>()
+        val patientCarePlans = carePlans.groupBy {
+            it.subject.extractId()
+        }
+        patientCarePlans.forEach { (patientId, lists) ->
+            if (patientId.isBlank()) {
+                carePlansWithoutPatients.addAll(lists)
+            }
+            println("${patientId}: ${lists.size}")
+            handlePatientCarePlans(carePlans)
+        }
+
+        println("CarePlans without: ${carePlansWithoutPatients.size}")
+    }
+
+    private suspend fun handlePatientCarePlans(carePlans: List<CarePlan>) {
+        val tasksIds = mutableSetOf<Bundle.BundleEntryRequestComponent>()
+        for (carePlan in carePlans) {
+            tasksIds.addAll(carePlan.activity.mapNotNull { activity ->
+                if (activity.outcomeReference.isNotEmpty()) {
+                    val ref = activity.outcomeReference.firstOrNull()
+                    if (ref?.reference?.substringBefore("/") == ResourceType.Task.name) {
+                        Bundle.BundleEntryRequestComponent().apply {
+                            method = Bundle.HTTPVerb.GET
+                            url = ref.reference
+                        }
+                    } else null
+                } else {
+                    null
+                }
+            })
+        }
+        val groupByPatient = carePlans.withIndex().groupBy { carePlan ->
+            val patient = carePlan.value.subject.reference
+            patient
+        }
+        val tasks = fhirClient.transaction<Task>(tasksIds.toList()).associateBy { it.logicalId }
+
+        for (group in groupByPatient) {
+            fixPatientCarePlans(group)
+            for (value in group.value) {
+                val isCompleted = value.value.isStarted()
+            }
+        }
+    }
+
+    private fun fixPatientCarePlans(group: Map.Entry<String, List<IndexedValue<CarePlan>>>) {
+        val getSimilarCarePlans = group.value.groupBy {
+            it.value.category.firstOrNull { code -> code.coding.firstOrNull()?.system == "https://d-tree.org/fhir/care-plan-visit-number" }?.coding?.firstOrNull()?.code
+        }
+    }
+
+    private suspend fun handleEnteredInErrorCarePlans(carePlans: List<CarePlan>) {
         val carePlansToUpdate = mutableListOf<CarePlan>()
         val groupedBySameVisit = carePlans.groupBy { carePlan ->
             val visit =

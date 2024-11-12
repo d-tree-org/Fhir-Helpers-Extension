@@ -39,10 +39,6 @@ fun handleImports(
             }
         }
         main.import = null
-        if (projectConfigs.compileMode == CompileMode.Debug) {
-            println("\n\n")
-            println(StructureMapUtilities.render(main))
-        }
         return main
     }
     return null
